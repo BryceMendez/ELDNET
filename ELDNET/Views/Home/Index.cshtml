@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold text-primary">Welcome to ELDNET</h1>
+        <p class="text-muted">Quick access to Gate Pass, Reservation Room, and Locker Request services.</p>
+    </div>
+
+    <div class="row g-4">
+        <!-- Gate Pass -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100" style="border-radius: 15px; background: linear-gradient(135deg, #e3f2fd, #f1f8ff);">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-door-open" style="font-size: 3rem; color: #4e73df;"></i>
+                    <h4 class="mt-3 text-dark">Gate Pass</h4>
+                    <p class="text-muted">Manage entry passes quickly and securely.</p>
+                    <a asp-controller="GatePass" asp-action="Index" class="btn btn-gradient mt-2">Go to Gate Pass</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reservation Room -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100" style="border-radius: 15px; background: linear-gradient(135deg, #e8f5e9, #f1fff6);">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-calendar-event" style="font-size: 3rem; color: #1cc88a;"></i>
+                    <h4 class="mt-3 text-dark">Reservation Room</h4>
+                    <p class="text-muted">Book rooms for events, meetings, and activities.</p>
+                    <a asp-controller="ReservationRoom" asp-action="Index" class="btn btn-gradient mt-2">Go to Reservation</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Locker Request -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100" style="border-radius: 15px; background: linear-gradient(135deg, #f9fbe7, #fffde7);">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-box-seam" style="font-size: 3rem; color: #f6c23e;"></i>
+                    <h4 class="mt-3 text-dark">Locker Request</h4>
+                    <p class="text-muted">Apply for and manage student locker requests.</p>
+                    <a asp-controller="LockerRequest" asp-action="Index" class="btn btn-gradient mt-2">Go to Locker</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

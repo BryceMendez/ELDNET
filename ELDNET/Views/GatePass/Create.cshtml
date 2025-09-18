@@ -1,0 +1,111 @@
+﻿@model ELDNET.Models.GatePass
+
+@{
+    ViewData["Title"] = "Create Gate Pass";
+}
+
+<div class="form-container">
+    <div class="custom-card shadow-lg">
+        <div class="card-header text-center">
+            <h2><i class="bi bi-shield-lock"></i> Create Gate Pass</h2>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="SchoolYear" class="form-label"></label>
+                        <input asp-for="SchoolYear" class="form-control" placeholder="e.g. 2025-2026" />
+                        <span asp-validation-for="SchoolYear" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Name" class="form-label"></label>
+                        <input asp-for="Name" class="form-control" placeholder="Full Name" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Address" class="form-label"></label>
+                        <input asp-for="Address" class="form-control" placeholder="Complete Address" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Date" class="form-label"></label>
+                        <input asp-for="Date" type="date" class="form-control" />
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Role" class="form-label">Role</label>
+                    <div class="d-flex gap-4">
+                        <div class="form-check">
+                            <input type="radio" asp-for="Role" value="Faculty" class="form-check-input" />
+                            <label class="form-check-label">Faculty</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" asp-for="Role" value="Non-Teaching Staff" class="form-check-input" />
+                            <label class="form-check-label">Non-Teaching Staff</label>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Role" class="text-danger"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Department" class="form-label"></label>
+                        <input asp-for="Department" class="form-control" placeholder="Department" />
+                        <span asp-validation-for="Department" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="CourseYear" class="form-label"></label>
+                        <input asp-for="CourseYear" class="form-control" placeholder="Course & Year" />
+                        <span asp-validation-for="CourseYear" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <h5 class="mt-4 text-primary">Vehicle Information</h5>
+                <hr />
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="PlateNumber" class="form-label"></label>
+                        <input asp-for="PlateNumber" class="form-control" placeholder="Plate Number" />
+                        <span asp-validation-for="PlateNumber" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="Maker" class="form-label"></label>
+                        <input asp-for="Maker" class="form-control" placeholder="Toyota, Honda, etc." />
+                        <span asp-validation-for="Maker" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="Color" class="form-label"></label>
+                        <input asp-for="Color" class="form-control" placeholder="Color" />
+                        <span asp-validation-for="Color" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <h5 class="mt-4 text-primary">Required Documents</h5>
+                <hr />
+                <div class="mb-3">
+                    <label asp-for="StudyLoadFile" class="form-label">Upload Study Load</label>
+                    <input asp-for="StudyLoadFile" type="file" class="form-control" />
+                    <span asp-validation-for="StudyLoadFile" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="RegistrationFile" class="form-label">Upload Registration Form</label>
+                    <input asp-for="RegistrationFile" type="file" class="form-control" />
+                    <span asp-validation-for="RegistrationFile" class="text-danger"></span>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-gradient px-5">Submit</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary px-4 ms-2">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

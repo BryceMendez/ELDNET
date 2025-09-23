@@ -1,0 +1,135 @@
+﻿@model ELDNET.Models.ReservationRoom
+
+@{
+    ViewData["Title"] = "Edit Reservation Room";
+}
+
+<div class="card shadow-sm mt-4">
+    <div class="card-header bg-success text-white py-3">
+        <h4 class="mb-0">Edit Reservation Details</h4>
+        <p class="mb-0">Update the information for this reservation.</p>
+    </div>
+    <div class="card-body p-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="mb-3 text-primary">General Information</h5>
+                    <div class="form-group mb-3">
+                        <label asp-for="OrganizationName" class="control-label"></label>
+                        <input asp-for="OrganizationName" class="form-control" />
+                        <span asp-validation-for="OrganizationName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="ActivityTitle" class="control-label"></label>
+                        <input asp-for="ActivityTitle" class="form-control" />
+                        <span asp-validation-for="ActivityTitle" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="ActivityDate" class="control-label"></label>
+                        <input asp-for="ActivityDate" class="form-control" type="date" />
+                        <span asp-validation-for="ActivityDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Speaker" class="control-label"></label>
+                        <input asp-for="Speaker" class="form-control" />
+                        <span asp-validation-for="Speaker" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Venue" class="control-label"></label>
+                        <input asp-for="Venue" class="form-control" />
+                        <span asp-validation-for="Venue" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="PurposeObjective" class="control-label"></label>
+                        <textarea asp-for="PurposeObjective" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="PurposeObjective" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Date" class="control-label"></label>
+                        <input asp-for="Date" class="form-control" type="date" />
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <h5 class="mb-3 text-warning">Reservation Details</h5>
+                    <div class="form-group mb-3">
+                        <label asp-for="DateNeeded" class="control-label"></label>
+                        <input asp-for="DateNeeded" class="form-control" type="date" />
+                        <span asp-validation-for="DateNeeded" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="TimeFrom" class="control-label"></label>
+                        <input asp-for="TimeFrom" class="form-control" type="time" />
+                        <span asp-validation-for="TimeFrom" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="TimeTo" class="control-label"></label>
+                        <input asp-for="TimeTo" class="form-control" type="time" />
+                        <span asp-validation-for="TimeTo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Participants" class="control-label"></label>
+                        <input asp-for="Participants" class="form-control" />
+                        <span asp-validation-for="Participants" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="EquipmentFacilities" class="control-label"></label>
+                        <input asp-for="EquipmentFacilities" class="form-control" />
+                        <span asp-validation-for="EquipmentFacilities" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="NatureOfActivity" class="control-label"></label>
+                        <input asp-for="NatureOfActivity" class="form-control" />
+                        <span asp-validation-for="NatureOfActivity" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="SourceOfFunds" class="control-label"></label>
+                        <input asp-for="SourceOfFunds" class="form-control" />
+                        <span asp-validation-for="SourceOfFunds" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="RoomNumber" class="control-label"></label>
+                        <input asp-for="RoomNumber" class="form-control" />
+                        <span asp-validation-for="RoomNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="ReservedBy" class="control-label"></label>
+                        <input asp-for="ReservedBy" class="form-control" />
+                        <span asp-validation-for="ReservedBy" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end mt-4">
+                <button type="submit" class="btn btn-primary me-2">Save Changes</button>
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    .card {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .card-header {
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #333;
+    }
+</style>

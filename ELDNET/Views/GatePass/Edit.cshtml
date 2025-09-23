@@ -1,0 +1,125 @@
+﻿@model ELDNET.Models.GatePass
+
+@{
+    ViewData["Title"] = "Edit Gate Pass";
+}
+
+<div class="container py-4">
+    <div class="card shadow-lg border-0" style="border-radius: 15px;">
+        <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #4e73df, #224abe); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+            <h2 class="mb-0 fw-bold">Edit Gate Pass</h2>
+            <p class="mb-0 text-white-50">Update the details for this gate pass record.</p>
+        </div>
+        <div class="card-body p-5">
+            <form method="post" asp-action="Edit" enctype="multipart/form-data">
+                <input asp-for="Id" hidden />
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input asp-for="SchoolYear" class="form-control" placeholder="School Year" />
+                            <label asp-for="SchoolYear">School Year</label>
+                            <span asp-validation-for="SchoolYear" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input asp-for="Name" class="form-control" placeholder="Name" />
+                            <label asp-for="Name">Name</label>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-floating mb-3">
+                            <input asp-for="Address" class="form-control" placeholder="Address" />
+                            <label asp-for="Address">Address</label>
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input asp-for="Date" type="date" class="form-control" />
+                            <label asp-for="Date">Date</label>
+                            <span asp-validation-for="Date" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input asp-for="Role" class="form-control" placeholder="Role" />
+                            <label asp-for="Role">Role</label>
+                            <span asp-validation-for="Role" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input asp-for="Department" class="form-control" placeholder="Department" />
+                            <label asp-for="Department">Department</label>
+                            <span asp-validation-for="Department" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input asp-for="CourseYear" class="form-control" placeholder="Course/Year" />
+                            <label asp-for="CourseYear">Course/Year</label>
+                            <span asp-validation-for="CourseYear" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating mb-3">
+                            <input asp-for="PlateNumber" class="form-control" placeholder="Plate Number" />
+                            <label asp-for="PlateNumber">Plate Number</label>
+                            <span asp-validation-for="PlateNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating mb-3">
+                            <input asp-for="Maker" class="form-control" placeholder="Maker" />
+                            <label asp-for="Maker">Maker</label>
+                            <span asp-validation-for="Maker" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating mb-3">
+                            <input asp-for="Color" class="form-control" placeholder="Color" />
+                            <label asp-for="Color">Color</label>
+                            <span asp-validation-for="Color" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="StudyLoadFile" class="form-label text-muted">Study Load File</label>
+                            <input asp-for="StudyLoadFile" type="file" class="form-control" />
+                            <span asp-validation-for="StudyLoadFile" class="text-danger"></span>
+                            @if (!string.IsNullOrEmpty(Model.StudyLoadPath))
+                            {
+                                <p class="mt-2"><a href="@Url.Content(Model.StudyLoadPath)" target="_blank" class="text-primary"><i class="bi bi-file-earmark-arrow-down me-1"></i> View Current Study Load</a></p>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="RegistrationFile" class="form-label text-muted">Registration Form File</label>
+                            <input asp-for="RegistrationFile" type="file" class="form-control" />
+                            <span asp-validation-for="RegistrationFile" class="text-danger"></span>
+                            @if (!string.IsNullOrEmpty(Model.RegistrationPath))
+                            {
+                                <p class="mt-2"><a href="@Url.Content(Model.RegistrationPath)" target="_blank" class="text-primary"><i class="bi bi-file-earmark-arrow-down me-1"></i> View Current Registration Form</a></p>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="col-12 text-center pt-4">
+                        <button type="submit" class="btn btn-primary btn-lg me-3" style="min-width: 150px;">Update</button>
+                        <a asp-controller="GatePass" asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">Back to List</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

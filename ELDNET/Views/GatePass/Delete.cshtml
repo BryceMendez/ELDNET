@@ -1,0 +1,127 @@
+﻿@model ELDNET.Models.GatePass
+
+@{
+    ViewData["Title"] = "Delete Gate Pass";
+}
+
+<div class="container py-4">
+    <div class="card shadow-lg border-0" style="border-radius: 15px;">
+        <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #e74a3b, #c41f1f); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+            <h2 class="mb-0 fw-bold">Delete Gate Pass</h2>
+            <p class="mb-0 text-white-50">Confirm deletion of this gate pass record.</p>
+        </div>
+        <div class="card-body p-5">
+            <h4 class="text-danger text-center mb-4">Are you sure you want to delete this Gate Pass record? This action cannot be undone.</h4>
+            <form method="post" asp-action="Delete">
+                <input asp-for="Id" hidden />
+                <div class="row g-4">
+                    <!-- Personal & Academic Information for Delete Confirmation -->
+                    <div class="col-lg-6">
+                        <h5 class="text-danger mb-3"><i class="bi bi-exclamation-triangle-fill me-2"></i>Information to be Deleted</h5>
+                        <hr class="text-danger mt-0 mb-4" />
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-form-label text-muted">@Html.DisplayNameFor(model => model.Name)</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-plaintext fw-bold">@Html.DisplayFor(model => model.Name)</p>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-form-label text-muted">@Html.DisplayNameFor(model => model.SchoolYear)</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-plaintext fw-bold">@Html.DisplayFor(model => model.SchoolYear)</p>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-form-label text-muted">@Html.DisplayNameFor(model => model.Address)</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-plaintext fw-bold">@Html.DisplayFor(model => model.Address)</p>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-form-label text-muted">@Html.DisplayNameFor(model => model.Date)</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-plaintext fw-bold">@Html.DisplayFor(model => model.Date)</p>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-form-label text-muted">@Html.DisplayNameFor(model => model.Role)</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-plaintext fw-bold">@Html.DisplayFor(model => model.Role)</p>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-form-label text-muted">@Html.DisplayNameFor(model => model.Department)</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-plaintext fw-bold">@Html.DisplayFor(model => model.Department)</p>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-form-label text-muted">@Html.DisplayNameFor(model => model.CourseYear)</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-plaintext fw-bold">@Html.DisplayFor(model => model.CourseYear)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vehicle & File Information for Delete Confirmation -->
+                    <div class="col-lg-6">
+                        <h5 class="text-danger mb-3"><i class="bi bi-car-front me-2"></i>Vehicle Details</h5>
+                        <hr class="text-danger mt-0 mb-4" />
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-form-label text-muted">@Html.DisplayNameFor(model => model.PlateNumber)</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-plaintext fw-bold">@Html.DisplayFor(model => model.PlateNumber)</p>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-form-label text-muted">@Html.DisplayNameFor(model => model.Maker)</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-plaintext fw-bold">@Html.DisplayFor(model => model.Maker)</p>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-form-label text-muted">@Html.DisplayNameFor(model => model.Color)</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-plaintext fw-bold">@Html.DisplayFor(model => model.Color)</p>
+                            </div>
+                        </div>
+
+                        <h5 class="text-danger mt-5 mb-3"><i class="bi bi-paperclip me-2"></i>Associated Files</h5>
+                        <hr class="text-danger mt-0 mb-4" />
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-form-label text-muted">Study Load File</label>
+                            <div class="col-sm-8">
+                                @if (!string.IsNullOrEmpty(Model.StudyLoadPath))
+                                {
+                                    <p class="form-control-plaintext"><a href="@Url.Content(Model.StudyLoadPath)" target="_blank" class="text-danger fw-bold"><i class="bi bi-file-earmark-arrow-down me-1"></i> View Study Load</a></p>
+                                }
+                                else
+                                {
+                                    <p class="form-control-plaintext text-muted">No file uploaded</p>
+                                }
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-form-label text-muted">Registration Form File</label>
+                            <div class="col-sm-8">
+                                @if (!string.IsNullOrEmpty(Model.RegistrationPath))
+                                {
+                                    <p class="form-control-plaintext"><a href="@Url.Content(Model.RegistrationPath)" target="_blank" class="text-danger fw-bold"><i class="bi bi-file-earmark-arrow-down me-1"></i> View Registration Form</a></p>
+                                }
+                                else
+                                {
+                                    <p class="form-control-plaintext text-muted">No file uploaded</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 text-center pt-4">
+                        <button type="submit" class="btn btn-danger btn-lg me-3" style="min-width: 150px;"><i class="bi bi-trash-fill me-2"></i>Delete</button>
+                        <a asp-controller="GatePass" asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">Back to List</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

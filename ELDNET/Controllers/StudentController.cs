@@ -79,5 +79,37 @@ namespace ELDNET.Controllers
             }
             return View(student);
         }
+
+        // GET - Delete
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var studentFromDb = _db.Students.Find(id);
+            if (studentFromDb == null)
+            {
+                return NotFound();
+            }
+            return View(studentFromDb);
+        }
+
+        // POST - Delete
+        [HttpPost, ActionName("Delete")] 
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePOST(int? id)
+        {
+            var student = _db.Students.Find(id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            _db.Students.Remove(student);
+            _db.SaveChanges();
+            TempData["success"] = "Student deleted successfully";
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -31,6 +31,7 @@
                 <th>Equipment / Facilities</th>
                 <th>Nature of Activity</th>
                 <th>Source of Funds</th>
+                <th>Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -40,17 +41,18 @@
                 <tr>
                     <td>@item.OrganizationName</td>
                     <td>@item.ActivityTitle</td>
-                    <td>@item.Date.ToString("yyyy-MM-dd")</td>
+                    <td>@item.Date.</td>
                     <td>@item.Speaker</td>
                     <td>@item.Venue</td>
                     <td>@item.PurposeObjective</td>
-                    <td>@item.DateNeeded.("yyyy-MM-dd")</td>
+                    <td>@item.DateNeeded</td>
                     <td>@item.TimeFrom</td>
                     <td>@item.TimeTo</td>
                     <td>@item.Participants</td>
                     <td>@item.EquipmentFacilities</td>
                     <td>@item.NatureOfActivity</td>
                     <td>@item.SourceOfFunds</td>
+                    <td>@item.Status</td>
                     <td>
                         <div class="w-20 btn-group" role="group">
                             <a asp-action="Edit" asp-route-id="@item.Id">&nbsp;Edit&nbsp; </a>|

@@ -25,6 +25,7 @@
                 <th>Locker Number</th>
                 <th>Semester</th>
                 <th>Contact Number</th>
+                <th>Status</th>
                 <th>Study Load</th>
                 <th>Registration Form</th>
                 <th>Accepted Terms</th>
@@ -40,7 +41,7 @@
                     <td>@item.LockerNumber</td>
                     <td>@item.Semester</td>
                     <td>@item.ContactNumber</td>
-                    <td>
+                    <td>@item.Status<td>
                         @if (!string.IsNullOrEmpty(item.StudyLoadPath))
                         {
                             <a href="@item.StudyLoadPath" target="_blank">View</a>

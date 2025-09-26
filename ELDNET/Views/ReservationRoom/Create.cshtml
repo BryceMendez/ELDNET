@@ -47,6 +47,11 @@
 
                 <div class="row">
                     <div class="col-md-4 mb-3">
+                        <label asp-for="Date" class="form-label"></label>
+                        <input asp-for="Date" type="date" class="form-control" />
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4 mb-3">
                         <label asp-for="DateNeeded" class="form-label"></label>
                         <input asp-for="DateNeeded" type="date" class="form-control" />
                         <span asp-validation-for="DateNeeded" class="text-danger"></span>

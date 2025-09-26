@@ -1,0 +1,164 @@
+﻿@model ELDNET.Models.ApprovalViewModel
+
+@{
+    ViewData["Title"] = "Approvals";
+}
+
+<div class="container py-4">
+    <h2 class="text-center text-primary mb-4">Approval Dashboard</h2>
+
+    <div class="row">
+        <!-- Gate Pass Requests -->
+        <div class="col-md-12 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Gate Pass Requests</h4>
+                </div>
+                <div class="card-body">
+                    @if (Model.GatePasses != null && Model.GatePasses.Any())
+                    {
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Course & Year</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var gp in Model.GatePasses)
+                                {
+                                    <tr>
+                                        <td>@gp.Name</td>
+                                        <td>@gp.Department</td>
+                                        <td>@gp.CourseYear</td>
+                                        <td>@gp.Date.ToString("yyyy-MM-dd")</td>
+                                        <td>
+                                            <span class="badge @(gp.Status == "Approved" ? "bg-success" : gp.Status == "Denied" ? "bg-danger" : "bg-warning text-dark")">
+                                                @gp.Status
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <a asp-action="Details" asp-route-id="@gp.Id" asp-route-type="GatePass" class="btn btn-info btn-sm">
+                                                <i class="bi bi-eye"></i> Details
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p class="text-muted">No gate pass requests.</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Reservations -->
+        <div class="col-md-12 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Activity Reservations</h4>
+                </div>
+                <div class="card-body">
+                    @if (Model.ActivityReservations != null && Model.ActivityReservations.Any())
+                    {
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Organization</th>
+                                    <th>Activity Title</th>
+                                    <th>Venue</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var res in Model.ActivityReservations)
+                                {
+                                    <tr>
+                                        <td>@res.OrganizationName</td>
+                                        <td>@res.ActivityTitle</td>
+                                        <td>@res.Venue</td>
+                                        <td>@res.ActivityDate.ToString("yyyy-MM-dd")</td>
+                                        <td>
+                                            <span class="badge @(res.Status == "Approved" ? "bg-success" : res.Status == "Denied" ? "bg-danger" : "bg-warning text-dark")">
+                                                @res.Status
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <a asp-action="Details" asp-route-id="@res.Id" asp-route-type="Reservation" class="btn btn-info btn-sm">
+                                                <i class="bi bi-eye"></i> Details
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p class="text-muted">No reservations.</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Locker Requests -->
+        <div class="col-md-12 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="mb-0">Locker Requests</h4>
+                </div>
+                <div class="card-body">
+                    @if (Model.LockerRequests != null && Model.LockerRequests.Any())
+                    {
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Locker Number</th>
+                                    <th>Semester</th>
+                                    <th>Contact</th>
+                                    <th>Status</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var locker in Model.LockerRequests)
+                                {
+                                    <tr>
+                                        <td>@locker.Name</td>
+                                        <td>@locker.LockerNumber</td>
+                                        <td>@locker.Semester</td>
+                                        <td>@locker.ContactNumber</td>
+                                        <td>
+                                            <span class="badge @(locker.Status == "Approved" ? "bg-success" : locker.Status == "Denied" ? "bg-danger" : "bg-warning text-dark")">
+                                                @locker.Status
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <a asp-action="Details" asp-route-id="@locker.Id" asp-route-type="Locker" class="btn btn-info btn-sm">
+                                                <i class="bi bi-eye"></i> Details
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p class="text-muted">No locker requests.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

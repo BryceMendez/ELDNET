@@ -4,61 +4,54 @@
     ViewData["Title"] = "Student Details";
 }
 
-<div class="card shadow border-0 mt-4">
-    <div class="card-header bg-primary text-white ml-0 py-3">
-        <div class="row">
-            <div class="col-12 text-center">
-                <h2 class="text-white py-2">Student Details</h2>
-            </div>
+<div class="container py-4 animate__animated animate__fadeIn">
+    <div class="custom-card shadow-lg border-0">
+        <div class="card-header text-white text-center py-4 bg-main-color-gradient">
+            @* Uses the new green gradient class *@
+            <h2 class="mb-2 fw-bold"><i class="bi bi-person-badge me-2"></i>Student Details</h2>
+            <p class="mb-0 text-white-50">Comprehensive information for this student.</p>
         </div>
-    </div>
-    <div class="card-body p-4">
-        <form>
-            <div class="row">
-                <div class="col-12">
-                    <div class="row form-group mb-3">
-                        <label asp-for="Firstname" class="col-md-2 col-form-label"></label>
-                        <div class="col-md-10">
-                            <input asp-for="Firstname" disabled class="form-control" />
-                        </div>
-                    </div>
-                    <div class="row form-group mb-3">
-                        <label asp-for="Lastname" class="col-md-2 col-form-label"></label>
-                        <div class="col-md-10">
-                            <input asp-for="Lastname" disabled class="form-control" />
-                        </div>
-                    </div>
-                    <div class="row form-group mb-3">
-                        <label asp-for="Course" class="col-md-2 col-form-label"></label>
-                        <div class="col-md-10">
-                            <input asp-for="Course" disabled class="form-control" />
-                        </div>
-                    </div>
-                    <div class="row form-group mb-3">
-                        <label asp-for="Email" class="col-md-2 col-form-label"></label>
-                        <div class="col-md-10">
-                            <input asp-for="Email" disabled class="form-control" />
-                        </div>
-                    </div>
-                    <div class="row form-group mb-3">
-                        <label asp-for="DateCreated" class="col-md-2 col-form-label"></label>
-                        <div class="col-md-10">
-                            <input asp-for="DateCreated" disabled class="form-control" />
-                        </div>
-                    </div>
+        <div class="card-body p-5">
+            <div class="row g-5">
+                @* Changed to g-5 for increased gap like LockerRequest *@
 
-                    <div class="row mt-3">
-                        <div class="col-12 text-center">
-                            <a asp-controller="Student" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning" style="width:150px">
-                                <i class="bi bi-pencil-square"></i> Edit
-                            </a>
-                            <a asp-controller="Student" asp-action="Index" class="btn btn-secondary" style="width:150px">
-                                <i class="bi bi-arrow-left"></i> Back to List
-                            </a>
-                        </div>
-                    </div>
+                <!-- Personal Information Section -->
+                <div class="col-12">
+                    <h5 class="text-main-color mb-4 pb-2 border-bottom border-main-color-subtle"> @* Uses new green classes *@
+                    <i class="bi bi-info-circle me-2"></i>Personal Information
+                    </h5>
+                    <dl class="row detail-list-modern">
+                        <dt class="col-sm-4">First Name:</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Model.Firstname</dd>
+
+                        <dt class="col-sm-4">Last Name:</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Model.Lastname</dd>
+
+                        <dt class="col-sm-4">Course:</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Model.Course</dd>
+
+                        <dt class="col-sm-4">Email:</dt>
+                        <dd class="col-sm-8">
+                            <a href="mailto:@Model.Email" class="text-main-color fw-semibold text-decoration-none">@Model.Email</a> @* Uses text-main-color *@
+                        </dd>
+
+                        <dt class="col-sm-4">Date Created:</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Model.DateCreated.ToShortDateString()</dd>
+                    </dl>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="col-12 text-center pt-5 border-top">
+                    @* Added top border like LockerRequest *@
+                    <a asp-controller="Student" asp-action="Edit" asp-route-id="@Model.Id" class="btn-main-gradient btn-lg me-3 animate__animated animate__pulse animate__infinite" style="min-width: 150px;">
+                        @* Uses new green gradient button class *@
+                        <i class="bi bi-pencil-square me-2"></i> Edit
+                    </a>
+                    <a asp-controller="Student" asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
+                        <i class="bi bi-arrow-left me-2"></i> Back to List
+                    </a>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>

@@ -4,81 +4,103 @@
     ViewData["Title"] = "Locker Request Details";
 }
 
-<div class="container mt-5">
-    <div class="card shadow-lg border-0 rounded-3">
-        <div class="card-header bg-primary text-white">
-            <h3 class="mb-0">Locker Request Details</h3>
+<div class="container py-4 animate__animated animate__fadeIn">
+    <div class="custom-card shadow-lg border-0">
+        <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #fd7e14);">
+            @* Orange gradient for Locker Request *@
+            <h2 class="mb-2 fw-bold"><i class="bi bi-box-seam me-2"></i>Locker Request Details</h2> @* New icon for Locker *@
+            <p class="mb-0 text-white-50">Comprehensive information for this locker request.</p>
         </div>
+        <div class="card-body p-5">
+            <div class="row g-5">
+                <!-- Requestor Information Section -->
+                <div class="col-lg-6 border-end-lg pe-lg-5">
+                    <h5 class="text-primary mb-4 pb-2 border-bottom border-primary-subtle">
+                        <i class="bi bi-person-circle me-2"></i>Requestor Information
+                    </h5>
+                    <dl class="row detail-list-modern">
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Name)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Name)</dd>
 
-        <div class="card-body p-4">
-            <dl class="row mb-0">
-                <dt class="col-sm-4">ID</dt>
-                <dd class="col-sm-8">@Model.Id</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.IdNumber)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.IdNumber)</dd>
 
-                <dt class="col-sm-4">Name</dt>
-                <dd class="col-sm-8">@Model.Name</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ContactNumber)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.ContactNumber)</dd>
 
-                <dt class="col-sm-4">ID Number</dt>
-                <dd class="col-sm-8">@Model.IdNumber</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Semester)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Semester)</dd>
+                    </dl>
+                </div>
 
-                <dt class="col-sm-4">Locker Number</dt>
-                <dd class="col-sm-8">@Model.LockerNumber</dd>
+                <!-- Locker & Status Information Section -->
+                <div class="col-lg-6 ps-lg-5">
+                    <h5 class="text-info mb-4 pb-2 border-bottom border-info-subtle">
+                        <i class="bi bi-key me-2"></i>Locker Information
+                    </h5>
+                    <dl class="row detail-list-modern">
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.LockerNumber)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.LockerNumber)</dd>
 
-                <dt class="col-sm-4">Semester</dt>
-                <dd class="col-sm-8">@Model.Semester</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.AcceptTerms)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@(Model.AcceptTerms ? "Yes" : "No")</dd>
+                    </dl>
 
-                <dt class="col-sm-4">Contact Number</dt>
-                <dd class="col-sm-8">@Model.ContactNumber</dd>
+                    <h5 class="text-secondary mt-5 mb-4 pb-2 border-bottom border-secondary-subtle">
+                        <i class="bi bi-journal-check me-2"></i>Status & Documents
+                    </h5>
+                    <dl class="row detail-list-modern">
 
-                <dt class="col-sm-4">Status</dt>
-                <dd class="col-sm-8">
-                    <span class="badge
-                        @(Model.Status == "Approved" ? "bg-success" :
-                                                    Model.Status == "Denied" ? "bg-danger" :
-                                                    "bg-warning text-dark")">
-                        @Model.Status
-                    </span>
-                </dd>
+                        <dt class="col-sm-4">Study Load:</dt>
+                        <dd class="col-sm-8">
+                            @if (!string.IsNullOrEmpty(Model.StudyLoadPath))
+                            {
+                                <a href="@Url.Content(Model.StudyLoadPath)" target="_blank" class="text-primary fw-bold text-decoration-none">
+                                    <i class="bi bi-file-earmark-arrow-down me-1"></i> View Study Load
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="text-muted fst-italic">No file uploaded</span>
+                            }
+                        </dd>
 
-                <dt class="col-sm-4">Study Load</dt>
-                <dd class="col-sm-8">
-                    @if (!string.IsNullOrEmpty(Model.StudyLoadPath))
-                    {
-                        <a href="@Url.Content(Model.StudyLoadPath)" target="_blank" class="btn btn-outline-primary btn-sm">View Study Load</a>
-                    }
-                    else
-                    {
-                        <span class="text-muted">Not uploaded</span>
-                    }
-                </dd>
+                        <dt class="col-sm-4">Registration Form:</dt>
+                        <dd class="col-sm-8">
+                            @if (!string.IsNullOrEmpty(Model.RegistrationPath))
+                            {
+                                <a href="@Url.Content(Model.RegistrationPath)" target="_blank" class="text-primary fw-bold text-decoration-none">
+                                    <i class="bi bi-file-earmark-arrow-down me-1"></i> View Registration
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="text-muted fst-italic">No file uploaded</span>
+                            }
+                        </dd>
+                    </dl>
+                </div>
 
-                <dt class="col-sm-4">Registration Form</dt>
-                <dd class="col-sm-8">
-                    @if (!string.IsNullOrEmpty(Model.RegistrationPath))
-                    {
-                        <a href="@Url.Content(Model.RegistrationPath)" target="_blank" class="btn btn-outline-primary btn-sm">View Registration</a>
-                    }
-                    else
-                    {
-                        <span class="text-muted">Not uploaded</span>
-                    }
-                </dd>
-
-                <dt class="col-sm-4">Accepted Terms</dt>
-                <dd class="col-sm-8">@(Model.AcceptTerms ? "Yes" : "No")</dd>
-            </dl>
-        </div>
-
-        <div class="card-footer text-end">
-            <form asp-action="ApproveLocker" method="post" class="d-inline">
-                <input type="hidden" name="id" value="@Model.Id" />
-                <button type="submit" class="btn btn-success">Approve</button>
-            </form>
-            <form asp-action="DenyLocker" method="post" class="d-inline">
-                <input type="hidden" name="id" value="@Model.Id" />
-                <button type="submit" class="btn btn-danger">Deny</button>
-            </form>
-            <a asp-action="Index" class="btn btn-secondary">Back</a>
+                <!-- Action Buttons -->
+                <div class="col-12 text-center pt-5 border-top">
+                    @* Only show approve/deny if status is pending *@
+                        <form asp-action="ApproveLocker" method="post" class="d-inline me-3">
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <button type="submit" class="btn btn-success btn-lg" style="min-width: 150px;">
+                                <i class="bi bi-check-circle me-2"></i>Approve
+                            </button>
+                        </form>
+                        <form asp-action="DenyLocker" method="post" class="d-inline me-3">
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <button type="submit" class="btn btn-danger btn-lg" style="min-width: 150px;">
+                                <i class="bi bi-x-circle me-2"></i>Deny
+                            </button>
+                        </form>
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
+                        <i class="bi bi-arrow-left me-2"></i>Back to List
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

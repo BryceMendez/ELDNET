@@ -17,5 +17,9 @@ namespace ELDNET.Models
 
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
+        public string? RequestType { get; set; }
+
+        public string? RequestStatus { get; set; }
+
     }
 }

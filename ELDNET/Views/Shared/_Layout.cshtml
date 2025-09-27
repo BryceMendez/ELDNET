@@ -10,16 +10,18 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ELDNET.styles.css" asp-append-version="true" />
 
-    <!-- Bootstrap Icons (optional for icons in nav & buttons) -->
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
-<body class="bg-light">
+<body class="bg-light d-flex flex-column min-vh-100">
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm py-3" style="font-size: 1.4rem;">
             <div class="container-fluid">
-                <!-- Brand -->
-                <a class="navbar-brand fw-bold text-white" asp-area="" asp-controller="Home" asp-action="Index">
-                    <i class="bi bi-building"></i> ELDNET
+                <a class="navbar-brand fw-bold text-white d-flex align-items-center"
+                   asp-area="" asp-controller="Home" asp-action="Index"
+                   style="font-size: 2rem; padding-left: 1.5rem;">
+                    <i class="bi bi-building me-4" style="font-size: 2.3rem;"></i>
+                    ELDNET
                 </a>
 
                 <!-- Toggler (mobile menu) -->
@@ -32,34 +34,34 @@
                 <!-- Nav Links -->
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">
-                                <i class="bi bi-house-door"></i> Home
+                        <li class="nav-item me-4">
+                            <a class="nav-link text-white px-3" asp-area="" asp-controller="Home" asp-action="Index">
+                                <i class="bi bi-house-door" style="font-size: 1.4rem;"></i> Home
+                            </a>
+                        </li>
+                        <li class="nav-item me-4">
+                            <a class="nav-link text-white px-3" asp-area="" asp-controller="Student" asp-action="Index">
+                                <i class="bi bi-person" style="font-size: 1.4rem;"></i> Student
+                            </a>
+                        </li>
+                        <li class="nav-item me-4">
+                            <a class="nav-link text-white px-3" asp-controller="GatePass" asp-action="Index">
+                                <i class="bi bi-door-open" style="font-size: 1.4rem;"></i> Gate Pass
+                            </a>
+                        </li>
+                        <li class="nav-item me-4">
+                            <a class="nav-link text-white px-3" asp-controller="ReservationRoom" asp-action="Index">
+                                <i class="bi bi-calendar-event" style="font-size: 1.4rem;"></i> Reservation Room
+                            </a>
+                        </li>
+                        <li class="nav-item me-4">
+                            <a class="nav-link text-white px-3" asp-controller="LockerRequest" asp-action="Index">
+                                <i class="bi bi-lock" style="font-size: 1.4rem;"></i> Locker Request
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Student" asp-action="Index">
-                                <i class="bi bi-person"></i> Student
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="GatePass" asp-action="Index">
-                                <i class="bi bi-door-open"></i> Gate Pass
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="ReservationRoom" asp-action="Index">
-                                <i class="bi bi-calendar-event"></i> Reservation Room
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="LockerRequest" asp-action="Index">
-                                <i class="bi bi-lock"></i> Locker Request
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="Approval" asp-action="Index">
-                                <i class="bi bi-check-circle"></i> Approval
+                            <a class="nav-link text-white px-3" asp-controller="Approval" asp-action="Index">
+                                <i class="bi bi-check-circle" style="font-size: 1.4rem;"></i> Approval
                             </a>
                         </li>
                     </ul>
@@ -69,14 +71,13 @@
     </header>
 
     <!-- Main Content -->
-    <div class="container mt-4">
+    <div class="container my-4 flex-grow-1">
         <main role="main" class="pb-4">
             @RenderBody()
         </main>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-primary text-white text-center py-3 mt-auto">
+    <footer class="text-dark text-center py-3 mt-auto" style="background-color: rgba(211, 211, 211, 0.7);">
         <div class="container">
             <small>&copy; @DateTime.Now.Year - ELDNET | All Rights Reserved</small>
         </div>

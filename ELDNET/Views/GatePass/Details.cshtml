@@ -4,118 +4,114 @@
     ViewData["Title"] = "Gate Pass Details";
 }
 
-<div class="container py-4">
-    <div class="card shadow-lg border-0" style="border-radius: 15px;">
-        <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #1cc88a, #138761); border-top-left-radius: 15px; border-top-right-radius: 15px;">
-            <h2 class="mb-0 fw-bold">Gate Pass Details</h2>
+<div class="container py-4 animate__animated animate__fadeIn">
+    <div class="custom-card shadow-lg border-0">
+        <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #03AC13);">
+            @* Distinct Blue gradient! *@
+            <h2 class="mb-2 fw-bold"><i class="bi bi-car-front-fill me-2"></i>Gate Pass Details</h2> @* New icon for Gate Pass *@
             <p class="mb-0 text-white-50">Comprehensive information for this gate pass.</p>
         </div>
         <div class="card-body p-5">
-            <div class="row g-4">
-                <!-- Personal & Academic Information -->
-                <div class="col-lg-6">
-                    <h5 class="text-primary mb-3"><i class="bi bi-person-circle me-2"></i>General Information</h5>
-                    <hr class="text-primary mt-0 mb-4" />
-                    <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label text-muted">@Html.DisplayNameFor(model => model.Name)</label>
-                        <div class="col-sm-8">
-                            <p class="form-control-plaintext fw-bold">@Html.DisplayFor(model => model.Name)</p>
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label text-muted">@Html.DisplayNameFor(model => model.SchoolYear)</label>
-                        <div class="col-sm-8">
-                            <p class="form-control-plaintext fw-bold">@Html.DisplayFor(model => model.SchoolYear)</p>
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label text-muted">@Html.DisplayNameFor(model => model.Address)</label>
-                        <div class="col-sm-8">
-                            <p class="form-control-plaintext fw-bold">@Html.DisplayFor(model => model.Address)</p>
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label text-muted">@Html.DisplayNameFor(model => model.Date)</label>
-                        <div class="col-sm-8">
-                            <p class="form-control-plaintext fw-bold">@Html.DisplayFor(model => model.Date)</p>
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label text-muted">@Html.DisplayNameFor(model => model.Role)</label>
-                        <div class="col-sm-8">
-                            <p class="form-control-plaintext fw-bold">@Html.DisplayFor(model => model.Role)</p>
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label text-muted">@Html.DisplayNameFor(model => model.Department)</label>
-                        <div class="col-sm-8">
-                            <p class="form-control-plaintext fw-bold">@Html.DisplayFor(model => model.Department)</p>
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label text-muted">@Html.DisplayNameFor(model => model.CourseYear)</label>
-                        <div class="col-sm-8">
-                            <p class="form-control-plaintext fw-bold">@Html.DisplayFor(model => model.CourseYear)</p>
-                        </div>
-                    </div>
+            <div class="row g-5">
+                @* Increased gap for better separation *@
+
+                <!-- General Information Section -->
+                <div class="col-lg-6 border-end-lg pe-lg-5">
+                    @* Added right border for separation on large screens *@
+                    <h5 class="text-blue-primary mb-4 pb-2 border-bottom border-blue-primary-subtle">
+                        @* Using text-blue-primary for section header *@
+                        <i class="bi bi-person-circle me-2"></i>General Information
+                    </h5>
+                    <dl class="row detail-list-modern">
+                        @* Using the refined detail-list-modern *@
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Name)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Name)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.SchoolYear)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.SchoolYear)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Address)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Address)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Date)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Date)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Role)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Role)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Department)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Department)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CourseYear)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.CourseYear)</dd>
+                    </dl>
                 </div>
 
-                <!-- Vehicle & File Information -->
-                <div class="col-lg-6">
-                    <h5 class="text-warning mb-3"><i class="bi bi-car me-2"></i>Vehicle Information</h5>
-                    <hr class="text-warning mt-0 mb-4" />
-                    <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label text-muted">@Html.DisplayNameFor(model => model.PlateNumber)</label>
-                        <div class="col-sm-8">
-                            <p class="form-control-plaintext fw-bold">@Html.DisplayFor(model => model.PlateNumber)</p>
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label text-muted">@Html.DisplayNameFor(model => model.Maker)</label>
-                        <div class="col-sm-8">
-                            <p class="form-control-plaintext fw-bold">@Html.DisplayFor(model => model.Maker)</p>
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label text-muted">@Html.DisplayNameFor(model => model.Color)</label>
-                        <div class="col-sm-8">
-                            <p class="form-control-plaintext fw-bold">@Html.DisplayFor(model => model.Color)</p>
-                        </div>
-                    </div>
+                <!-- Vehicle & File Information Section -->
+                <div class="col-lg-6 ps-lg-5">
+                    @* Added left padding for separation on large screens *@
+                    <h5 class="text-blue-secondary mb-4 pb-2 border-bottom border-blue-secondary-subtle">
+                        @* Using text-blue-secondary for section header *@
+                        <i class="bi bi-car me-2"></i>Vehicle Information
+                    </h5>
+                    <dl class="row detail-list-modern">
+                        @* Using the refined detail-list-modern *@
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PlateNumber)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.PlateNumber)</dd>
 
-                    <h5 class="text-info mt-5 mb-3"><i class="bi bi-files me-2"></i>Uploaded Files</h5>
-                    <hr class="text-info mt-0 mb-4" />
-                    <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label text-muted">Study Load File</label>
-                        <div class="col-sm-8">
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Maker)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Maker)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Color)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Color)</dd>
+                    </dl>
+
+                    <h5 class="text-blue-tertiary mt-5 mb-4 pb-2 border-bottom border-blue-tertiary-subtle">
+                        @* Using text-blue-tertiary for section header *@
+                        <i class="bi bi-file-earmark-text me-2"></i>Uploaded Files
+                    </h5>
+                    <dl class="row detail-list-modern">
+                        @* Using the refined detail-list-modern *@
+                        <dt class="col-sm-4">Study Load File:</dt>
+                        <dd class="col-sm-8">
                             @if (!string.IsNullOrEmpty(Model.StudyLoadPath))
                             {
-                                <p class="form-control-plaintext"><a href="@Url.Content(Model.StudyLoadPath)" target="_blank" class="text-info fw-bold"><i class="bi bi-file-earmark-arrow-down me-1"></i> View Study Load</a></p>
+                                <a href="@Url.Content(Model.StudyLoadPath)" target="_blank" class="text-blue-tertiary fw-bold text-decoration-none">
+                                    <i class="bi bi-file-earmark-arrow-down me-1"></i> View Study Load
+                                </a>
                             }
                             else
                             {
-                                <p class="form-control-plaintext text-muted">No file uploaded</p>
+                                <span class="text-muted fst-italic">No file uploaded</span>
                             }
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <label class="col-sm-4 col-form-label text-muted">Registration Form File</label>
-                        <div class="col-sm-8">
+                        </dd>
+
+                        <dt class="col-sm-4">Registration Form:</dt>
+                        <dd class="col-sm-8">
                             @if (!string.IsNullOrEmpty(Model.RegistrationPath))
                             {
-                                <p class="form-control-plaintext"><a href="@Url.Content(Model.RegistrationPath)" target="_blank" class="text-info fw-bold"><i class="bi bi-file-earmark-arrow-down me-1"></i> View Registration Form</a></p>
+                                <a href="@Url.Content(Model.RegistrationPath)" target="_blank" class="text-blue-tertiary fw-bold text-decoration-none">
+                                    <i class="bi bi-file-earmark-arrow-down me-1"></i> View Registration Form
+                                </a>
                             }
                             else
                             {
-                                <p class="form-control-plaintext text-muted">No file uploaded</p>
+                                <span class="text-muted fst-italic">No file uploaded</span>
                             }
-                        </div>
-                    </div>
+                        </dd>
+                    </dl>
                 </div>
 
-                <div class="col-12 text-center pt-4">
-                    <a asp-controller="GatePass" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-lg me-3" style="min-width: 150px;">Edit</a>
-                    <a asp-controller="GatePass" asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">Back to List</a>
+                <!-- Action Buttons -->
+                <div class="col-12 text-center pt-5 border-top">
+                    @* Added top border and more padding for buttons *@
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-gradient btn-lg me-3 animate__animated animate__pulse animate__infinite" style="min-width: 150px; background: linear-gradient(45deg, #03AC13);">
+                        @* Explicitly setting btn-gradient background here too *@
+                        <i class="bi bi-pencil-square me-2"></i>Edit
+                    </a>
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
+                        <i class="bi bi-arrow-left me-2"></i>Back to List
+                    </a>
                 </div>
             </div>
         </div>

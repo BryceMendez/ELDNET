@@ -15,55 +15,62 @@
     </div>
     <br />
 
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Organization</th>
-                <th>Activity Title</th>
-                <th>Date</th>
-                <th>Speaker</th>
-                <th>Venue</th>
-                <th>Purpose & Objective</th>
-                <th>Date Needed</th>
-                <th>Time From</th>
-                <th>Time To</th>
-                <th>Participants</th>
-                <th>Equipment / Facilities</th>
-                <th>Nature of Activity</th>
-                <th>Source of Funds</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
                 <tr>
-                    <td>@item.OrganizationName</td>
-                    <td>@item.ActivityTitle</td>
-                    <td>@item.Date.</td>
-                    <td>@item.Speaker</td>
-                    <td>@item.Venue</td>
-                    <td>@item.PurposeObjective</td>
-                    <td>@item.DateNeeded</td>
-                    <td>@item.TimeFrom</td>
-                    <td>@item.TimeTo</td>
-                    <td>@item.Participants</td>
-                    <td>@item.EquipmentFacilities</td>
-                    <td>@item.NatureOfActivity</td>
-                    <td>@item.SourceOfFunds</td>
-                    <td>@item.Status</td>
-                    <td>
-                        <div class="w-20 btn-group" role="group">
-                            <a asp-action="Edit" asp-route-id="@item.Id">&nbsp;Edit&nbsp; </a>|
-                            <a asp-action="Details" asp-route-id="@item.Id">&nbsp;Details&nbsp;</a>|
-                            <a asp-action="Delete" asp-route-id="@item.Id">&nbsp;Delete</a>
-                        </div>
-                    </td>
-
-
+                    <th>Organization</th>
+                    <th>Activity Title</th>
+                    <th>Date</th>
+                    <th>Speaker</th>
+                    <th>Venue</th>
+                    <th>Purpose & Objective</th>
+                    <th>Date Needed</th>
+                    <th>Time From</th>
+                    <th>Time To</th>
+                    <th>Participants</th>
+                    <th>Equipment / Facilities</th>
+                    <th>Nature of Activity</th>
+                    <th>Source of Funds</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.OrganizationName</td>
+                        <td>@item.ActivityTitle</td>
+                        <td>@item.Date</td>
+                        <td>@item.Speaker</td>
+                        <td>@item.Venue</td>
+                        <td>@item.PurposeObjective</td>
+                        <td>@item.DateNeeded</td>
+                        <td>@item.TimeFrom</td>
+                        <td>@item.TimeTo</td>
+                        <td>@item.Participants</td>
+                        <td>@item.EquipmentFacilities</td>
+                        <td>@item.NatureOfActivity</td>
+                        <td>@item.SourceOfFunds</td>
+                        <td>@item.Status</td>
+                        <td>
+                            <div class="w-20 btn-group" role="group">
+                                <a asp-action="Edit" asp-route-id="@item.Id">&nbsp;Edit&nbsp; </a>|
+                                <a asp-action="Details" asp-route-id="@item.Id">&nbsp;Details&nbsp;</a>|
+                                <a asp-action="Delete" asp-route-id="@item.Id">&nbsp;Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info text-center">
+            No Reservation Room Records Found.
+        </div>
+    }
 </div>

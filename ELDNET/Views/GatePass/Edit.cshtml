@@ -4,122 +4,123 @@
     ViewData["Title"] = "Edit Gate Pass";
 }
 
-<div class="container py-4">
-    <div class="card shadow-lg border-0" style="border-radius: 15px;">
-        <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #4e73df, #224abe); border-top-left-radius: 15px; border-top-right-radius: 15px;">
-            <h2 class="mb-0 fw-bold">Edit Gate Pass</h2>
-            <p class="mb-0 text-white-50">Update the details for this gate pass record.</p>
+<div class="container py-4 animate__animated animate__fadeIn">
+    <div class="custom-card shadow-lg border-0 edit-card">
+        <div class="card-header text-white text-center py-4 edit-header-blue">
+            <h2 class="mb-2 fw-bold"><i class="bi bi-pencil-square me-2"></i>Edit Gate Pass</h2>
+            <p class="mb-0 text-white-75">Update the details for this gate pass record.</p>
         </div>
         <div class="card-body p-5">
             <form method="post" asp-action="Edit" enctype="multipart/form-data">
                 <input asp-for="Id" hidden />
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
-                            <input asp-for="SchoolYear" class="form-control" placeholder="School Year" />
-                            <label asp-for="SchoolYear">School Year</label>
-                            <span asp-validation-for="SchoolYear" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
+                <div class="row g-5">
+                    @* Increased gap for better separation *@
+
+                    <!-- General Information Section -->
+                    <div class="col-lg-6 border-end-lg pe-lg-5">
+                        <h5 class="text-blue-primary mb-4 pb-2 border-bottom border-blue-primary-subtle">
+                            <i class="bi bi-person-circle me-2"></i>General Information
+                        </h5>
                         <div class="form-floating mb-3">
                             <input asp-for="Name" class="form-control" placeholder="Name" />
                             <label asp-for="Name">Name</label>
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
-                    </div>
-                    <div class="col-12">
+                        <div class="form-floating mb-3">
+                            <input asp-for="SchoolYear" class="form-control" placeholder="School Year" />
+                            <label asp-for="SchoolYear">School Year</label>
+                            <span asp-validation-for="SchoolYear" class="text-danger"></span>
+                        </div>
                         <div class="form-floating mb-3">
                             <input asp-for="Address" class="form-control" placeholder="Address" />
                             <label asp-for="Address">Address</label>
                             <span asp-validation-for="Address" class="text-danger"></span>
                         </div>
-                    </div>
-                    <div class="col-md-6">
                         <div class="form-floating mb-3">
                             <input asp-for="Date" type="date" class="form-control" />
                             <label asp-for="Date">Date</label>
                             <span asp-validation-for="Date" class="text-danger"></span>
                         </div>
-                    </div>
-                    <div class="col-md-6">
                         <div class="form-floating mb-3">
                             <input asp-for="Role" class="form-control" placeholder="Role" />
                             <label asp-for="Role">Role</label>
                             <span asp-validation-for="Role" class="text-danger"></span>
                         </div>
-                    </div>
-                    <div class="col-md-6">
                         <div class="form-floating mb-3">
                             <input asp-for="Department" class="form-control" placeholder="Department" />
                             <label asp-for="Department">Department</label>
                             <span asp-validation-for="Department" class="text-danger"></span>
                         </div>
-                    </div>
-                    <div class="col-md-6">
                         <div class="form-floating mb-3">
                             <input asp-for="CourseYear" class="form-control" placeholder="Course/Year" />
                             <label asp-for="CourseYear">Course/Year</label>
                             <span asp-validation-for="CourseYear" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-md-4">
+
+                    <!-- Vehicle & File Information Section -->
+                    <div class="col-lg-6 ps-lg-5">
+                        <h5 class="text-blue-secondary mb-4 pb-2 border-bottom border-blue-secondary-subtle">
+                            <i class="bi bi-car-front-fill me-2"></i>Vehicle Information
+                        </h5>
                         <div class="form-floating mb-3">
                             <input asp-for="PlateNumber" class="form-control" placeholder="Plate Number" />
                             <label asp-for="PlateNumber">Plate Number</label>
                             <span asp-validation-for="PlateNumber" class="text-danger"></span>
                         </div>
-                    </div>
-                    <div class="col-md-4">
                         <div class="form-floating mb-3">
                             <input asp-for="Maker" class="form-control" placeholder="Maker" />
                             <label asp-for="Maker">Maker</label>
                             <span asp-validation-for="Maker" class="text-danger"></span>
                         </div>
-                    </div>
-                    <div class="col-md-4">
                         <div class="form-floating mb-3">
                             <input asp-for="Color" class="form-control" placeholder="Color" />
                             <label asp-for="Color">Color</label>
                             <span asp-validation-for="Color" class="text-danger"></span>
                         </div>
-                    </div>
 
-                    <div class="col-md-6">
+                        <h5 class="text-blue-tertiary mt-5 mb-4 pb-2 border-bottom border-blue-tertiary-subtle">
+                            <i class="bi bi-file-earmark-arrow-up-fill me-2"></i>Uploaded Files
+                        </h5>
                         <div class="mb-3">
-                            <label asp-for="StudyLoadFile" class="form-label text-muted">Study Load File</label>
+                            <label asp-for="StudyLoadFile" class="form-label text-muted">Study Load File (Optional)</label>
                             <input asp-for="StudyLoadFile" type="file" class="form-control" />
                             <span asp-validation-for="StudyLoadFile" class="text-danger"></span>
                             @if (!string.IsNullOrEmpty(Model.StudyLoadPath))
                             {
-                                <p class="mt-2"><a href="@Url.Content(Model.StudyLoadPath)" target="_blank" class="text-primary"><i class="bi bi-file-earmark-arrow-down me-1"></i> View Current Study Load</a></p>
+                                <p class="mt-2 mb-0"><a href="@Url.Content(Model.StudyLoadPath)" target="_blank" class="text-blue-tertiary fw-bold text-decoration-none"><i class="bi bi-file-earmark-arrow-down me-1"></i> View Current Study Load</a></p>
+                            }
+                            else
+                            {
+                                <p class="mt-2 mb-0 text-muted fst-italic">No current file uploaded.</p>
                             }
                         </div>
-                    </div>
-                    <div class="col-md-6">
                         <div class="mb-3">
-                            <label asp-for="RegistrationFile" class="form-label text-muted">Registration Form File</label>
+                            <label asp-for="RegistrationFile" class="form-label text-muted">Registration Form File (Optional)</label>
                             <input asp-for="RegistrationFile" type="file" class="form-control" />
                             <span asp-validation-for="RegistrationFile" class="text-danger"></span>
                             @if (!string.IsNullOrEmpty(Model.RegistrationPath))
                             {
-                                <p class="mt-2"><a href="@Url.Content(Model.RegistrationPath)" target="_blank" class="text-primary"><i class="bi bi-file-earmark-arrow-down me-1"></i> View Current Registration Form</a></p>
+                                <p class="mt-2 mb-0"><a href="@Url.Content(Model.RegistrationPath)" target="_blank" class="text-blue-tertiary fw-bold text-decoration-none"><i class="bi bi-file-earmark-arrow-down me-1"></i> View Current Registration Form</a></p>
+                            }
+                            else
+                            {
+                                <p class="mt-2 mb-0 text-muted fst-italic">No current file uploaded.</p>
                             }
                         </div>
                     </div>
 
-                    <div class="col-12 text-center pt-4">
-                        <button type="submit" class="btn btn-primary btn-lg me-3" style="min-width: 150px;">Update</button>
-                        <a asp-controller="GatePass" asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">Back to List</a>
+                    <!-- Action Buttons -->
+                    <div class="col-12 text-center pt-5 border-top">
+                        <button type="submit" class="btn-gradient-blue btn-lg me-3 animate__animated animate__pulse animate__infinite" style="min-width: 150px;">
+                            <i class="bi bi-cloud-arrow-up-fill me-2"></i>Update
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
+                            <i class="bi bi-arrow-left me-2"></i>Back to List
+                        </a>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-@section Scripts {
-    @{
-        <partial name="_ValidationScriptsPartial" />
-    }
-}

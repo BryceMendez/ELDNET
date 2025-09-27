@@ -4,29 +4,58 @@
     ViewData["Title"] = "Delete Student";
 }
 
-<form method="post" asp-action="Delete">
-    <input asp-for="Id" hidden />
-    <div class="border p-3 mt-4">
-        <div class="row pb-2">
-            <h2 class="text-primary">Delete Student</h2>
-            <hr />
+<div class="container py-4 animate__animated animate__fadeIn">
+    <div class="custom-card shadow-lg border-0 confirmation-card">
+        <div class="card-header text-white text-center py-4 delete-header">
+            <h2 class="mb-2 fw-bold"><i class="bi bi-person-x-fill me-2"></i>Delete Student Record</h2>
+            <p class="mb-0 text-white-75">Review the student's details below before confirming deletion. This action is irreversible.</p>
         </div>
-        <div class="mb-3">
-            <label asp-for="Firstname"></label>
-            <input asp-for="Firstname" disabled class="form-control" />
-        </div>
-        <div class="mb-3">
-            <label asp-for="Lastname"></label>
-            <input asp-for="Lastname" disabled class="form-control" />
-        </div>
-        <div class="mb-3">
-            <label asp-for="DateCreated"></label>
-            <input asp-for="DateCreated" disabled class="form-control" />
-        </div>
+        <div class="card-body p-5">
+            <div class="alert alert-danger fade show mb-5" role="alert">
+                <h4 class="alert-heading fw-bold">Warning: Permanent Deletion!</h4>
+                <p>You are about to permanently delete this student's record. Once deleted, all associated data will be lost and cannot be recovered.</p>
+                <hr>
+                <p class="mb-0 fw-bold">Please confirm your decision carefully.</p>
+            </div>
 
-        <button type="submit" class="btn btn-danger" style="width:150px">Delete</button>
-        <a asp-controller="Student" asp-action="Index" class="btn btn-secondary" style="width:150px">
-            Back to List
-        </a>
+            <div class="row g-5 justify-content-center">
+                <div class="col-lg-8">
+                    <h5 class="text-danger-dark mb-4 pb-2 border-bottom border-danger-subtle">
+                        <i class="bi bi-person-fill me-2"></i>Student Information
+                    </h5>
+                    <dl class="row detail-list-modern">
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Firstname)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Firstname)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Lastname)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Lastname)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DateCreated)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.DateCreated)</dd>
+
+                        @* Add other relevant student properties here if available in your model *@
+                        @* For example:
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.StudentId)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.StudentId)</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Email)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Email)</dd>
+                        *@
+                    </dl>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="col-12 text-center pt-5 border-top mt-5">
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="Id" />
+                    <button type="submit" class="btn-gradient-danger btn-lg me-3 animate__animated animate__pulse animate__infinite" style="min-width: 150px;">
+                        <i class="bi bi-trash-fill me-2"></i>Delete
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
+                        <i class="bi bi-arrow-left me-2"></i>Back to List
+                    </a>
+                </form>
+            </div>
+        </div>
     </div>
-</form>
+</div>

@@ -1,3 +1,8 @@
+/* style.css */
+
+/* Add Inter font if you haven't already linked it in your _Layout.cshtml */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 /* Shared Styling for GatePass & Reservation Room */
 .form-container {
     max-width: 900px;
@@ -5,58 +10,68 @@
 }
 
 .custom-card {
-    border-radius: 15px;
+    border-radius: 1rem; /* More rounded corners */
     overflow: hidden;
     background: #fff;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Stronger, softer shadow */
 }
 
     .custom-card .card-header {
-        background: linear-gradient(135deg, #4e73df, #1cc88a);
-        padding: 20px;
+        /* This will be overridden by more specific headers like .form-header-gatepass */
+        background: #fff; /* White header for tabs, but for detail page, it will be gradient */
         border-bottom: none;
-        color: #fff;
+        padding: 0; /* Handled by specific headers */
+        color: #fff; /* Handled by specific headers */
     }
 
-    .custom-card h2 {
+    .custom-card h2, .custom-card h3 { /* Added h3 for GatePass details title */
         margin: 0;
-        font-weight: 600;
+        font-weight: 700; /* Bolder headings */
+        letter-spacing: -0.5px;
     }
 
+/* General Gradient Button (can be reused) */
 .btn-gradient {
     background: linear-gradient(135deg, #4e73df, #1cc88a);
     color: #fff;
     border: none;
-    border-radius: 30px;
+    border-radius: 0.5rem; /* Consistent with other modern buttons */
     padding: 10px 25px;
-    transition: 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(78, 115, 223, 0.2);
 }
 
     .btn-gradient:hover {
         background: linear-gradient(135deg, #1cc88a, #4e73df);
-        transform: scale(1.05);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(78, 115, 223, 0.3);
     }
 
 input.form-control,
 select.form-control,
 textarea.form-control {
-    border-radius: 10px;
-    border: 1px solid #ccc;
+    border-radius: 0.75rem; /* More rounded inputs */
+    border: 1px solid #e0e6ed; /* Lighter border */
     box-shadow: none;
-    transition: 0.2s;
+    transition: all 0.2s ease-in-out;
+    padding: 0.75rem 1rem;
 }
 
     input.form-control:focus,
     select.form-control:focus,
     textarea.form-control:focus {
         border-color: #4e73df;
-        box-shadow: 0 0 5px rgba(78, 115, 223, 0.4);
+        box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25); /* Bootstrap-like focus ring */
     }
 
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background: #f0f2f5; /* Lighter, modern background */
+    font-family: 'Inter', sans-serif; /* Modern font */
+    color: #344767; /* Default text color */
 }
 
 main {
@@ -67,3 +82,671 @@ footer {
     margin-top: auto;
 }
 
+/* Custom Navbar (Keep as is, but ensure its gradients are consistent) */
+.navbar-custom {
+    background: linear-gradient(135deg, #4e73df, #2e59d9); /* Blue gradient for navbar */
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+    .navbar-custom .navbar-brand {
+        color: #fff;
+        font-size: 1.75rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    .navbar-custom .nav-link {
+        color: #fff !important;
+        font-size: 1.1rem; /* Slightly smaller for better fit */
+        font-weight: 600;
+        padding: 10px 18px; /* Adjusted padding */
+        border-radius: 8px;
+        margin: 0 4px;
+        transition: 0.3s ease-in-out;
+    }
+
+        .navbar-custom .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.02); /* Subtle scale on hover */
+        }
+
+/* Overlay gradients (Keep as is, if used elsewhere) */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(78,115,223,0.8) 100%);
+    opacity: 0.7;
+}
+
+.overlay-green {
+    background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(28,200,138,0.8) 100%);
+}
+
+.overlay-yellow {
+    background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(246,194,62,0.8) 100%);
+}
+
+/* Centered overlay text (Keep as is) */
+.overlay-text {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    color: white;
+    font-weight: bold;
+    font-size: 1.8rem;
+    text-shadow: 0px 3px 6px rgba(0,0,0,0.5);
+    width: 100%;
+}
+
+/* --- Delete Locker Request Specific Styles --- (Keep as is, unless you want to update) */
+
+/* Confirmation Card */
+.confirmation-card {
+    border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+.delete-header {
+    background: linear-gradient(45deg, #dc3545, #a71d2a) !important;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(220, 53, 69, 0.2);
+}
+
+    .delete-header h2 {
+        font-size: 2.2rem;
+    }
+
+    .delete-header p {
+        font-size: 1.1rem;
+    }
+
+/* Custom Colors for Delete Sections (shades of red) */
+.text-danger-dark {
+    color: #dc3545 !important;
+}
+
+.text-danger-secondary {
+    color: #e65c5c !important;
+}
+
+.text-danger-tertiary {
+    color: #c9302c !important;
+}
+
+.border-danger-subtle {
+    border-color: rgba(220, 53, 69, 0.2) !important;
+}
+
+/* Modern Definition List Styling */
+.detail-list-modern dt {
+    font-weight: 600;
+    color: #6c757d; /* Bootstrap secondary text color */
+    margin-bottom: 0.75rem;
+    padding-top: 0.5rem; /* Increased padding for better spacing */
+    padding-bottom: 0.5rem;
+    font-size: 1.05rem;
+}
+
+.detail-list-modern dd {
+    margin-bottom: 0.75rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    color: #344767; /* Darker text color for values */
+    font-weight: 500;
+    font-size: 1.05rem;
+}
+
+.detail-list-modern .row:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.03); /* Slightly darker stripe for readability */
+    border-radius: 0.5rem; /* Rounded stripes */
+}
+
+/* Alert styling (Keep as is) */
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.alert-heading {
+    color: #721c24;
+    font-size: 1.5rem;
+}
+
+/* Delete Button Gradient (Keep as is) */
+.btn-gradient-danger {
+    background: linear-gradient(45deg, #dc3545, #a71d2a);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
+}
+
+    .btn-gradient-danger:hover {
+        background: linear-gradient(45deg, #a71d2a, #dc3545);
+        box-shadow: 0 6px 15px rgba(220, 53, 69, 0.4);
+        transform: translateY(-2px);
+    }
+
+/* Back Button Styling (Update to custom-blue theme) */
+.btn-outline-secondary-custom {
+    border-color: #92b0e6; /* Lighter blue border */
+    color: #4e73df; /* Primary blue text */
+    background-color: transparent;
+    transition: all 0.3s ease;
+    padding: 10px 20px;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+    .btn-outline-secondary-custom:hover {
+        background-color: #4e73df;
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(78, 115, 223, 0.3);
+        transform: translateY(-2px);
+    }
+
+
+/* --- GatePass Specific Styles --- */
+
+.form-header-gatepass {
+    background: linear-gradient(45deg, #4e73df, #2e59d9) !important; /* Stronger blue gradient */
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    color: white;
+    padding: 20px 30px; /* Increased padding */
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(78, 115, 223, 0.3); /* Stronger shadow */
+    display: flex; /* For icon alignment */
+    align-items: center;
+    justify-content: center;
+}
+
+    .form-header-gatepass h3 { /* Changed from h2 to h3 */
+        font-size: 1.8rem; /* Adjusted font size */
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    .form-header-gatepass p {
+        font-size: 1.1rem;
+        margin-bottom: 0;
+    }
+
+.image-upload-section {
+    border: 2px dashed #92b0e6; /* Lighter blue dashed border */
+    border-radius: 1rem;
+    padding: 30px;
+    text-align: center;
+    background-color: #fcfdff; /* Very light blue background */
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+    .image-upload-section:hover {
+        background-color: #eef4ff; /* Lighter hover */
+        border-color: #4e73df;
+    }
+
+    .image-upload-section i {
+        font-size: 3rem;
+        color: #4e73df;
+        margin-bottom: 15px;
+    }
+
+    .image-upload-section p {
+        font-size: 1.1rem;
+        color: #344767;
+        font-weight: 600;
+    }
+
+.uploaded-image-preview {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    border: 1px solid #dee2e6;
+}
+
+.image-preview-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.text-primary-dark {
+    color: #2e59d9 !important; /* Darker blue */
+}
+
+.border-primary-subtle {
+    border-color: rgba(78, 115, 223, 0.2) !important;
+}
+
+/* Gradient Buttons for GatePass Actions (Approve/Deny) */
+.btn-gradient-success-custom {
+    background: linear-gradient(45deg, #1cc88a, #17a673); /* Existing green */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(28, 200, 138, 0.3);
+    font-size: 0.95rem;
+}
+
+    .btn-gradient-success-custom:hover {
+        background: linear-gradient(45deg, #17a673, #1cc88a);
+        box-shadow: 0 6px 15px rgba(28, 200, 138, 0.4);
+        transform: translateY(-2px);
+    }
+
+.btn-gradient-danger-custom {
+    background: linear-gradient(45deg, #e74a3b, #c32719); /* Existing red */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(231, 74, 59, 0.3);
+    font-size: 0.95rem;
+}
+
+    .btn-gradient-danger-custom:hover {
+        background: linear-gradient(45deg, #c32719, #e74a3b);
+        box-shadow: 0 6px 15px rgba(231, 74, 59, 0.4);
+        transform: translateY(-2px);
+    }
+
+/* Custom outline button for View Study Load/Registration */
+.btn-outline-primary-custom {
+    border-color: #92b0e6;
+    color: #4e73df;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    padding: 8px 15px;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+    .btn-outline-primary-custom:hover {
+        background-color: #4e73df;
+        color: #fff;
+        border-color: #4e73df;
+        box-shadow: 0 4px 8px rgba(78, 115, 223, 0.2);
+        transform: translateY(-1px);
+    }
+
+
+/* --- Reservation Room Specific Styles --- (Keep as is) */
+
+/* Custom colors for the blue theme (consistent with GatePass details where applicable) */
+.text-blue-primary {
+    color: #007bff !important;
+}
+
+.border-blue-primary-subtle {
+    border-color: rgba(0, 123, 255, 0.2) !important;
+}
+
+.text-blue-secondary {
+    color: #17a2b8 !important;
+}
+
+.border-blue-secondary-subtle {
+    border-color: rgba(23, 162, 184, 0.2) !important;
+}
+
+.text-blue-tertiary {
+    color: #6c757d !important;
+}
+
+.border-blue-tertiary-subtle {
+    border-color: rgba(108, 117, 125, 0.2) !important;
+}
+
+/* Specific Header Styling for Edit View */
+.edit-header-blue {
+    background: linear-gradient(45deg, #4e73df, #224abe) !important;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(78, 115, 223, 0.2);
+}
+
+    .edit-header-blue h2 {
+        font-size: 2.2rem;
+    }
+
+    .edit-header-blue p {
+        font-size: 1.1rem;
+    }
+
+/* Button Styling (Keep as is, or consider consolidating with custom gradient buttons) */
+.btn-gradient-blue {
+    background: linear-gradient(45deg, #4e73df, #224abe);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(78, 115, 223, 0.3);
+}
+
+    .btn-gradient-blue:hover {
+        background: linear-gradient(45deg, #224abe, #4e73df);
+        box-shadow: 0 6px 15px rgba(78, 115, 223, 0.4);
+        transform: translateY(-2px);
+    }
+
+/* Floating label specific adjustments (Keep as is) */
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label,
+.form-floating > .form-select ~ label {
+    opacity: .65;
+    transform: scale(.85) translateY(-.5rem) translateX(.15rem);
+}
+
+/* Specific focus styling for form controls in this context (Keep as is) */
+.form-control:focus {
+    border-color: #4e73df;
+    box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
+}
+
+/* For textarea in floating label (Keep as is) */
+.form-floating > .form-control:focus ~ label::after,
+.form-floating > .form-control:not(:placeholder-shown) ~ label::after,
+.form-floating > textarea.form-control ~ label::after {
+    background-color: #fff;
+}
+
+/* Add these to your style.css or a new specific CSS file for your green theme (Keep as is) */
+
+/* Main brand green color */
+:root {
+    --main-green-color: #03AC13;
+    --dark-green-gradient-start: #03AC13;
+    --dark-green-gradient-end: #028910;
+    --light-green-subtle: rgba(3, 172, 19, 0.2);
+    --green-accent-text: #04AA6D;
+    --darker-green-text: #016E0A;
+}
+
+/* Custom Green Gradient for Headers/Buttons (Keep as is) */
+.bg-main-color-gradient {
+    background: linear-gradient(45deg, var(--dark-green-gradient-start), var(--dark-green-gradient-end)) !important;
+}
+
+/* Text Colors (Keep as is) */
+.text-main-color {
+    color: var(--main-green-color) !important;
+}
+
+.text-green-accent {
+    color: var(--green-accent-text) !important;
+}
+
+.text-dark-green-header {
+    color: var(--darker-green-text) !important;
+}
+
+/* Border Colors (Keep as is) */
+.border-main-color-subtle {
+    border-color: var(--light-green-subtle) !important;
+}
+
+/* Gradient Button specific for the green theme (Keep as is) */
+.btn-main-gradient {
+    background: linear-gradient(45deg, var(--dark-green-gradient-start), var(--dark-green-gradient-end));
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(3, 172, 19, 0.3);
+}
+
+    .btn-main-gradient:hover {
+        background: linear-gradient(45deg, var(--dark-green-gradient-end), var(--dark-green-gradient-start));
+        box-shadow: 0 6px 15px rgba(3, 172, 19, 0.4);
+        transform: translateY(-2px);
+    }
+
+/* Adjust .detail-list-modern if needed for green hover/focus, though current version is neutral (Keep as is) */
+.detail-list-modern a {
+    color: #4e73df; /* Ensure links within lists are blue */
+}
+
+    .detail-list-modern a:hover {
+        color: #2e59d9; /* Darker blue on hover for links */
+    }
+
+/* General Modern UI Enhancements */
+/* These are largely incorporated into existing styles, keeping them here for reference but ensuring no conflicts */
+.text-gradient-blue {
+    background: linear-gradient(to right, #4e73df, #2e59d9);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #4e73df;
+}
+
+/* Custom Tab Styling (Keep as is) */
+.custom-tabs {
+    border-bottom: none;
+    position: relative;
+    z-index: 1;
+}
+
+    .custom-tabs .nav-item {
+        margin-right: 5px;
+    }
+
+    .custom-tabs .nav-link {
+        border: none;
+        border-bottom: 3px solid transparent;
+        border-radius: 10px 10px 0 0;
+        color: #6c757d;
+        font-weight: 600;
+        padding: 15px 25px;
+        transition: all 0.3s ease;
+        background-color: #f8f9fa;
+        margin-bottom: -1px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .custom-tabs .nav-link:hover:not(.active) {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+
+        .custom-tabs .nav-link.active {
+            color: #fff;
+            font-weight: 700;
+            background-color: var(--tab-active-bg-color);
+            box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.05);
+            border-bottom-color: var(--tab-active-border-color);
+        }
+
+        .custom-tabs .nav-link i {
+            font-size: 1.1rem;
+        }
+
+/* Specific Tab Colors (Keep as is) */
+.tab-blue.active {
+    --tab-active-bg-color: #4e73df;
+    --tab-active-border-color: #4e73df;
+}
+
+.tab-blue {
+    color: #4e73df;
+}
+
+    .tab-blue.active:hover {
+        background-color: #4e73df;
+        color: #fff;
+    }
+
+
+.tab-green.active {
+    --tab-active-bg-color: #03AC13;
+    --tab-active-border-color: #03AC13;
+}
+
+.tab-green {
+    color: #03AC13;
+}
+
+    .tab-green.active:hover {
+        background-color: #03AC13;
+        color: #fff;
+    }
+
+
+.tab-yellow.active {
+    --tab-active-bg-color: #f6c23e;
+    --tab-active-border-color: #f6c23e;
+}
+
+.tab-yellow {
+    color: #f6c23e;
+}
+
+    .tab-yellow.active:hover {
+        background-color: #f6c23e;
+        color: #fff;
+    }
+
+
+/* Status Badges with Gradients */
+.bg-primary-gradient {
+    background: linear-gradient(45deg, #4e73df, #2e59d9) !important; /* Blue gradient for pending on GatePass */
+    color: #fff !important;
+}
+
+.bg-success-gradient {
+    background: linear-gradient(45deg, #1cc88a, #03AC13) !important; /* Green gradient for approved/pending on Reservations */
+    color: #fff !important;
+}
+
+.bg-danger-gradient {
+    background: linear-gradient(45deg, #e74a3b, #c32719) !important; /* Red gradient for denied */
+    color: #fff !important;
+}
+
+.bg-warning-gradient {
+    background: linear-gradient(45deg, #f6c23e, #d8a41e) !important; /* Yellow gradient for pending on Lockers */
+    color: #212529 !important; /* Dark text for warning */
+}
+
+/* Table Styling (Keep as is) */
+.table th {
+    font-weight: 700;
+    color: #344767;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.table td {
+    color: #6c757d;
+    vertical-align: middle;
+}
+
+.table-responsive {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid #e9ecef;
+}
+
+/* Action Buttons (Keep as is, unless you intend to unify with new custom buttons) */
+.btn-info-outline {
+    color: #4e73df;
+    border-color: #4e73df;
+    background-color: transparent
+    /* Custom Card Styling */
+}
+.custom-card
+
+{
+    border-radius: 1rem; /* Softer rounded corners */
+    overflow: hidden; /* Ensures gradient and shadow look good */
+}
+
+/* Modern Detail List */
+.detail-list-modern dt {
+    color: #6c757d; /* Muted color for labels */
+    font-weight: 500;
+    padding-top: 0.35rem; /* Align with dd text */
+    padding-bottom: 0.35rem;
+}
+
+.detail-list-modern dd {
+    margin-bottom: 0.5rem; /* Space between items */
+    padding-top: 0.35rem; /* Align with dt text */
+    padding-bottom: 0.35rem;
+}
+
+/* Custom Text Colors (adjust as needed for your theme) */
+.text-primary {
+    color: #007bff !important;
+}
+
+.border-primary-subtle {
+    border-color: #cfe2ff !important;
+}
+/* Lighter primary */
+.text-info {
+    color: #17a2b8 !important;
+}
+
+.border-info-subtle {
+    border-color: #d1ecf1 !important;
+}
+/* Lighter info */
+.text-secondary {
+    color: #6c757d !important;
+}
+
+.border-secondary-subtle {
+    border-color: #e2e6ea !important;
+}
+/* Lighter secondary */
+.text-dark {
+    color: #343a40 !important;
+}
+
+.border-dark-subtle {
+    border-color: #ced4da !important;
+}
+/* Lighter dark */
+
+/* Badges for status */
+.badge.bg-success {
+    background-color: #28a745 !important;
+}
+
+.badge.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+.badge.bg-warning {
+    background-color: #ffc107 !important;
+    color: #212529 !important;
+}
+/* Ensure text is readable on warning */

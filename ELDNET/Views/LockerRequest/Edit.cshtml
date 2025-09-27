@@ -4,141 +4,97 @@
     ViewData["Title"] = "Edit Locker Request";
 }
 
-<style>
-    /* Basic styling for the card, feel free to adapt to your project's CSS */
-    .details-card {
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        padding: 30px;
-        margin-top: 30px;
-    }
+<div class="container py-4 animate__animated animate__fadeIn">
+    <div class="custom-card shadow-lg border-0 edit-card">
+        <div class="card-header text-white text-center py-4 edit-header-blue">
+            <h2 class="mb-2 fw-bold"><i class="bi bi-pencil-square me-2"></i>Edit Locker Request</h2>
+            <p class="mb-0 text-white-75">Update the details for this locker request.</p>
+        </div>
+        <div class="card-body p-5">
+            <form asp-action="Edit" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="StudyLoadPath" />
+                <input type="hidden" asp-for="RegistrationPath" />
 
-    .details-header {
-        background-color: #224abe; /*Header blue*/
-        color: white;
-        padding: 20px 30px;
-        border-top-left-radius: 8px;
-        border-top-right-radius: 8px;
-        text-align: center;
-        margin-top: 20px;
-    }
-
-        .details-header h1 {
-            margin-bottom: 5px;
-            font-size: 2em;
-        }
-
-        .details-header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-
-    .details-section-title {
-        color: #007bff; /* Blue for section titles */
-        font-size: 1.3em;
-        margin-top: 25px;
-        margin-bottom: 15px;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 8px;
-    }
-
-    .button-container {
-        margin-top: 30px;
-        text-align: center;
-    }
-
-    .details-file-link {
-        color: #007bff;
-        text-decoration: none;
-    }
-
-        .details-file-link:hover {
-            text-decoration: underline;
-        }
-</style>
-
-<div class="details-header">
-    <h1>Edit Locker Request</h1>
-    <p>Update the details for this locker request.</p>
-</div>
-
-<div class="container">
-    <div class="details-card">
-        <form asp-action="Edit" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="StudyLoadPath" />
-            <input type="hidden" asp-for="RegistrationPath" />
-
-            <div class="row">
-                <div class="col-md-6">
-                    <h3 class="details-section-title">Requestor Information</h3>
-                    <div class="mb-3">
-                        <label asp-for="Name" class="form-label"></label>
-                        <input asp-for="Name" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
+                <div class="row g-5">
+                    <!-- Requestor Information Section -->
+                    <div class="col-lg-6 border-end-lg pe-lg-5">
+                        <h5 class="text-blue-primary mb-4 pb-2 border-bottom border-blue-primary-subtle">
+                            <i class="bi bi-person-fill me-2"></i>Requestor Information
+                        </h5>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Name" class="form-control" placeholder="Name" />
+                            <label asp-for="Name"></label>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="IdNumber" class="form-control" placeholder="ID Number" />
+                            <label asp-for="IdNumber"></label>
+                            <span asp-validation-for="IdNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="ContactNumber" class="form-control" placeholder="Contact Number" />
+                            <label asp-for="ContactNumber"></label>
+                            <span asp-validation-for="ContactNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Semester" class="form-control" placeholder="Semester" />
+                            <label asp-for="Semester"></label>
+                            <span asp-validation-for="Semester" class="text-danger"></span>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label asp-for="IdNumber" class="form-label"></label>
-                        <input asp-for="IdNumber" class="form-control" />
-                        <span asp-validation-for="IdNumber" class="text-danger"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label asp-for="ContactNumber" class="form-label"></label>
-                        <input asp-for="ContactNumber" class="form-control" />
-                        <span asp-validation-for="ContactNumber" class="text-danger"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label asp-for="Semester" class="form-label"></label>
-                        <input asp-for="Semester" class="form-control" />
-                        <span asp-validation-for="Semester" class="text-danger"></span>
+
+                    <!-- Locker & Document Information Section -->
+                    <div class="col-lg-6 ps-lg-5">
+                        <h5 class="text-blue-secondary mb-4 pb-2 border-bottom border-blue-secondary-subtle">
+                            <i class="bi bi-key-fill me-2"></i>Locker & Document Information
+                        </h5>
+                        <div class="form-floating mb-3">
+                            <input asp-for="LockerNumber" class="form-control" placeholder="Locker Number" />
+                            <label asp-for="LockerNumber"></label>
+                            <span asp-validation-for="LockerNumber" class="text-danger"></span>
+                        </div>
+
+                        <h5 class="text-blue-tertiary mb-3 mt-4 pb-2 border-bottom border-blue-tertiary-subtle">
+                            <i class="bi bi-file-earmark-arrow-up-fill me-2"></i>Update Files
+                        </h5>
+                        <div class="mb-3">
+                            <label class="form-label d-block text-muted mb-2">Study Load (PDF)</label>
+                            <input type="file" name="studyLoadFile" class="form-control" />
+                            <span asp-validation-for="StudyLoadFile" class="text-danger d-block mt-1"></span>
+                            @if (!string.IsNullOrEmpty(Model.StudyLoadPath))
+                            {
+                                <small class="form-text text-muted mt-2 d-block">Current file: <a href="@Model.StudyLoadPath" target="_blank" class="details-file-link">View Study Load</a></small>
+                            }
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label d-block text-muted mb-2">Registration Form (PDF)</label>
+                            <input type="file" name="registrationFile" class="form-control" />
+                            <span asp-validation-for="RegistrationFile" class="text-danger d-block mt-1"></span>
+                            @if (!string.IsNullOrEmpty(Model.RegistrationPath))
+                            {
+                                <small class="form-text text-muted mt-2 d-block">Current file: <a href="@Model.RegistrationPath" target="_blank" class="details-file-link">View Registration Form</a></small>
+                            }
+                        </div>
+                        <div class="form-check mt-4">
+                            <input class="form-check-input" asp-for="AcceptTerms" />
+                            <label class="form-check-label" asp-for="AcceptTerms">Accept Terms and Conditions</label>
+                            <span asp-validation-for="AcceptTerms" class="text-danger d-block"></span>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <h3 class="details-section-title">Locker & Document Information</h3>
-                    <div class="mb-3">
-                        <label asp-for="LockerNumber" class="form-label"></label>
-                        <input asp-for="LockerNumber" class="form-control" />
-                        <span asp-validation-for="LockerNumber" class="text-danger"></span>
-                    </div>
-                    <h4 class="details-section-title mt-4">Update Files</h4>
-                    <div class="mb-3">
-                        <label class="form-label">Study Load (PDF)</label>
-                        <input type="file" name="studyLoadFile" class="form-control" />
-                        <span asp-validation-for="StudyLoadFile" class="text-danger"></span>
-                        @if (!string.IsNullOrEmpty(Model.StudyLoadPath))
-                        {
-                            <small class="form-text text-muted">Current file: <a href="@Model.StudyLoadPath" target="_blank" class="details-file-link">View Study Load</a></small>
-                        }
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Registration Form (PDF)</label>
-                        <input type="file" name="registrationFile" class="form-control" />
-                        <span asp-validation-for="RegistrationFile" class="text-danger"></span>
-                        @if (!string.IsNullOrEmpty(Model.RegistrationPath))
-                        {
-                            <small class="form-text text-muted">Current file: <a href="@Model.RegistrationPath" target="_blank" class="details-file-link">View Registration Form</a></small>
-                        }
-                    </div>
-                    <div class="mb-3 form-check">
-                        <input class="form-check-input" asp-for="AcceptTerms" />
-                        <label class="form-check-label" asp-for="AcceptTerms">Accept Terms and Conditions</label>
-                        <span asp-validation-for="AcceptTerms" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
 
-            <div class="button-container">
-                <input type="submit" value="Save" class="btn btn-primary btn-lg me-2" />
-                <a asp-action="Index" class="btn btn-secondary btn-lg">Back to List</a>
-            </div>
-        </form>
+                <!-- Action Buttons -->
+                <div class="col-12 text-center pt-5 border-top mt-5">
+                    <button type="submit" class="btn-gradient-blue btn-lg me-3 animate__animated animate__pulse animate__infinite" style="min-width: 150px;">
+                        <i class="bi bi-cloud-arrow-up-fill me-2"></i>Update
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
+                        <i class="bi bi-arrow-left me-2"></i>Back to List
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}

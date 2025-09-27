@@ -4,87 +4,102 @@
     ViewData["Title"] = "Activity Reservation Details";
 }
 
-<div class="container mt-5">
-    <div class="card shadow-lg border-0 rounded-3">
-        <div class="card-header bg-primary text-white">
-            <h3 class="mb-0">Activity Reservation Details</h3>
+<div class="container py-4 animate__animated animate__fadeIn">
+    <div class="custom-card shadow-lg border-0">
+        <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #28a745, #218838);">
+            @* Green gradient for Activity Reservation *@
+            <h2 class="mb-2 fw-bold"><i class="bi bi-calendar-check me-2"></i>Activity Reservation Details</h2> @* New icon for Reservation *@
+            <p class="mb-0 text-white-50">Comprehensive information for this activity room reservation.</p>
         </div>
+        <div class="card-body p-5">
+            <div class="row g-5">
+                <!-- Activity Information Section -->
+                <div class="col-lg-6 border-end-lg pe-lg-5">
+                    <h5 class="text-primary mb-4 pb-2 border-bottom border-primary-subtle">
+                        <i class="bi bi-info-circle me-2"></i>Activity Information
+                    </h5>
+                    <dl class="row detail-list-modern">
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.OrganizationName)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.OrganizationName)</dd>
 
-        <div class="card-body p-4">
-            <dl class="row mb-0">
-                <dt class="col-sm-4">ID</dt>
-                <dd class="col-sm-8">@Model.Id</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ActivityTitle)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.ActivityTitle)</dd>
 
-                <dt class="col-sm-4">Organization Name</dt>
-                <dd class="col-sm-8">@Model.OrganizationName</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ActivityDate)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Model.ActivityDate.ToString("MMMM dd, yyyy")</dd>
 
-                <dt class="col-sm-4">Activity Title</dt>
-                <dd class="col-sm-8">@Model.ActivityTitle</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Speaker)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Speaker)</dd>
 
-                <dt class="col-sm-4">Activity Date</dt>
-                <dd class="col-sm-8">@Model.ActivityDate.ToString("MMMM dd, yyyy")</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Venue)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Venue)</dd>
 
-                <dt class="col-sm-4">Speaker</dt>
-                <dd class="col-sm-8">@Model.Speaker</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.NatureOfActivity)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.NatureOfActivity)</dd>
 
-                <dt class="col-sm-4">Venue</dt>
-                <dd class="col-sm-8">@Model.Venue</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PurposeObjective)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.PurposeObjective)</dd>
+                    </dl>
+                </div>
 
-                <dt class="col-sm-4">Purpose / Objective</dt>
-                <dd class="col-sm-8">@Model.PurposeObjective</dd>
+                <!-- Reservation Details Section -->
+                <div class="col-lg-6 ps-lg-5">
+                    <h5 class="text-info mb-4 pb-2 border-bottom border-info-subtle">
+                        <i class="bi bi-clock me-2"></i>Reservation Details
+                    </h5>
+                    <dl class="row detail-list-modern">
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DateNeeded)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Model.DateNeeded?.ToString("MMMM dd, yyyy")</dd>
 
-                <dt class="col-sm-4">Date Needed</dt>
-                <dd class="col-sm-8">@Model.DateNeeded?.ToString("MMMM dd, yyyy")</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.TimeFrom)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Model.TimeFrom?.ToString(@"hh\:mm")</dd> @* Changed format *@
 
-                <dt class="col-sm-4">Time From</dt>
-                <dd class="col-sm-8">@Model.TimeFrom?.ToString(@"hh\:mm")</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.TimeTo)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Model.TimeTo?.ToString(@"hh\:mm")</dd> @* Changed format *@
 
-                <dt class="col-sm-4">Time To</dt>
-                <dd class="col-sm-8">@Model.TimeTo?.ToString(@"hh\:mm")</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.RoomNumber)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.RoomNumber)</dd>
 
-                <dt class="col-sm-4">Participants</dt>
-                <dd class="col-sm-8">@Model.Participants</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Participants)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Participants)</dd>
 
-                <dt class="col-sm-4">Equipment / Facilities Needed</dt>
-                <dd class="col-sm-8">@Model.EquipmentFacilities</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.EquipmentFacilities)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.EquipmentFacilities)</dd>
+                    </dl>
 
-                <dt class="col-sm-4">Nature of Activity</dt>
-                <dd class="col-sm-8">@Model.NatureOfActivity</dd>
+                    <h5 class="text-secondary mt-5 mb-4 pb-2 border-bottom border-secondary-subtle">
+                        <i class="bi bi-person-badge me-2"></i>Requester & Status
+                    </h5>
+                    <dl class="row detail-list-modern">
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ReservedBy)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.ReservedBy)</dd>
 
-                <dt class="col-sm-4">Source of Funds</dt>
-                <dd class="col-sm-8">@Model.SourceOfFunds</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.SourceOfFunds)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.SourceOfFunds)</dd>
 
-                <dt class="col-sm-4">Room Number</dt>
-                <dd class="col-sm-8">@Model.RoomNumber</dd>
-
-                <dt class="col-sm-4">Reserved By</dt>
-                <dd class="col-sm-8">@Model.ReservedBy</dd>
-
-                <dt class="col-sm-4">Status</dt>
-                <dd class="col-sm-8">
-                    <span class="badge
-                        @(Model.Status == "Approved" ? "bg-success" :
-                                                    Model.Status == "Denied" ? "bg-danger" :
-                                                    "bg-warning text-dark")">
-                        @Model.Status
-                    </span>
-                </dd>
-
-                <dt class="col-sm-4">Created Date</dt>
-                <dd class="col-sm-8">@Model.Date.ToString("MMMM dd, yyyy")</dd>
-            </dl>
-        </div>
-
-        <div class="card-footer text-end">
-            <form asp-action="ApproveReservation" method="post" class="d-inline">
-                <input type="hidden" name="id" value="@Model.Id" />
-                <button type="submit" class="btn btn-success">Approve</button>
-            </form>
-            <form asp-action="DenyReservation" method="post" class="d-inline">
-                <input type="hidden" name="id" value="@Model.Id" />
-                <button type="submit" class="btn btn-danger">Deny</button>
-            </form>
-            <a asp-action="Index" class="btn btn-secondary">Back</a>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Date)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Model.Date.ToString("MMMM dd, yyyy")</dd>
+                    </dl>
+                </div>
+                <!-- Action Buttons -->
+                <div class="col-12 text-center pt-5 border-top">
+                    <form asp-action="ApproveReservation" method="post" class="d-inline me-3">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <button type="submit" class="btn btn-success btn-lg" style="min-width: 150px;">
+                            <i class="bi bi-check-circle me-2"></i>Approve
+                        </button>
+                    </form>
+                    <form asp-action="DenyReservation" method="post" class="d-inline me-3">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <button type="submit" class="btn btn-danger btn-lg" style="min-width: 150px;">
+                            <i class="bi bi-x-circle me-2"></i>Deny
+                        </button>
+                    </form>
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
+                        <i class="bi bi-arrow-left me-2"></i>Back to List
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

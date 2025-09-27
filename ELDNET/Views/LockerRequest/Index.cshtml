@@ -17,52 +17,72 @@
     </div>
     <br />
 
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>ID Number</th>
-                <th>Locker Number</th>
-                <th>Semester</th>
-                <th>Contact Number</th>
-                <th>Status</th>
-                <th>Study Load</th>
-                <th>Registration Form</th>
-                <th>Accepted Terms</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
                 <tr>
-                    <td>@item.Name</td>
-                    <td>@item.IdNumber</td>
-                    <td>@item.LockerNumber</td>
-                    <td>@item.Semester</td>
-                    <td>@item.ContactNumber</td>
-                    <td>@item.Status<td>
-                        @if (!string.IsNullOrEmpty(item.StudyLoadPath))
-                        {
-                            <a href="@item.StudyLoadPath" target="_blank">View</a>
-                        }
-                    </td>
-                    <td>
-                        @if (!string.IsNullOrEmpty(item.RegistrationPath))
-                        {
-                            <a href="@item.RegistrationPath" target="_blank">View</a>
-                        }
-                    </td>
-                    <td>@(item.AcceptTerms ? "Yes" : "No")</td>
-                    <td>
-                        <div class="w-20 btn-group" role="group">
-                            <a asp-action="Edit" asp-route-id="@item.Id">&nbsp;Edit&nbsp;</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">&nbsp;Details&nbsp;</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">&nbsp;Delete</a>
-                        </div>
-                    </td>
+                    <th>Name</th>
+                    <th>ID Number</th>
+                    <th>Locker Number</th>
+                    <th>Semester</th>
+                    <th>Contact Number</th>
+                    <th>Study Load</th>
+                    <th>Registration Form</th>
+                    <th>Accepted Terms</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.IdNumber</td>
+                        <td>@item.LockerNumber</td>
+                        <td>@item.Semester</td>
+                        <td>@item.ContactNumber</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.StudyLoadPath))
+                            {
+                                <a href="@item.StudyLoadPath" target="_blank">View</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">No File</span>
+                            }
+                        </td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.RegistrationPath))
+                            {
+                                <a href="@item.RegistrationPath" target="_blank">View</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">No File</span>
+                            }
+                        </td>
+                        <td>@(item.AcceptTerms ? "Yes" : "No")</td>
+                        <td>@item.Status</td>
+                        <td>
+                            <div class="w-20 btn-group" role="group">
+                                <a asp-action="Edit" asp-route-id="@item.Id">&nbsp;Edit&nbsp; </a>|
+                                <a asp-action="Details" asp-route-id="@item.Id">&nbsp;Details&nbsp;</a>|
+                                <a asp-action="Delete" asp-route-id="@item.Id">&nbsp;Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info text-center">
+            No Locker Request Records Found.
+        </div>
+    }
 </div>
+
+

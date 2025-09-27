@@ -4,77 +4,92 @@
     ViewData["Title"] = "Reservation Details";
 }
 
-<div class="container mt-4">
-    <div class="card shadow-sm">
-        <div class="card-header bg-gradient-success text-white py-3">
-            <h3 class="mb-0 text-center">Reservation Room Details</h3>
-            <p class="mb-0 text-center">Comprehensive information for this reservation.</p>
+<div class="container py-4 animate__animated animate__fadeIn">
+    <div class="custom-card shadow-lg border-0">
+        <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #03AC13);">
+            @* Changed to a distinct purple gradient! *@
+            <h2 class="mb-2 fw-bold"><i class="bi bi-calendar-check me-2"></i>Reservation Details</h2>
+            <p class="mb-0 text-white-50">Comprehensive information for this room reservation.</p>
         </div>
-        <div class="card-body p-4">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5 class="text-primary mb-3">General Information</h5>
-                    <hr class="mt-0 mb-3" />
-                    <dl class="row mb-0">
+        <div class="card-body p-5">
+            <div class="row g-5">
+
+                <!-- General Information Section -->
+                <div class="col-lg-6 border-end-lg pe-lg-5">
+                    <h5 class="text-indigo mb-4 pb-2 border-bottom border-indigo-subtle">
+                        @* Using text-indigo for section header *@
+                        <i class="bi bi-info-circle me-2"></i>General Information
+                    </h5>
+                    <dl class="row detail-list-modern">
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.OrganizationName)</dt>
-                        <dd class="col-sm-8">@Html.DisplayFor(model => model.OrganizationName)</dd>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.OrganizationName)</dd>
 
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ActivityTitle)</dt>
-                        <dd class="col-sm-8">@Html.DisplayFor(model => model.ActivityTitle)</dd>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.ActivityTitle)</dd>
 
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ActivityDate)</dt>
-                        <dd class="col-sm-8">@Html.DisplayFor(model => model.ActivityDate)</dd>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.ActivityDate)</dd>
 
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Speaker)</dt>
-                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Speaker)</dd>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Speaker)</dd>
 
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Venue)</dt>
-                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Venue)</dd>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Venue)</dd>
 
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PurposeObjective)</dt>
-                        <dd class="col-sm-8">@Html.DisplayFor(model => model.PurposeObjective)</dd>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.PurposeObjective)</dd>
 
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.NatureOfActivity)</dt>
-                        <dd class="col-sm-8">@Html.DisplayFor(model => model.NatureOfActivity)</dd>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.NatureOfActivity)</dd>
                     </dl>
                 </div>
-                <div class="col-md-6">
-                    <h5 class="text-primary mb-3">Reservation Specifics</h5>
-                    <hr class="mt-0 mb-3" />
-                    <dl class="row mb-0">
+
+                <!-- Reservation Specifics Section -->
+                <div class="col-lg-6 ps-lg-5">
+                    <h5 class="text-secondary-emphasis mb-4 pb-2 border-bottom border-secondary-subtle">
+                        @* Using text-secondary-emphasis for section header *@
+                        <i class="bi bi-clock-history me-2"></i>Reservation Specifics
+                    </h5>
+                    <dl class="row detail-list-modern">
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DateNeeded)</dt>
-                        <dd class="col-sm-8">@Html.DisplayFor(model => model.DateNeeded)</dd>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.DateNeeded)</dd>
 
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.TimeFrom)</dt>
-                        <dd class="col-sm-8">@Html.DisplayFor(model => model.TimeFrom)</dd>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.TimeFrom)</dd>
 
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.TimeTo)</dt>
-                        <dd class="col-sm-8">@Html.DisplayFor(model => model.TimeTo)</dd>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.TimeTo)</dd>
 
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Participants)</dt>
-                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Participants)</dd>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Participants)</dd>
 
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.EquipmentFacilities)</dt>
-                        <dd class="col-sm-8">@Html.DisplayFor(model => model.EquipmentFacilities)</dd>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.EquipmentFacilities)</dd>
 
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.SourceOfFunds)</dt>
-                        <dd class="col-sm-8">@Html.DisplayFor(model => model.SourceOfFunds)</dd>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.SourceOfFunds)</dd>
 
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.RoomNumber)</dt>
-                        <dd class="col-sm-8">@Html.DisplayFor(model => model.RoomNumber)</dd>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.RoomNumber)</dd>
 
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ReservedBy)</dt>
-                        <dd class="col-sm-8">@Html.DisplayFor(model => model.ReservedBy)</dd>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.ReservedBy)</dd>
 
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Date)</dt>
-                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Date)</dd>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Date)</dd>
                     </dl>
                 </div>
-            </div>
-            <hr class="my-4" />
-            <div class="text-center">
-                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary me-2">Edit</a>
-                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+
+                <!-- Action Buttons -->
+                <div class="col-12 text-center pt-5 border-top">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-gradient btn-lg me-3 animate__animated animate__pulse animate__infinite" style="min-width: 150px; background: linear-gradient(45deg, #03AC13);">
+                        @* Explicitly setting btn-gradient background here too *@
+                        <i class="bi bi-pencil-square me-2"></i>Edit
+                    </a>
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
+                        <i class="bi bi-arrow-left me-2"></i>Back to List
+                    </a>
+                </div>
             </div>
         </div>
     </div>

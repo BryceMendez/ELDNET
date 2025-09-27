@@ -4,97 +4,121 @@
     ViewData["Title"] = "Gate Pass Details";
 }
 
-<div class="container mt-5">
-    <div class="card shadow-lg border-0 rounded-3">
-        <div class="card-header bg-primary text-white">
-            <h3 class="mb-0">Gate Pass Request Details</h3>
+<div class="container py-4 animate__animated animate__fadeIn">
+    <div class="custom-card shadow-lg border-0">
+        <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #007bff, #0056b3);">
+            @* Blue gradient for Gate Pass *@
+            <h2 class="mb-2 fw-bold"><i class="bi bi-person-lines-fill me-2"></i>Gate Pass Details</h2> @* New icon for Gate Pass *@
+            <p class="mb-0 text-white-50">Comprehensive information for this gate pass request.</p>
         </div>
+        <div class="card-body p-5">
+            <div class="row g-5">
+                @* Increased gap for better separation *@
 
-        <div class="card-body p-4">
-            <dl class="row mb-0">
-                <dt class="col-sm-4">ID</dt>
-                <dd class="col-sm-8">@Model.Id</dd>
+                <!-- Requestor Information Section -->
+                <div class="col-lg-6 border-end-lg pe-lg-5">
+                    @* Added right border for separation on large screens *@
+                    <h5 class="text-primary mb-4 pb-2 border-bottom border-primary-subtle">
+                        @* Using text-primary for section header *@
+                        <i class="bi bi-person-circle me-2"></i>Requestor Information
+                    </h5>
+                    <dl class="row detail-list-modern">
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Name)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Name)</dd>
 
-                <dt class="col-sm-4">School Year</dt>
-                <dd class="col-sm-8">@Model.SchoolYear</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.SchoolYear)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.SchoolYear)</dd>
 
-                <dt class="col-sm-4">Name</dt>
-                <dd class="col-sm-8">@Model.Name</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Address)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Address)</dd>
 
-                <dt class="col-sm-4">Address</dt>
-                <dd class="col-sm-8">@Model.Address</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Date)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Model.Date.ToString("MMMM dd, yyyy")</dd>
 
-                <dt class="col-sm-4">Date</dt>
-                <dd class="col-sm-8">@Model.Date.ToString("MMMM dd, yyyy")</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Role)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Role)</dd>
 
-                <dt class="col-sm-4">Role</dt>
-                <dd class="col-sm-8">@Model.Role</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Department)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Department)</dd>
 
-                <dt class="col-sm-4">Department</dt>
-                <dd class="col-sm-8">@Model.Department</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CourseYear)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.CourseYear)</dd>
+                    </dl>
+                </div>
 
-                <dt class="col-sm-4">Course Year</dt>
-                <dd class="col-sm-8">@Model.CourseYear</dd>
+                <!-- Vehicle & Document Information Section -->
+                <div class="col-lg-6 ps-lg-5">
+                    @* Added left padding for separation on large screens *@
+                    <h5 class="text-info mb-4 pb-2 border-bottom border-info-subtle">
+                        @* Using text-info for section header *@
+                        <i class="bi bi-car-front me-2"></i>Vehicle Information
+                    </h5>
+                    <dl class="row detail-list-modern">
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PlateNumber)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.PlateNumber)</dd>
 
-                <dt class="col-sm-4">Plate Number</dt>
-                <dd class="col-sm-8">@Model.PlateNumber</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Maker)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Maker)</dd>
 
-                <dt class="col-sm-4">Maker</dt>
-                <dd class="col-sm-8">@Model.Maker</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Color)</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Color)</dd>
+                    </dl>
 
-                <dt class="col-sm-4">Color</dt>
-                <dd class="col-sm-8">@Model.Color</dd>
+                    <h5 class="text-secondary mt-5 mb-4 pb-2 border-bottom border-secondary-subtle">
+                        @* Using text-secondary for section header *@
+                        <i class="bi bi-file-earmark-text me-2"></i>Uploaded Files
+                    </h5>
+                    <dl class="row detail-list-modern">
+                        <dt class="col-sm-4">Study Load File:</dt>
+                        <dd class="col-sm-8">
+                            @if (!string.IsNullOrEmpty(Model.StudyLoadPath))
+                            {
+                                <a href="@Url.Content(Model.StudyLoadPath)" target="_blank" class="text-primary fw-bold text-decoration-none">
+                                    <i class="bi bi-file-earmark-arrow-down me-1"></i> View Study Load
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="text-muted fst-italic">No file uploaded</span>
+                            }
+                        </dd>
 
-                <dt class="col-sm-4">Status</dt>
-                <dd class="col-sm-8">
-                    <span class="badge
-                        @(Model.Status == "Approved" ? "bg-success" :
-                                                    Model.Status == "Denied" ? "bg-danger" :
-                                                    "bg-warning text-dark")">
-                        @Model.Status
-                    </span>
-                </dd>
+                        <dt class="col-sm-4">Registration Form:</dt>
+                        <dd class="col-sm-8">
+                            @if (!string.IsNullOrEmpty(Model.RegistrationPath))
+                            {
+                                <a href="@Url.Content(Model.RegistrationPath)" target="_blank" class="text-primary fw-bold text-decoration-none">
+                                    <i class="bi bi-file-earmark-arrow-down me-1"></i> View Registration Form
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="text-muted fst-italic">No file uploaded</span>
+                            }
+                        </dd>
+                    </dl>
+                </div>
 
-                <dt class="col-sm-4">Study Load</dt>
-                <dd class="col-sm-8">
-                    @if (!string.IsNullOrEmpty(Model.StudyLoadPath))
-                    {
-                        <a href="@Url.Content(Model.StudyLoadPath)" target="_blank" class="btn btn-outline-primary btn-sm">
-                            View Study Load
-                        </a>
-                    }
-                    else
-                    {
-                        <span class="text-muted">No file uploaded</span>
-                    }
-                </dd>
-
-                <dt class="col-sm-4">Registration Form</dt>
-                <dd class="col-sm-8">
-                    @if (!string.IsNullOrEmpty(Model.RegistrationPath))
-                    {
-                        <a href="@Url.Content(Model.RegistrationPath)" target="_blank" class="btn btn-outline-primary btn-sm">
-                            View Registration
-                        </a>
-                    }
-                    else
-                    {
-                        <span class="text-muted">No file uploaded</span>
-                    }
-                </dd>
-            </dl>
-        </div>
-
-        <div class="card-footer text-end">
-            <form asp-action="ApproveGatePass" method="post" class="d-inline">
-                <input type="hidden" name="id" value="@Model.Id" />
-                <button type="submit" class="btn btn-success">Approve</button>
-            </form>
-            <form asp-action="DenyGatePass" method="post" class="d-inline">
-                <input type="hidden" name="id" value="@Model.Id" />
-                <button type="submit" class="btn btn-danger">Deny</button>
-            </form>
-            <a asp-action="Index" class="btn btn-secondary">Back</a>
+                <!-- Action Buttons -->
+                <div class="col-12 text-center pt-5 border-top">
+                    @* Removed the @if (Model.Status == "Pending") condition here *@
+                    <form asp-action="ApproveGatePass" method="post" class="d-inline me-3">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <button type="submit" class="btn btn-success btn-lg" style="min-width: 150px;">
+                            <i class="bi bi-check-circle me-2"></i>Approve
+                        </button>
+                    </form>
+                    <form asp-action="DenyGatePass" method="post" class="d-inline me-3">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <button type="submit" class="btn btn-danger btn-lg" style="min-width: 150px;">
+                            <i class="bi bi-x-circle me-2"></i>Deny
+                        </button>
+                    </form>
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
+                        <i class="bi bi-arrow-left me-2"></i>Back to List
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

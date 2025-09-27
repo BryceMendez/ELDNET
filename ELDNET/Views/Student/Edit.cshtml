@@ -1,56 +1,68 @@
 ﻿@model ELDNET.Models.Student
-<form method="post" asp-action="Edit">
-    <div class="border p-3 mt-4">
-        <div class="row pb-2">
-            <h2 class="text-primary">Edit Student</h2>
-            <hr />
+
+@{
+    ViewData["Title"] = "Edit Student";
+}
+
+<div class="container py-4 animate__animated animate__fadeIn">
+    <div class="custom-card shadow-lg border-0 edit-card">
+        <div class="card-header text-white text-center py-4 edit-header-blue">
+            <h2 class="mb-2 fw-bold"><i class="bi bi-person-bounding-box me-2"></i>Edit Student Information</h2>
+            <p class="mb-0 text-white-75">Update the details for this student record.</p>
         </div>
-        @* <input type="hidden" asp-for="Id" /> *@
-        <div class="form-group">
-            <label asp-for="Id" class="control-label"></label>
-            <input asp-for="Id" class="form-control" readonly />
-        </div>
-        <div class="form-group">
-            <label asp-for="Firstname" class="control-label"></label>
-            <input asp-for="Firstname" class="form-control" />
-            @* <span asp-validation-for="Firstname" class="text-danger"></span>
-            *@
-        </div>
-        <div class="form-group mb-3">
-            <label asp-for="Lastname"></label>
-            <input asp-for="Lastname" class="form-control" />
-            @* <span asp-validation-for="Lastname" class="text-danger"></span>
-            *@
-        </div>
-        <div class="form-group mb-3">
-            <label asp-for="Course"></label>
-            <input asp-for="Course" class="form-control" />
-            @* <span asp-validation-for="Course" class="text-danger"></span>
-            *@
-        </div>
-        <div class="mb-3">
-            <label asp-for="DateCreated"></label>
-            <input asp-for="DateCreated" class="form-control" />
-            @* <span asp-validation-for="DateCreated" class="text-
-            danger"></span>
-            *@
-        </div>
-        <div class="mb-3">
-            <label asp-for="Email"></label>
-            <input asp-for="Email" class="form-control" />
-            @* <span asp-validation-for="DateCreated" class="text-
-            danger"></span>
-            *@
-        </div>
-        <br>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Update</button>
-            <a asp-controller="Student" asp-action="Index">Back to List</a>
+        <div class="card-body p-5">
+            <form method="post" asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+                <input type="hidden" asp-for="Id" /> @* Ensure ID is passed for update *@
+
+                <div class="row g-5">
+                    <div class="col-12">
+                        <h5 class="text-blue-primary mb-4 pb-2 border-bottom border-blue-primary-subtle">
+                            <i class="bi bi-info-circle-fill me-2"></i>Student Details
+                        </h5>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Id" class="form-control" placeholder="ID" readonly />
+                            <label asp-for="Id"></label>
+                            <span asp-validation-for="Id" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Firstname" class="form-control" placeholder="First Name" />
+                            <label asp-for="Firstname"></label>
+                            <span asp-validation-for="Firstname" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Lastname" class="form-control" placeholder="Last Name" />
+                            <label asp-for="Lastname"></label>
+                            <span asp-validation-for="Lastname" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Course" class="form-control" placeholder="Course" />
+                            <label asp-for="Course"></label>
+                            <span asp-validation-for="Course" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Email" class="form-control" type="email" placeholder="Email" />
+                            <label asp-for="Email"></label>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="DateCreated" class="form-control" type="date" placeholder="Date Created" />
+                            <label asp-for="DateCreated"></label>
+                            <span asp-validation-for="DateCreated" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="col-12 text-center pt-5 border-top mt-5">
+                    <button type="submit" class="btn-gradient-blue btn-lg me-3 animate__animated animate__pulse animate__infinite" style="min-width: 150px;">
+                        <i class="bi bi-cloud-arrow-up-fill me-2"></i>Update
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
+                        <i class="bi bi-arrow-left me-2"></i>Back to List
+                    </a>
+                </div>
+            </form>
         </div>
     </div>
-</form>
-@section Scripts {
-    @{
-        <partial name="_ValidationScriptsPartial" />
-    }
-}
+</div>

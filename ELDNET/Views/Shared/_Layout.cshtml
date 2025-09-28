@@ -15,12 +15,12 @@
 </head>
 <body class="bg-light d-flex flex-column min-vh-100">
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm py-3" style="font-size: 1.4rem;">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm py-2" style="font-size: 0.9rem;">
             <div class="container-fluid">
                 <a class="navbar-brand fw-bold text-white d-flex align-items-center"
                    asp-area="" asp-controller="Home" asp-action="Index"
-                   style="font-size: 2rem; padding-left: 1.5rem;">
-                    <i class="bi bi-building me-4" style="font-size: 2.3rem;"></i>
+                   style="font-size: 1.2rem; padding-left: 0.8rem;">
+                    <i class="bi bi-building me-3" style="font-size: 1.5rem;"></i>
                     ELDNET
                 </a>
 
@@ -35,33 +35,38 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item me-4">
-                            <a class="nav-link text-white px-3" asp-area="" asp-controller="Home" asp-action="Index">
-                                <i class="bi bi-house-door" style="font-size: 1.4rem;"></i> Home
+                            <!-- Changed from me-2 to me-4 -->
+                            <a class="nav-link text-white px-2" asp-area="" asp-controller="Home" asp-action="Index">
+                                <i class="bi bi-house-door" style="font-size: 0.8rem;"></i> Home
                             </a>
                         </li>
                         <li class="nav-item me-4">
-                            <a class="nav-link text-white px-3" asp-area="" asp-controller="Student" asp-action="Index">
-                                <i class="bi bi-person" style="font-size: 1.4rem;"></i> Student
+                            <!-- Changed from me-2 to me-4 -->
+                            <a class="nav-link text-white px-2" asp-area="" asp-controller="Student" asp-action="Index">
+                                <i class="bi bi-person" style="font-size: 0.8rem;"></i> Student
                             </a>
                         </li>
                         <li class="nav-item me-4">
-                            <a class="nav-link text-white px-3" asp-controller="GatePass" asp-action="Index">
-                                <i class="bi bi-door-open" style="font-size: 1.4rem;"></i> Gate Pass
+                            <!-- Changed from me-2 to me-4 -->
+                            <a class="nav-link text-white px-2" asp-controller="GatePass" asp-action="Index">
+                                <i class="bi bi-door-open" style="font-size: 0.8rem;"></i> Gate Pass
                             </a>
                         </li>
                         <li class="nav-item me-4">
-                            <a class="nav-link text-white px-3" asp-controller="ReservationRoom" asp-action="Index">
-                                <i class="bi bi-calendar-event" style="font-size: 1.4rem;"></i> Reservation Room
+                            <!-- Changed from me-2 to me-4 -->
+                            <a class="nav-link text-white px-2" asp-controller="ReservationRoom" asp-action="Index">
+                                <i class="bi bi-calendar-event" style="font-size: 0.8rem;"></i> Reservation Room
                             </a>
                         </li>
                         <li class="nav-item me-4">
-                            <a class="nav-link text-white px-3" asp-controller="LockerRequest" asp-action="Index">
-                                <i class="bi bi-lock" style="font-size: 1.4rem;"></i> Locker Request
+                            <!-- Changed from me-2 to me-4 -->
+                            <a class="nav-link text-white px-2" asp-controller="LockerRequest" asp-action="Index">
+                                <i class="bi bi-lock" style="font-size: 0.8rem;"></i> Locker Request
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white px-3" asp-controller="Approval" asp-action="Index">
-                                <i class="bi bi-check-circle" style="font-size: 1.4rem;"></i> Approval
+                            <a class="nav-link text-white px-2" asp-controller="Approval" asp-action="Index">
+                                <i class="bi bi-check-circle" style="font-size: 0.8rem;"></i> Approval
                             </a>
                         </li>
                     </ul>

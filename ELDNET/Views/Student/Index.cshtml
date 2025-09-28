@@ -1,4 +1,6 @@
-﻿@model IEnumerable<ELDNET.Models.Student>
+﻿
+
+@model IEnumerable<ELDNET.Models.Student>
 @{
     ViewData["Title"] = "Index";
 }
@@ -50,12 +52,7 @@
                             <td width="20%">
                                 @obj.DateCreated
                             </td>
-                            <td width="10%">
-                                @obj.RequestType
-                            </td>
-                            <td width="20%">
-                                @obj.RequestStatus
-                            </td>
+                            
                             <td>
                                 <div class="w-20 btn-group" role="group">
                                     <a asp-action="Edit" asp-route-id="@obj.Id">&nbsp;Edit&nbsp; </a>|

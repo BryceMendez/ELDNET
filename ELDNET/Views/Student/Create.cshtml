@@ -1,69 +1,75 @@
 ﻿@model ELDNET.Models.Student
+
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Student";
 }
-<div class="container p-3">
-    <div class="row pt-4">
-        <div class="col-6">
-            <h2 class="text-primary">Create Student</h2>
+
+<div class="container py-4 animate__animated animate__fadeIn">
+    <div class="custom-card shadow-lg border-0">
+        <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #710193);">
+            <h2 class="mb-2 fw-bold"><i class="bi bi-person-plus-fill me-2"></i>Create Student Record</h2>
+            <p class="mb-0 text-white-50">Fill out the form to create a new student profile.</p>
         </div>
-    </div>
-    <br />
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
+        <div class="card-body p-5">
             <form method="post" asp-action="Create">
-                <div class="form-group">
-                    <label asp-for="Firstname" class="control-label"></label>
-                    <input asp-for="Firstname" class="form-control" />
-                    <span asp-validation-for="Firstname" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Lastname" class="control-label"></label>
-                    <input asp-for="Lastname" class="form-control" />
-                    <span asp-validation-for="Lastname" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Course" class="control-label"></label>
-                    <input asp-for="Course" class="form-control" />
-                    <span asp-validation-for="Course" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Email" class="control-label"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+                <h5 class="text-blue-primary mb-4 pb-2 border-bottom border-blue-primary-subtle">
+                    <i class="bi bi-person-fill me-2"></i>Personal Information
+                </h5>
+                <div class="row g-4 mb-5">
+                    <div class="col-md-6">
+                        <label asp-for="Firstname" class="form-label fw-semibold"></label>
+                        <input asp-for="Firstname" class="form-control" />
+                        <span asp-validation-for="Firstname" class="text-danger mt-1 d-block"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Lastname" class="form-label fw-semibold"></label>
+                        <input asp-for="Lastname" class="form-control" />
+                        <span asp-validation-for="Lastname" class="text-danger mt-1 d-block"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Course" class="form-label fw-semibold"></label>
+                        <input asp-for="Course" class="form-control" />
+                        <span asp-validation-for="Course" class="text-danger mt-1 d-block"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Email" class="form-label fw-semibold"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger mt-1 d-block"></span>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label asp-for="DateCreated" class="control-label"></label>
-                    <input asp-for="DateCreated" class="form-control" />
-                    <span asp-validation-for="DateCreated" class="text-danger"></span>
+                <h5 class="text-blue-secondary mb-4 pb-2 border-bottom border-blue-secondary-subtle">
+                    <i class="bi bi-info-circle-fill me-2"></i>Request Details
+                </h5>
+                <div class="row g-4 mb-5">
+                    <div class="col-md-4">
+                        <label asp-for="DateCreated" class="form-label fw-semibold"></label>
+                        <input asp-for="DateCreated" class="form-control" />
+                        <span asp-validation-for="DateCreated" class="text-danger mt-1 d-block"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="RequestType" class="form-label fw-semibold"></label>
+                        <input asp-for="RequestType" class="form-control" />
+                        <span asp-validation-for="RequestType" class="text-danger mt-1 d-block"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="RequestStatus" class="form-label fw-semibold"></label>
+                        <input asp-for="RequestStatus" class="form-control" />
+                        <span asp-validation-for="RequestStatus" class="text-danger mt-1 d-block"></span>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label asp-for="RequestType" class="control-label"></label>
-                    <input asp-for="RequestType" class="form-control" />
-                    <span asp-validation-for="RequestType" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="RequestStatus" class="control-label"></label>
-                    <input asp-for="RequestStatus" class="form-control" />
-                    <span asp-validation-for="RequestStatus" class="text-danger"></span>
-                </div>
-                <br><br>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
+
+                <div class="col-12 text-center pt-4 border-top">
+                    <button type="submit" class="btn-gradient btn-lg me-3 animate__animated animate__pulse animate__infinite" style="min-width: 150px; background: linear-gradient(45deg, #710193);">
+                        <i class="bi bi-check-circle me-2"></i>Create
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
+                        <i class="bi bi-arrow-left me-2"></i>Back to List
+                    </a>
                 </div>
             </form>
         </div>
     </div>
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>
-    </<div>
-    </div>
 </div>
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}

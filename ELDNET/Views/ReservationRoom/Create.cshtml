@@ -4,98 +4,100 @@
     ViewData["Title"] = "Create Reservation Room";
 }
 
-<div class="form-container">
-    <div class="custom-card shadow-lg">
-        <div class="card-header text-center">
-            <h2><i class="bi bi-door-open"></i> Create Reservation Room</h2>
+<div class="container py-4 animate__animated animate__fadeIn">
+    <div class="custom-card shadow-lg border-0">
+        <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #03AC13);">
+            <h2 class="mb-2 fw-bold"><i class="bi bi-door-open-fill me-2"></i>Create Reservation Room</h2>
+            <p class="mb-0 text-white-50">Request a room reservation for your event or activity.</p>
         </div>
-        <div class="card-body p-4">
+        <div class="card-body p-5">
             <form asp-action="Create">
-                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
 
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="OrganizationName" class="form-label"></label>
+                <h5 class="text-blue-primary mb-4 pb-2 border-bottom border-blue-primary-subtle">
+                    <i class="bi bi-person-circle me-2"></i>General Information
+                </h5>
+                <div class="row g-4 mb-5">
+                    <div class="col-md-6">
+                        <label asp-for="OrganizationName" class="form-label fw-semibold"></label>
                         <input asp-for="OrganizationName" class="form-control" placeholder="Organization Name" />
-                        <span asp-validation-for="OrganizationName" class="text-danger"></span>
+                        <span asp-validation-for="OrganizationName" class="text-danger mt-1 d-block"></span>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="ActivityTitle" class="form-label"></label>
+                    <div class="col-md-6">
+                        <label asp-for="ActivityTitle" class="form-label fw-semibold"></label>
                         <input asp-for="ActivityTitle" class="form-control" placeholder="Activity Title" />
-                        <span asp-validation-for="ActivityTitle" class="text-danger"></span>
+                        <span asp-validation-for="ActivityTitle" class="text-danger mt-1 d-block"></span>
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="Speaker" class="form-label"></label>
+                    <div class="col-md-6">
+                        <label asp-for="Speaker" class="form-label fw-semibold"></label>
                         <input asp-for="Speaker" class="form-control" placeholder="Speaker Name" />
-                        <span asp-validation-for="Speaker" class="text-danger"></span>
+                        <span asp-validation-for="Speaker" class="text-danger mt-1 d-block"></span>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="Venue" class="form-label"></label>
+                    <div class="col-md-6">
+                        <label asp-for="Venue" class="form-label fw-semibold"></label>
                         <input asp-for="Venue" class="form-control" placeholder="Venue" />
-                        <span asp-validation-for="Venue" class="text-danger"></span>
+                        <span asp-validation-for="Venue" class="text-danger mt-1 d-block"></span>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="PurposeObjective" class="form-label fw-semibold"></label>
+                        <textarea asp-for="PurposeObjective" class="form-control" rows="3" placeholder="Purpose / Objective"></textarea>
+                        <span asp-validation-for="PurposeObjective" class="text-danger mt-1 d-block"></span>
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label asp-for="PurposeObjective" class="form-label"></label>
-                    <textarea asp-for="PurposeObjective" class="form-control" rows="3" placeholder="Purpose / Objective"></textarea>
-                    <span asp-validation-for="PurposeObjective" class="text-danger"></span>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label asp-for="Date" class="form-label"></label>
+                <h5 class="text-blue-secondary mt-4 mb-4 pb-2 border-bottom border-blue-secondary-subtle">
+                    <i class="bi bi-calendar-check me-2"></i>Schedule & Details
+                </h5>
+                <div class="row g-4 mb-5">
+                    <div class="col-md-4">
+                        <label asp-for="Date" class="form-label fw-semibold"></label>
                         <input asp-for="Date" type="date" class="form-control" />
-                        <span asp-validation-for="Date" class="text-danger"></span>
+                        <span asp-validation-for="Date" class="text-danger mt-1 d-block"></span>
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label asp-for="DateNeeded" class="form-label"></label>
+                    <div class="col-md-4">
+                        <label asp-for="DateNeeded" class="form-label fw-semibold"></label>
                         <input asp-for="DateNeeded" type="date" class="form-control" />
-                        <span asp-validation-for="DateNeeded" class="text-danger"></span>
+                        <span asp-validation-for="DateNeeded" class="text-danger mt-1 d-block"></span>
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label asp-for="TimeFrom" class="form-label"></label>
+                    <div class="col-md-4">
+                        <label asp-for="TimeFrom" class="form-label fw-semibold"></label>
                         <input asp-for="TimeFrom" type="time" class="form-control" />
-                        <span asp-validation-for="TimeFrom" class="text-danger"></span>
+                        <span asp-validation-for="TimeFrom" class="text-danger mt-1 d-block"></span>
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label asp-for="TimeTo" class="form-label"></label>
+                    <div class="col-md-4">
+                        <label asp-for="TimeTo" class="form-label fw-semibold"></label>
                         <input asp-for="TimeTo" type="time" class="form-control" />
-                        <span asp-validation-for="TimeTo" class="text-danger"></span>
+                        <span asp-validation-for="TimeTo" class="text-danger mt-1 d-block"></span>
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="Participants" class="form-label"></label>
+                    <div class="col-md-4">
+                        <label asp-for="Participants" class="form-label fw-semibold"></label>
                         <input asp-for="Participants" class="form-control" placeholder="Number of Participants" />
-                        <span asp-validation-for="Participants" class="text-danger"></span>
+                        <span asp-validation-for="Participants" class="text-danger mt-1 d-block"></span>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="SourceOfFunds" class="form-label"></label>
+                    <div class="col-md-4">
+                        <label asp-for="SourceOfFunds" class="form-label fw-semibold"></label>
                         <input asp-for="SourceOfFunds" class="form-control" placeholder="Source of Funds" />
-                        <span asp-validation-for="SourceOfFunds" class="text-danger"></span>
+                        <span asp-validation-for="SourceOfFunds" class="text-danger mt-1 d-block"></span>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="EquipmentFacilities" class="form-label fw-semibold"></label>
+                        <textarea asp-for="EquipmentFacilities" class="form-control" rows="2" placeholder="Equipment and Facilities needed"></textarea>
+                        <span asp-validation-for="EquipmentFacilities" class="text-danger mt-1 d-block"></span>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="NatureOfActivity" class="form-label fw-semibold"></label>
+                        <input asp-for="NatureOfActivity" class="form-control" placeholder="Nature of Activity" />
+                        <span asp-validation-for="NatureOfActivity" class="text-danger mt-1 d-block"></span>
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label asp-for="EquipmentFacilities" class="form-label"></label>
-                    <textarea asp-for="EquipmentFacilities" class="form-control" rows="2" placeholder="Equipment and Facilities needed"></textarea>
-                    <span asp-validation-for="EquipmentFacilities" class="text-danger"></span>
-                </div>
-
-                <div class="mb-3">
-                    <label asp-for="NatureOfActivity" class="form-label"></label>
-                    <input asp-for="NatureOfActivity" class="form-control" placeholder="Nature of Activity" />
-                    <span asp-validation-for="NatureOfActivity" class="text-danger"></span>
-                </div>
-
-                <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-gradient px-5">Submit</button>
-                    <a asp-action="Index" class="btn btn-outline-secondary px-4 ms-2">Cancel</a>
+                <div class="col-12 text-center pt-4 border-top">
+                    <button type="submit" class="btn-gradient btn-lg me-3 animate__animated animate__pulse animate__infinite" style="min-width: 150px; background: linear-gradient(45deg, #03AC13);">
+                        <i class="bi bi-check-circle me-2"></i>Submit
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
+                        <i class="bi bi-arrow-left me-2"></i>Back to List
+                    </a>
                 </div>
             </form>
         </div>

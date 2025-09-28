@@ -15,7 +15,6 @@
             <form asp-action="Create" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
 
-                <!-- General Information Section -->
                 <h5 class="text-blue-primary mb-4 pb-2 border-bottom border-blue-primary-subtle">
                     @* Using text-blue-primary for section header *@
                     <i class="bi bi-person-circle me-2"></i>General Information
@@ -50,7 +49,6 @@
                     </div>
                 </div>
 
-                <!-- Required Documents Section -->
                 <h5 class="text-blue-secondary mt-4 mb-4 pb-2 border-bottom border-blue-secondary-subtle">
                     @* Using text-blue-secondary for section header *@
                     <i class="bi bi-file-earmark-text me-2"></i>Required Documents
@@ -68,15 +66,16 @@
                     </div>
                 </div>
 
-                <!-- Terms and Action Buttons -->
-                <div class="mb-5 form-check text-center">
+                @* Changed this div to remove the "text-center" class *@
+                <div class="mb-5 form-check">
                     <input asp-for="AcceptTerms" class="form-check-input" type="checkbox" />
                     <label asp-for="AcceptTerms" class="form-check-label fw-semibold">I accept the Terms and Conditions</label>
                     <span asp-validation-for="AcceptTerms" class="text-danger mt-1 d-block"></span>
                 </div>
 
 
-                <div class="col-12 text-center pt-4 border-top">
+                @* Removed the "text-center" from this div to allow for different alignment *@
+                <div class="col-12 pt-4 border-top d-flex justify-content-end">
                     @* Added top border and more padding for buttons *@
                     <button type="submit" class="btn-gradient btn-lg me-3 animate__animated animate__pulse animate__infinite" style="min-width: 150px; background: linear-gradient(45deg, #FFBF00);">
                         <i class="bi bi-check-circle me-2"></i>Submit Request

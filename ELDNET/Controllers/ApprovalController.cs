@@ -17,6 +17,22 @@ namespace ELDNET.Controllers
         // 🔹 Show all requests
         public async Task<IActionResult> Index()
         {
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userEmail = HttpContext.Session.GetString("UserEmail");
+            var userPassword = HttpContext.Session.GetString("UserPassword");
+
+            // 🔹 Check if not logged in
+            if (userRole == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            // 🔹 Restrict Approval dashboard to Admin only
+            if (!(userEmail == "admin" && userPassword == "Admin@001"))
+            {
+                return Forbid(); // or RedirectToAction("AccessDenied", "Account")
+            }
+
             var viewModel = new ApprovalViewModel
             {
                 GatePasses = await _context.GatePasses.ToListAsync(),
@@ -26,6 +42,7 @@ namespace ELDNET.Controllers
 
             return View(viewModel);
         }
+
 
         // 🔹 GatePass actions
         [HttpPost]

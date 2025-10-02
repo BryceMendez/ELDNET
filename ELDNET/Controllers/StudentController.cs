@@ -13,10 +13,15 @@ namespace ELDNET.Controllers
         }
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetString("UserRole") == null) // not logged in
+            {
+                return RedirectToAction("Login", "Account");
+            }
             IEnumerable<Student> objStudentList = _db.Students;
             //var objStudentList = _db.Students.ToList();
-            return View(objStudentList);
+            return RedirectToAction("Create");
         }
+
         //GET
         public IActionResult Create()
         {

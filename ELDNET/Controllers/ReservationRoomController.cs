@@ -17,7 +17,11 @@ namespace ELDNET.Controllers
         // GET: ReservationRoom
         public IActionResult Index()
         {
-            return View(_context.ReservationRooms.ToList());
+            if (HttpContext.Session.GetString("UserRole") == null) // not logged in
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            return RedirectToAction("Create");
         }
 
         // GET: ReservationRoom/Create

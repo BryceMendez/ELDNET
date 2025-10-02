@@ -15,21 +15,56 @@ namespace ELDNET.Controllers
             _context = context;
         }
 
-        // GET: LockerRequest
+        // GET: LockerRequest - Displays list of requests
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetString("UserRole") == null) // not logged in
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var studentId = HttpContext.Session.GetString("UserId");
+
+            if (userRole == null) // not logged in
             {
+                TempData["error"] = "You must be logged in to view locker requests.";
                 return RedirectToAction("Login", "Account");
             }
-            var requests = _context.LockerRequests.ToList();
-            return RedirectToAction("Create");
+
+            IQueryable<LockerRequest> requestsQuery = _context.LockerRequests;
+
+            if (userRole == "Student")
+            {
+                // Students only see their own requests
+                requestsQuery = requestsQuery.Where(r => r.StudentId == studentId);
+            }
+            // Admins see all requests
+
+            var requests = requestsQuery.ToList();
+            return View(requests); // Return to a proper Index view
         }
 
         // GET: LockerRequest/Create
         public IActionResult Create()
         {
-            return View();
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var fullName = HttpContext.Session.GetString("FullName");
+            var studentId = HttpContext.Session.GetString("UserId");
+
+            if (userRole == null || userRole == "Admin") // Only students can create requests
+            {
+                TempData["error"] = "Only students can create locker requests.";
+                return RedirectToAction("Index", "Home"); // Or another appropriate page
+            }
+
+            // Pre-fill Name and IDNumber if available from session
+            var model = new LockerRequest();
+            if (fullName != null)
+            {
+                model.Name = fullName;
+            }
+            if (studentId != null && studentId.StartsWith("ucb-")) // Assuming StudentId is also the ID Number
+            {
+                model.IdNumber = studentId;
+            }
+
+            return View(model);
         }
 
         // POST: LockerRequest/Create
@@ -37,28 +72,55 @@ namespace ELDNET.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(LockerRequest request, IFormFile? studyLoadFile, IFormFile? registrationFile)
         {
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var studentId = HttpContext.Session.GetString("UserId");
+
+            if (userRole == null || userRole == "Admin")
+            {
+                TempData["error"] = "Only students can create locker requests.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            // Assign the StudentId from the session
+            request.StudentId = studentId;
+
+            ModelState.Remove(nameof(request.Name));
+            ModelState.Remove(nameof(request.IdNumber));
+            ModelState.Remove(nameof(request.StudentId));
+
             if (ModelState.IsValid)
             {
                 // Upload Study Load
                 if (studyLoadFile != null && studyLoadFile.Length > 0)
                 {
-                    string studyLoadPath = Path.Combine("wwwroot/uploads/studyload", studyLoadFile.FileName);
+                    string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+                    string studyLoadFolder = Path.Combine(uploadsFolder, "studyload");
+                    if (!Directory.Exists(studyLoadFolder)) Directory.CreateDirectory(studyLoadFolder);
+
+                    // Use a unique file name to avoid clashes, e.g., combine with StudentId or a GUID
+                    string uniqueFileName = $"{studentId}_{Guid.NewGuid().ToString()}_{studyLoadFile.FileName}";
+                    string studyLoadPath = Path.Combine(studyLoadFolder, uniqueFileName);
                     using (var stream = new FileStream(studyLoadPath, FileMode.Create))
                     {
                         studyLoadFile.CopyTo(stream);
                     }
-                    request.StudyLoadPath = "/uploads/studyload/" + studyLoadFile.FileName;
+                    request.StudyLoadPath = "/uploads/studyload/" + uniqueFileName;
                 }
 
                 // Upload Registration Form
                 if (registrationFile != null && registrationFile.Length > 0)
                 {
-                    string registrationPath = Path.Combine("wwwroot/uploads/registration", registrationFile.FileName);
+                    string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+                    string registrationFolder = Path.Combine(uploadsFolder, "registration");
+                    if (!Directory.Exists(registrationFolder)) Directory.CreateDirectory(registrationFolder);
+
+                    string uniqueFileName = $"{studentId}_{Guid.NewGuid().ToString()}_{registrationFile.FileName}";
+                    string registrationPath = Path.Combine(registrationFolder, uniqueFileName);
                     using (var stream = new FileStream(registrationPath, FileMode.Create))
                     {
                         registrationFile.CopyTo(stream);
                     }
-                    request.RegistrationPath = "/uploads/registration/" + registrationFile.FileName;
+                    request.RegistrationPath = "/uploads/registration/" + uniqueFileName;
                 }
 
                 _context.LockerRequests.Add(request);
@@ -67,22 +129,38 @@ namespace ELDNET.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            // Re-assign pre-filled values if ModelState is invalid to keep them in the form
+            var fullName = HttpContext.Session.GetString("FullName");
+            if (fullName != null) request.Name = fullName;
+            if (studentId != null && studentId.StartsWith("ucb-")) request.IdNumber = studentId;
+
             return View(request);
         }
 
         // GET: LockerRequest/Edit/5
         public IActionResult Edit(int? id)
         {
-            if (id == null)
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var studentId = HttpContext.Session.GetString("UserId");
+
+            if (userRole == null)
             {
-                return NotFound();
+                TempData["error"] = "You must be logged in to edit locker requests.";
+                return RedirectToAction("Login", "Account");
             }
 
+            if (id == null) return NotFound();
+
             var lockerRequest = _context.LockerRequests.Find(id);
-            if (lockerRequest == null)
+            if (lockerRequest == null) return NotFound();
+
+            // Authorization check
+            if (userRole == "Student" && lockerRequest.StudentId != studentId)
             {
-                return NotFound();
+                TempData["error"] = "You are not authorized to edit this locker request.";
+                return RedirectToAction(nameof(Index));
             }
+
             return View(lockerRequest);
         }
 
@@ -91,34 +169,76 @@ namespace ELDNET.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, LockerRequest lockerRequest, IFormFile? studyLoadFile, IFormFile? registrationFile)
         {
-            if (id != lockerRequest.Id)
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var studentId = HttpContext.Session.GetString("UserId");
+
+            if (userRole == null)
             {
-                return NotFound();
+                TempData["error"] = "You must be logged in to edit locker requests.";
+                return RedirectToAction("Login", "Account");
             }
+
+            if (id != lockerRequest.Id) return NotFound();
+
+            // Retrieve the original request to preserve StudentId and prevent tampering
+            var originalRequest = _context.LockerRequests.AsNoTracking().FirstOrDefault(r => r.Id == id);
+            if (originalRequest == null) return NotFound();
+
+            // Authorization check
+            if (userRole == "Student" && originalRequest.StudentId != studentId)
+            {
+                TempData["error"] = "You are not authorized to edit this locker request.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Preserve StudentId and potentially other fields if not updated via form
+            lockerRequest.StudentId = originalRequest.StudentId;
+
+            // Clear specific ModelState entries if you're auto-setting them
+            ModelState.Remove(nameof(lockerRequest.StudentId));
+
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+                    string studyLoadFolder = Path.Combine(uploadsFolder, "studyload");
+                    string registrationFolder = Path.Combine(uploadsFolder, "registration");
+
                     // Handle file uploads for update
                     if (studyLoadFile != null && studyLoadFile.Length > 0)
                     {
-                        string studyLoadPath = Path.Combine("wwwroot/uploads/studyload", studyLoadFile.FileName);
-                        using (var stream = new FileStream(studyLoadPath, FileMode.Create))
+                        if (!Directory.Exists(studyLoadFolder)) Directory.CreateDirectory(studyLoadFolder);
+                        string uniqueFileName = $"{originalRequest.StudentId}_{Guid.NewGuid().ToString()}_{studyLoadFile.FileName}";
+                        string filePath = Path.Combine(studyLoadFolder, uniqueFileName);
+                        using (var stream = new FileStream(filePath, FileMode.Create))
                         {
                             studyLoadFile.CopyTo(stream);
                         }
-                        lockerRequest.StudyLoadPath = "/uploads/studyload/" + studyLoadFile.FileName;
+                        lockerRequest.StudyLoadPath = "/uploads/studyload/" + uniqueFileName;
+                    }
+                    else
+                    {
+                        // Preserve existing file path if no new file is uploaded
+                        lockerRequest.StudyLoadPath = originalRequest.StudyLoadPath;
                     }
 
                     if (registrationFile != null && registrationFile.Length > 0)
                     {
-                        string registrationPath = Path.Combine("wwwroot/uploads/registration", registrationFile.FileName);
-                        using (var stream = new FileStream(registrationPath, FileMode.Create))
+                        if (!Directory.Exists(registrationFolder)) Directory.CreateDirectory(registrationFolder);
+                        string uniqueFileName = $"{originalRequest.StudentId}_{Guid.NewGuid().ToString()}_{registrationFile.FileName}";
+                        string filePath = Path.Combine(registrationFolder, uniqueFileName);
+                        using (var stream = new FileStream(filePath, FileMode.Create))
                         {
                             registrationFile.CopyTo(stream);
                         }
-                        lockerRequest.RegistrationPath = "/uploads/registration/" + registrationFile.FileName;
+                        lockerRequest.RegistrationPath = "/uploads/registration/" + uniqueFileName;
+                    }
+                    else
+                    {
+                        // Preserve existing file path if no new file is uploaded
+                        lockerRequest.RegistrationPath = originalRequest.RegistrationPath;
                     }
 
                     _context.Update(lockerRequest);
@@ -144,16 +264,25 @@ namespace ELDNET.Controllers
         // GET: LockerRequest/Details/5
         public IActionResult Details(int? id)
         {
-            if (id == null)
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var studentId = HttpContext.Session.GetString("UserId");
+
+            if (userRole == null)
             {
-                return NotFound();
+                TempData["error"] = "You must be logged in to view locker request details.";
+                return RedirectToAction("Login", "Account");
             }
 
-            var lockerRequest = _context.LockerRequests
-                .FirstOrDefault(m => m.Id == id);
-            if (lockerRequest == null)
+            if (id == null) return NotFound();
+
+            var lockerRequest = _context.LockerRequests.FirstOrDefault(m => m.Id == id);
+            if (lockerRequest == null) return NotFound();
+
+            // Authorization check
+            if (userRole == "Student" && lockerRequest.StudentId != studentId)
             {
-                return NotFound();
+                TempData["error"] = "You are not authorized to view this locker request.";
+                return RedirectToAction(nameof(Index));
             }
 
             return View(lockerRequest);
@@ -162,16 +291,25 @@ namespace ELDNET.Controllers
         // GET: LockerRequest/Delete/5
         public IActionResult Delete(int? id)
         {
-            if (id == null)
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var studentId = HttpContext.Session.GetString("UserId");
+
+            if (userRole == null)
             {
-                return NotFound();
+                TempData["error"] = "You must be logged in to delete locker requests.";
+                return RedirectToAction("Login", "Account");
             }
 
-            var lockerRequest = _context.LockerRequests
-                .FirstOrDefault(m => m.Id == id);
-            if (lockerRequest == null)
+            if (id == null) return NotFound();
+
+            var lockerRequest = _context.LockerRequests.FirstOrDefault(m => m.Id == id);
+            if (lockerRequest == null) return NotFound();
+
+            // Authorization check
+            if (userRole == "Student" && lockerRequest.StudentId != studentId)
             {
-                return NotFound();
+                TempData["error"] = "You are not authorized to delete this locker request.";
+                return RedirectToAction(nameof(Index));
             }
 
             return View(lockerRequest);
@@ -182,22 +320,47 @@ namespace ELDNET.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            var lockerRequest = _context.LockerRequests.Find(id);
-            if (lockerRequest != null)
-            {
-                // Optional: Delete the files from wwwroot if they exist
-                if (!string.IsNullOrEmpty(lockerRequest.StudyLoadPath) && System.IO.File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", lockerRequest.StudyLoadPath.TrimStart('/'))))
-                {
-                    System.IO.File.Delete(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", lockerRequest.StudyLoadPath.TrimStart('/')));
-                }
-                if (!string.IsNullOrEmpty(lockerRequest.RegistrationPath) && System.IO.File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", lockerRequest.RegistrationPath.TrimStart('/'))))
-                {
-                    System.IO.File.Delete(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", lockerRequest.RegistrationPath.TrimStart('/')));
-                }
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var studentId = HttpContext.Session.GetString("UserId");
 
-                _context.LockerRequests.Remove(lockerRequest);
+            if (userRole == null)
+            {
+                TempData["error"] = "You must be logged in to delete locker requests.";
+                return RedirectToAction("Login", "Account");
             }
 
+            var lockerRequest = _context.LockerRequests.Find(id);
+            if (lockerRequest == null)
+            {
+                return NotFound();
+            }
+
+            // Authorization check
+            if (userRole == "Student" && lockerRequest.StudentId != studentId)
+            {
+                TempData["error"] = "You are not authorized to delete this locker request.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Optional: Delete the files from wwwroot if they exist
+            if (!string.IsNullOrEmpty(lockerRequest.StudyLoadPath))
+            {
+                string fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", lockerRequest.StudyLoadPath.TrimStart('/'));
+                if (System.IO.File.Exists(fullPath))
+                {
+                    System.IO.File.Delete(fullPath);
+                }
+            }
+            if (!string.IsNullOrEmpty(lockerRequest.RegistrationPath))
+            {
+                string fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", lockerRequest.RegistrationPath.TrimStart('/'));
+                if (System.IO.File.Exists(fullPath))
+                {
+                    System.IO.File.Delete(fullPath);
+                }
+            }
+
+            _context.LockerRequests.Remove(lockerRequest);
             _context.SaveChanges();
             TempData["success"] = "Locker Request deleted successfully";
             return RedirectToAction(nameof(Index));

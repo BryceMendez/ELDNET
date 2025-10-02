@@ -84,18 +84,18 @@
                 <!-- Action Buttons -->
                 <div class="col-12 text-center pt-5 border-top">
                     @* Only show approve/deny if status is pending *@
-                        <form asp-action="ApproveLocker" method="post" class="d-inline me-3">
-                            <input type="hidden" name="id" value="@Model.Id" />
-                            <button type="submit" class="btn btn-success btn-lg" style="min-width: 150px;">
-                                <i class="bi bi-check-circle me-2"></i>Approve
-                            </button>
-                        </form>
-                        <form asp-action="DenyLocker" method="post" class="d-inline me-3">
-                            <input type="hidden" name="id" value="@Model.Id" />
-                            <button type="submit" class="btn btn-danger btn-lg" style="min-width: 150px;">
-                                <i class="bi bi-x-circle me-2"></i>Deny
-                            </button>
-                        </form>
+                    <form asp-action="ApproveLocker" method="post" class="d-inline me-3">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <button type="submit" class="btn btn-success btn-lg" style="min-width: 150px;">
+                            <i class="bi bi-check-circle me-2"></i>Approve
+                        </button>
+                    </form>
+                    <form asp-action="DenyLocker" method="post" class="d-inline me-3">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <button type="submit" class="btn btn-danger btn-lg" style="min-width: 150px;">
+                            <i class="bi bi-x-circle me-2"></i>Deny
+                        </button>
+                    </form>
                     <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
                         <i class="bi bi-arrow-left me-2"></i>Back to List
                     </a>

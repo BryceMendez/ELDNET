@@ -30,10 +30,10 @@ namespace ELDNET.Controllers
             ViewData["HideNav"] = true; // keep nav hidden if login fails
 
             // 1️⃣ Check hardcoded Admin (optional fallback)
-            if (username == "admin" && password == "Admin@001")
+            if (username == "admin" && password == "admin123")
             {
                 HttpContext.Session.SetString("UserRole", "Admin");
-                HttpContext.Session.SetString("UserId", "admin");
+                HttpContext.Session.SetString("UserId", "admin"); // Using "admin" as the UserId for the hardcoded admin
                 return RedirectToAction("Index", "Admin"); // send to admin dashboard
             }
 
@@ -42,7 +42,7 @@ namespace ELDNET.Controllers
             if (admin != null)
             {
                 HttpContext.Session.SetString("UserRole", "Admin");
-                HttpContext.Session.SetString("UserId", admin.Username);
+                HttpContext.Session.SetString("UserId", admin.Username); // Using admin's username as UserId
                 return RedirectToAction("Index", "Admin");
             }
 
@@ -56,8 +56,9 @@ namespace ELDNET.Controllers
                 if (student.PasswordHash == hashedPassword)
                 {
                     HttpContext.Session.SetString("UserRole", "Student");
-                    HttpContext.Session.SetString("UserId", student.StudentId);
-                    return RedirectToAction("Index", "Student"); // student dashboard
+                    HttpContext.Session.SetString("UserId", student.StudentId); // Store the actual StudentId for filtering
+                    HttpContext.Session.SetString("FullName", student.FullName); // Store FullName for display or auto-fill
+                    return RedirectToAction("Index", "Home"); // Redirect to Home or a generic student dashboard
                 }
             }
 
@@ -85,7 +86,20 @@ namespace ELDNET.Controllers
                 return View();
             }
 
-            string studentId = "ucb-" + new Random().Next(1000, 9999);
+            // Check if email already exists
+            if (_db.StudentAccounts.Any(sa => sa.Email == email))
+            {
+                ViewBag.Error = "An account with this email already exists.";
+                return View();
+            }
+
+            string studentId = "ucb-" + new Random().Next(100000, 999999).ToString(); // Make StudentId 6 digits
+            // Ensure generated StudentId is unique (unlikely but good practice)
+            while (_db.StudentAccounts.Any(sa => sa.StudentId == studentId))
+            {
+                studentId = "ucb-" + new Random().Next(100000, 999999).ToString();
+            }
+
             string hashedPassword = HashPassword(password);
 
             var studentAccount = new StudentAccount

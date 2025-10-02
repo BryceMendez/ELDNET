@@ -5,7 +5,7 @@
 namespace ELDNET.Migrations
 {
     /// <inheritdoc />
-    public partial class anotherMigration : Migration
+    public partial class newMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -13,7 +13,7 @@ namespace ELDNET.Migrations
 
         }
 
-        /// <inheritdoc />
+        /// <inheritdosdfc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
 

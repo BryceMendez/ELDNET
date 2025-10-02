@@ -6,6 +6,10 @@ namespace ELDNET.Models
     public class ReservationRoom
     {
         public int Id { get; set; }
+
+        // Add this property to link to the student
+        public string? StudentId { get; set; } // Foreign key to StudentAccount.StudentId
+
         [Display(Name = "Organization Name")]
         public string? OrganizationName { get; set; }
         [Display(Name = "Activity Title")]
@@ -35,8 +39,6 @@ namespace ELDNET.Models
         public string? ReservedBy { get; set; }
         public string? Status { get; set; } = "Pending";
 
-        // ✅ Add this
         public DateTime Date { get; set; }
     }
-
 }

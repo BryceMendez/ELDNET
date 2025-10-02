@@ -7,6 +7,10 @@ namespace ELDNET.Models
     public class LockerRequest
     {
         public int Id { get; set; }
+
+        // Add this property to link to the student
+        public string? StudentId { get; set; } // Foreign key to StudentAccount.StudentId
+
         public string? Name { get; set; }
         [Display(Name = "ID Number")]
         public string? IdNumber { get; set; }

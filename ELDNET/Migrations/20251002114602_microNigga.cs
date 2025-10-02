@@ -5,7 +5,7 @@
 namespace ELDNET.Migrations
 {
     /// <inheritdoc />
-    public partial class pinakabago : Migration
+    public partial class microNigga : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

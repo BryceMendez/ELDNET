@@ -15,7 +15,22 @@ namespace ELDNET.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var userRole = HttpContext.Session.GetString("UserRole");
+
+            if (userRole == null) // not logged in
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else if (userRole == "Admin")
+            {
+                return RedirectToAction("Index", "Admin"); // Admins go to their dashboard
+            }
+            else if (userRole == "Student")
+            {
+
+                return View(); // Return to the default Home/Index view, which will act as student dashboard
+            }
+            return View(); // Fallback
         }
 
         public IActionResult Privacy()

@@ -5,7 +5,7 @@
 namespace ELDNET.Migrations
 {
     /// <inheritdoc />
-    public partial class name : Migration
+    public partial class latest : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -20,5 +20,10 @@ namespace ELDNET.Data
         public DbSet<ReservationRoom> ReservationRooms { get; set; }
 
         public DbSet<LockerRequest> LockerRequests { get; set; }
+
+        public DbSet<StudentAccount> StudentAccounts { get; set; }
+
+        public DbSet<Admin> Admins { get; set; }
+
     }
 }

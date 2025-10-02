@@ -1,51 +1,171 @@
-/* Add Inter font if you haven't already linked it in your _Layout.cshtml */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+?@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-/* Shared Styling for GatePass & Reservation Room */
-.form-container {
-    max-width: 900px;
-    margin: 40px auto;
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%; /* ? use min-height instead of height */
+    overflow-x: hidden;
+    overflow-y: auto; /* ? allow vertical scroll */
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Inter', sans-serif;
+    color: #344767;
+    background: #f0f2f5;
+}
+
+
+main {
+    flex: 1; /* Main content takes up available vertical space */
+}
+
+footer {
+    margin-top: auto; /* Push footer to the bottom */
+}
+
+h2, h3, h4, h5, h6 { /* General heading styles */
+    margin: 0;
+    font-weight: 700; /* Bolder headings */
+    letter-spacing: -0.5px;
+}
+
+/* 2. Layout & Full-Screen Components (Login Page Container) */
+.login-page-container {
+    width: 100vw;
+    min-height: 100vh; /* ? allow it to grow taller if content exceeds viewport */
+    display: flex;
+    flex-direction: column;
+    background: url('/images/background.jpg') no-repeat center center;
+    background-size: cover;
+    position: relative;
+}
+
+.login-main-content {
+    flex: 1; /* Take up remaining vertical space */
+    display: flex;
+    align-items: center; /* Vertically center children */
+    justify-content: center; /* Horizontally center children */
+    padding: 0 4rem; /* Match nav padding */
+    width: 100%;
+    position: relative;
+}
+
+/* 3. Navigation Bar (General & Login Specific) */
+.navbar-custom {
+    background: linear-gradient(135deg, #4e73df, #2e59d9); /* Blue gradient */
+    padding: 0.5rem 1rem; /* Reduced padding */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+    .navbar-custom .navbar-brand {
+        color: #fff;
+        font-size: 1.3rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        padding: 0; /* Remove specific padding, use navbar padding */
+    }
+
+    .navbar-custom .nav-link {
+        color: #fff !important;
+        font-size: 0.88rem;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 6px;
+        margin: 0 2px;
+        transition: 0.3s ease-in-out;
+    }
+
+        .navbar-custom .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.02);
+        }
+
+    .navbar-custom .navbar-toggler {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .navbar-custom .navbar-toggler-icon {
+        height: 1em;
+        width: 1em;
+    }
+
+/* Login Header Navigation */
+.login-header-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 4rem;
+    width: 100%;
+    animation: slideDown 0.6s ease-out;
+    background-color: transparent;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.login-brand-logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.login-nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+    .login-nav-links a {
+        text-decoration: none;
+        color: #fff !important;
+        font-weight: 500;
+        transition: color 0.3s ease;
+        padding-bottom: 5px;
+        border-bottom: 2px solid transparent;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+        .login-nav-links a:hover {
+            color: #fff;
+        }
+
+        .login-nav-links a.login-nav-active {
+            color: #fff;
+            border-bottom-color: #fff;
+        }
+
+/* 4. General Components (Cards, Forms, Buttons, Alerts, Tables) */
+
+/* Custom Card */
 .custom-card {
-    border-radius: 1rem; /* More rounded corners */
-    overflow: hidden;
+    border-radius: 1rem; /* Softer rounded corners */
+    overflow: hidden; /* Ensures gradient and shadow look good */
     background: #fff;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Stronger, softer shadow */
 }
 
-    .custom-card .card-header {
-        /* This will be overridden by more specific headers like .form-header-gatepass */
-        background: #fff; /* White header for tabs, but for detail page, it will be gradient */
+    .custom-card .card-header { /* Base for card headers, overridden by specific ones */
+        background: #fff;
         border-bottom: none;
-        padding: 0; /* Handled by specific headers */
-        color: #fff; /* Handled by specific headers */
+        padding: 0;
+        color: #fff; /* Default, will be overridden */
     }
 
-    .custom-card h2, .custom-card h3 { /* Added h3 for GatePass details title */
-        margin: 0;
-        font-weight: 700; /* Bolder headings */
-        letter-spacing: -0.5px;
-    }
-
-/* General Gradient Button (can be reused) */
-.btn-gradient {
-    background: linear-gradient(135deg, #4e73df, #1cc88a);
-    color: #fff;
-    border: none;
-    border-radius: 0.5rem; /* Consistent with other modern buttons */
-    padding: 10px 25px;
-    transition: all 0.3s ease-in-out;
-    font-weight: 600;
-    box-shadow: 0 4px 10px rgba(78, 115, 223, 0.2);
-}
-
-    .btn-gradient:hover {
-        background: linear-gradient(135deg, #1cc88a, #4e73df);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(78, 115, 223, 0.3);
-    }
-
+/* Form Styling */
 input.form-control,
 select.form-control,
 textarea.form-control {
@@ -63,70 +183,141 @@ textarea.form-control {
         box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25); /* Bootstrap-like focus ring */
     }
 
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background: #f0f2f5; /* Lighter, modern background */
-    font-family: 'Inter', sans-serif; /* Modern font */
-    color: #344767; /* Default text color */
+/* Floating label specific adjustments */
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label,
+.form-floating > .form-select ~ label {
+    opacity: .65;
+    transform: scale(.85) translateY(-.5rem) translateX(.15rem);
 }
 
-main {
-    flex: 1;
+    .form-floating > .form-control:focus ~ label::after,
+    .form-floating > .form-control:not(:placeholder-shown) ~ label::after,
+    .form-floating > textarea.form-control ~ label::after {
+        background-color: #fff;
+    }
+
+.btn-gradient {
+    background: linear-gradient(135deg, #4e73df, #1cc88a);
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 10px 25px;
+    transition: all 0.3s ease-in-out;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(78, 115, 223, 0.2);
+    width: 100%; /* ADD THIS LINE */
 }
 
-footer {
-    margin-top: auto;
+    .btn-gradient:hover {
+        background: linear-gradient(135deg, #1cc88a, #4e73df);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(78, 115, 223, 0.3);
+    }
+
+/* Delete Button Gradient */
+.btn-gradient-danger {
+    background: linear-gradient(45deg, #dc3545, #a71d2a);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
 }
 
-/* Custom Navbar - ADJUSTED FOR SMALLER SIZE */
-.navbar-custom {
-    background: linear-gradient(135deg, #4e73df, #2e59d9); /* Blue gradient for navbar */
-    padding: 0.5rem 1rem; /* Reduced padding: 0.75rem -> 0.5rem top/bottom, 1.5rem -> 1rem left/right */
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    min-height: 50px; /* Explicit minimum height for consistency */
-    display: flex; /* Ensure flexbox for vertical alignment */
-    align-items: center; /* Vertically center content */
+    .btn-gradient-danger:hover {
+        background: linear-gradient(45deg, #a71d2a, #dc3545);
+        box-shadow: 0 6px 15px rgba(220, 53, 69, 0.4);
+        transform: translateY(-2px);
+    }
+
+/* Back Button Styling */
+.btn-outline-secondary-custom {
+    border-color: #92b0e6; /* Lighter blue border */
+    color: #4e73df; /* Primary blue text */
+    background-color: transparent;
+    transition: all 0.3s ease;
+    padding: 10px 20px;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
 }
 
-    .navbar-custom .navbar-brand {
+    .btn-outline-secondary-custom:hover {
+        background-color: #4e73df;
         color: #fff;
-        font-size: 1.3rem; /* Slightly smaller brand font size: 1.5rem -> 1.3rem */
-        font-weight: 700;
-        letter-spacing: -0.5px;
-        padding-top: 0; /* Remove brand specific padding, let navbar padding handle it */
-        padding-bottom: 0;
+        box-shadow: 0 4px 12px rgba(78, 115, 223, 0.3);
+        transform: translateY(-2px);
     }
 
-    .navbar-custom .nav-link {
-        color: #fff !important;
-        font-size: 0.88rem; /* Smaller font size for links: 0.95rem -> 0.88rem */
-        font-weight: 600;
-        padding: 6px 12px; /* Reduced padding for links: 8px -> 6px, 15px -> 12px */
-        border-radius: 6px; /* Slightly smaller border-radius to match compactness */
-        margin: 0 2px; /* Reduced margin between links: 3px -> 2px */
-        transition: 0.3s ease-in-out;
+/* Alert Styling */
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.alert-heading {
+    color: #721c24;
+    font-size: 1.5rem;
+}
+
+/* Table Styling */
+.table th {
+    font-weight: 700;
+    color: #344767;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.table td {
+    color: #6c757d;
+    vertical-align: middle;
+}
+
+.table-responsive {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid #e9ecef;
+}
+
+/* Modern Definition List Styling */
+.detail-list-modern dt {
+    font-weight: 600;
+    color: #6c757d; /* Bootstrap secondary text color */
+    margin-bottom: 0.75rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 1.05rem;
+}
+
+.detail-list-modern dd {
+    margin-bottom: 0.75rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    color: #344767; /* Darker text color for values */
+    font-weight: 500;
+    font-size: 1.05rem;
+}
+
+.detail-list-modern .row:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.03);
+    border-radius: 0.5rem;
+}
+
+.detail-list-modern a {
+    color: #4e73df;
+}
+
+    .detail-list-modern a:hover {
+        color: #2e59d9;
     }
 
-        .navbar-custom .nav-link:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.02);
-        }
-
-    /* Optional: If you use a navbar-toggler (for mobile), you might want to adjust it too */
-    .navbar-custom .navbar-toggler {
-        padding: 0.25rem 0.5rem; /* Standard Bootstrap small toggler padding */
-        font-size: 0.9rem; /* Smaller icon/text inside toggler if any */
-    }
-
-    .navbar-custom .navbar-toggler-icon {
-        height: 1em; /* Reduce height of the default toggler icon lines */
-        width: 1em; /* Reduce width */
-    }
-
-
-/* Overlay gradients (Keep as is, if used elsewhere) */
+/* 5. Overlays & Gradients */
 .overlay {
     position: absolute;
     top: 0;
@@ -145,7 +336,6 @@ footer {
     background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(246,194,62,0.8) 100%);
 }
 
-/* Centered overlay text (Keep as is) */
 .overlay-text {
     position: absolute;
     bottom: 10%;
@@ -158,9 +348,9 @@ footer {
     width: 100%;
 }
 
-/* --- Delete Locker Request Specific Styles --- (Keep as is, unless you want to update) */
+/* 6. Specific Themed Components */
 
-/* Confirmation Card */
+/* --- Delete Locker Request Specific Styles --- */
 .confirmation-card {
     border: 1px solid rgba(220, 53, 69, 0.3);
 }
@@ -197,100 +387,22 @@ footer {
     border-color: rgba(220, 53, 69, 0.2) !important;
 }
 
-/* Modern Definition List Styling */
-.detail-list-modern dt {
-    font-weight: 600;
-    color: #6c757d; /* Bootstrap secondary text color */
-    margin-bottom: 0.75rem;
-    padding-top: 0.5rem; /* Increased padding for better spacing */
-    padding-bottom: 0.5rem;
-    font-size: 1.05rem;
-}
-
-.detail-list-modern dd {
-    margin-bottom: 0.75rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    color: #344767; /* Darker text color for values */
-    font-weight: 500;
-    font-size: 1.05rem;
-}
-
-.detail-list-modern .row:nth-of-type(odd) {
-    background-color: rgba(0, 0, 0, 0.03); /* Slightly darker stripe for readability */
-    border-radius: 0.5rem; /* Rounded stripes */
-}
-
-/* Alert styling (Keep as is) */
-.alert-danger {
-    background-color: #f8d7da;
-    color: #721c24;
-    border-color: #f5c6cb;
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    font-size: 1.1rem;
-}
-
-.alert-heading {
-    color: #721c24;
-    font-size: 1.5rem;
-}
-
-/* Delete Button Gradient (Keep as is) */
-.btn-gradient-danger {
-    background: linear-gradient(45deg, #dc3545, #a71d2a);
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 0.5rem;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
-}
-
-    .btn-gradient-danger:hover {
-        background: linear-gradient(45deg, #a71d2a, #dc3545);
-        box-shadow: 0 6px 15px rgba(220, 53, 69, 0.4);
-        transform: translateY(-2px);
-    }
-
-/* Back Button Styling (Update to custom-blue theme) */
-.btn-outline-secondary-custom {
-    border-color: #92b0e6; /* Lighter blue border */
-    color: #4e73df; /* Primary blue text */
-    background-color: transparent;
-    transition: all 0.3s ease;
-    padding: 10px 20px;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    font-size: 0.95rem;
-}
-
-    .btn-outline-secondary-custom:hover {
-        background-color: #4e73df;
-        color: #fff;
-        box-shadow: 0 4px 12px rgba(78, 115, 223, 0.3);
-        transform: translateY(-2px);
-    }
-
-
 /* --- GatePass Specific Styles --- */
-
 .form-header-gatepass {
     background: linear-gradient(45deg, #4e73df, #2e59d9) !important; /* Stronger blue gradient */
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
     color: white;
-    padding: 20px 30px; /* Increased padding */
+    padding: 20px 30px;
     text-align: center;
-    box-shadow: 0 6px 20px rgba(78, 115, 223, 0.3); /* Stronger shadow */
-    display: flex; /* For icon alignment */
+    box-shadow: 0 6px 20px rgba(78, 115, 223, 0.3);
+    display: flex;
     align-items: center;
     justify-content: center;
 }
 
-    .form-header-gatepass h3 { /* Changed from h2 to h3 */
-        font-size: 1.8rem; /* Adjusted font size */
+    .form-header-gatepass h3 {
+        font-size: 1.8rem;
         font-weight: 700;
         letter-spacing: -0.5px;
     }
@@ -301,17 +413,17 @@ footer {
     }
 
 .image-upload-section {
-    border: 2px dashed #92b0e6; /* Lighter blue dashed border */
+    border: 2px dashed #92b0e6;
     border-radius: 1rem;
     padding: 30px;
     text-align: center;
-    background-color: #fcfdff; /* Very light blue background */
+    background-color: #fcfdff;
     transition: all 0.3s ease;
     cursor: pointer;
 }
 
     .image-upload-section:hover {
-        background-color: #eef4ff; /* Lighter hover */
+        background-color: #eef4ff;
         border-color: #4e73df;
     }
 
@@ -342,7 +454,7 @@ footer {
 }
 
 .text-primary-dark {
-    color: #2e59d9 !important; /* Darker blue */
+    color: #2e59d9 !important;
 }
 
 .border-primary-subtle {
@@ -351,7 +463,7 @@ footer {
 
 /* Gradient Buttons for GatePass Actions (Approve/Deny) */
 .btn-gradient-success-custom {
-    background: linear-gradient(45deg, #1cc88a, #17a673); /* Existing green */
+    background: linear-gradient(45deg, #1cc88a, #17a673);
     color: white;
     border: none;
     padding: 10px 20px;
@@ -369,7 +481,7 @@ footer {
     }
 
 .btn-gradient-danger-custom {
-    background: linear-gradient(45deg, #e74a3b, #c32719); /* Existing red */
+    background: linear-gradient(45deg, #e74a3b, #c32719);
     color: white;
     border: none;
     padding: 10px 20px;
@@ -406,10 +518,8 @@ footer {
         transform: translateY(-1px);
     }
 
-
-/* --- Reservation Room Specific Styles --- (Keep as is) */
-
-/* Custom colors for the blue theme (consistent with GatePass details where applicable) */
+/* --- Reservation Room Specific Styles --- */
+/* Custom colors for the blue theme */
 .text-blue-primary {
     color: #007bff !important;
 }
@@ -450,7 +560,7 @@ footer {
         font-size: 1.1rem;
     }
 
-/* Button Styling (Keep as is, or consider consolidating with custom gradient buttons) */
+/* Button Styling (if different from general btn-gradient) */
 .btn-gradient-blue {
     background: linear-gradient(45deg, #4e73df, #224abe);
     color: white;
@@ -460,6 +570,7 @@ footer {
     font-weight: bold;
     transition: all 0.3s ease;
     box-shadow: 0 4px 10px rgba(78, 115, 223, 0.3);
+    width: 100%; /* ADD THIS LINE */
 }
 
     .btn-gradient-blue:hover {
@@ -468,30 +579,7 @@ footer {
         transform: translateY(-2px);
     }
 
-/* Floating label specific adjustments (Keep as is) */
-.form-floating > .form-control:focus ~ label,
-.form-floating > .form-control:not(:placeholder-shown) ~ label,
-.form-floating > .form-select ~ label {
-    opacity: .65;
-    transform: scale(.85) translateY(-.5rem) translateX(.15rem);
-}
-
-/* Specific focus styling for form controls in this context (Keep as is) */
-.form-control:focus {
-    border-color: #4e73df;
-    box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
-}
-
-/* For textarea in floating label (Keep as is) */
-.form-floating > .form-control:focus ~ label::after,
-.form-floating > .form-control:not(:placeholder-shown) ~ label::after,
-.form-floating > textarea.form-control ~ label::after {
-    background-color: #fff;
-}
-
-/* Add these to your style.css or a new specific CSS file for your green theme (Keep as is) */
-
-/* Main brand green color */
+/* Green Theme (using CSS Variables) */
 :root {
     --main-green-color: #03AC13;
     --dark-green-gradient-start: #03AC13;
@@ -501,12 +589,10 @@ footer {
     --darker-green-text: #016E0A;
 }
 
-/* Custom Green Gradient for Headers/Buttons (Keep as is) */
 .bg-main-color-gradient {
     background: linear-gradient(45deg, var(--dark-green-gradient-start), var(--dark-green-gradient-end)) !important;
 }
 
-/* Text Colors (Keep as is) */
 .text-main-color {
     color: var(--main-green-color) !important;
 }
@@ -519,12 +605,10 @@ footer {
     color: var(--darker-green-text) !important;
 }
 
-/* Border Colors (Keep as is) */
 .border-main-color-subtle {
     border-color: var(--light-green-subtle) !important;
 }
 
-/* Gradient Button specific for the green theme (Keep as is) */
 .btn-main-gradient {
     background: linear-gradient(45deg, var(--dark-green-gradient-start), var(--dark-green-gradient-end));
     color: white;
@@ -534,6 +618,7 @@ footer {
     font-weight: bold;
     transition: all 0.3s ease;
     box-shadow: 0 4px 10px rgba(3, 172, 19, 0.3);
+    width: 100%; /* ADD THIS LINE */
 }
 
     .btn-main-gradient:hover {
@@ -542,26 +627,7 @@ footer {
         transform: translateY(-2px);
     }
 
-/* Adjust .detail-list-modern if needed for green hover/focus, though current version is neutral (Keep as is) */
-.detail-list-modern a {
-    color: #4e73df; /* Ensure links within lists are blue */
-}
-
-    .detail-list-modern a:hover {
-        color: #2e59d9; /* Darker blue on hover for links */
-    }
-
-/* General Modern UI Enhancements */
-/* These are largely incorporated into existing styles, keeping them here for reference but ensuring no conflicts */
-.text-gradient-blue {
-    background: linear-gradient(to right, #4e73df, #2e59d9);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: #4e73df;
-}
-
-/* Custom Tab Styling (Keep as is) */
+/* 7. Tabbed Navigation */
 .custom-tabs {
     border-bottom: none;
     position: relative;
@@ -604,7 +670,7 @@ footer {
             font-size: 1.1rem;
         }
 
-/* Specific Tab Colors (Keep as is) */
+/* Specific Tab Colors */
 .tab-blue.active {
     --tab-active-bg-color: #4e73df;
     --tab-active-border-color: #4e73df;
@@ -618,7 +684,6 @@ footer {
         background-color: #4e73df;
         color: #fff;
     }
-
 
 .tab-green.active {
     --tab-active-bg-color: #03AC13;
@@ -634,7 +699,6 @@ footer {
         color: #fff;
     }
 
-
 .tab-yellow.active {
     --tab-active-bg-color: #f6c23e;
     --tab-active-border-color: #f6c23e;
@@ -649,74 +713,28 @@ footer {
         color: #fff;
     }
 
-
 /* Status Badges with Gradients */
 .bg-primary-gradient {
-    background: linear-gradient(45deg, #4e73df, #2e59d9) !important; /* Blue gradient for pending on GatePass */
+    background: linear-gradient(45deg, #4e73df, #2e59d9) !important;
     color: #fff !important;
 }
 
 .bg-success-gradient {
-    background: linear-gradient(45deg, #1cc88a, #03AC13) !important; /* Green gradient for approved/pending on Reservations */
+    background: linear-gradient(45deg, #1cc88a, #03AC13) !important;
     color: #fff !important;
 }
 
 .bg-danger-gradient {
-    background: linear-gradient(45deg, #e74a3b, #c32719) !important; /* Red gradient for denied */
+    background: linear-gradient(45deg, #e74a3b, #c32719) !important;
     color: #fff !important;
 }
 
 .bg-warning-gradient {
-    background: linear-gradient(45deg, #f6c23e, #d8a41e) !important; /* Yellow gradient for pending on Lockers */
-    color: #212529 !important; /* Dark text for warning */
+    background: linear-gradient(45deg, #f6c23e, #d8a41e) !important;
+    color: #212529 !important;
 }
 
-/* Table Styling (Keep as is) */
-.table th {
-    font-weight: 700;
-    color: #344767;
-    border-bottom: 2px solid #e9ecef;
-}
-
-.table td {
-    color: #6c757d;
-    vertical-align: middle;
-}
-
-.table-responsive {
-    border-radius: 0.75rem;
-    overflow: hidden;
-    border: 1px solid #e9ecef;
-}
-
-/* Action Buttons (Keep as is, unless you intend to unify with new custom buttons) */
-.btn-info-outline {
-    color: #4e73df;
-    border-color: #4e73df;
-    background-color: transparent
-    /* Custom Card Styling */
-}
-
-.custom-card {
-    border-radius: 1rem; /* Softer rounded corners */
-    overflow: hidden; /* Ensures gradient and shadow look good */
-}
-
-/* Modern Detail List */
-.detail-list-modern dt {
-    color: #6c757d; /* Muted color for labels */
-    font-weight: 500;
-    padding-top: 0.35rem; /* Align with dd text */
-    padding-bottom: 0.35rem;
-}
-
-.detail-list-modern dd {
-    margin-bottom: 0.5rem; /* Space between items */
-    padding-top: 0.35rem; /* Align with dt text */
-    padding-bottom: 0.35rem;
-}
-
-/* Custom Text Colors (adjust as needed for your theme) */
+/* General Text and Border Colors (for common utility classes) */
 .text-primary {
     color: #007bff !important;
 }
@@ -724,7 +742,7 @@ footer {
 .border-primary-subtle {
     border-color: #cfe2ff !important;
 }
-/* Lighter primary */
+
 .text-info {
     color: #17a2b8 !important;
 }
@@ -732,7 +750,7 @@ footer {
 .border-info-subtle {
     border-color: #d1ecf1 !important;
 }
-/* Lighter info */
+
 .text-secondary {
     color: #6c757d !important;
 }
@@ -740,7 +758,7 @@ footer {
 .border-secondary-subtle {
     border-color: #e2e6ea !important;
 }
-/* Lighter secondary */
+
 .text-dark {
     color: #343a40 !important;
 }
@@ -748,9 +766,8 @@ footer {
 .border-dark-subtle {
     border-color: #ced4da !important;
 }
-/* Lighter dark */
 
-/* Badges for status */
+/* Badges (adjusting base Bootstrap badges) */
 .badge.bg-success {
     background-color: #28a745 !important;
 }
@@ -761,6 +778,340 @@ footer {
 
 .badge.bg-warning {
     background-color: #ffc107 !important;
-    color: #212529 !important;
+    color: #212529 !important; /* Ensure text is readable on warning */
 }
-/* Ensure text is readable on warning */
+
+/* Action Buttons (if not using custom gradient buttons) */
+.btn-info-outline {
+    color: #4e73df;
+    border-color: #4e73df;
+    background-color: transparent;
+}
+
+/* Login Card & Form Styling (Specific to Login Page) */
+.login-card { /* Not strictly used by .login-form-panel but kept for context */
+    max-width: 450px;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.login-form-panel {
+    width: 100%;
+    max-width: 450px;
+    padding: 4rem 3rem;
+    border-radius: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e0e6ed;
+    box-shadow: 0 18px 45px 0 rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.8s ease-out 0.2s backwards;
+}
+
+    .login-form-panel::before {
+        content: none; /* Remove glow effect */
+    }
+
+.login-panel-heading {
+    font-weight: 800;
+    font-size: 2.2rem;
+    text-align: center;
+    color: #344767;
+    text-shadow: none;
+    margin-bottom: 0.5rem !important; /* Space above subtitle */
+    margin-top: 0 !important;
+}
+
+.login-form-panel .login-subtitle {
+    font-size: 0.85rem;
+    color: #6c757d;
+    text-align: center;
+    display: block;
+    margin-top: 0;
+    margin-bottom: 2.5rem !important; /* Space below subtitle, before first input */
+    line-height: 1.4;
+    padding: 0 1rem;
+}
+
+.login-input-group {
+    position: relative;
+}
+
+    .login-input-group .form-control {
+        background: #f8f9fa; /* Very light gray background for input */
+        border: 1px solid #e9ecef; /* Light border */
+        border-radius: 0.75rem; /* Standard rounded radius */
+        padding: 0.85rem 1rem 0.85rem 50px; /* Increased padding and adjusted icon space */
+        color: #212529;
+        font-weight: 400;
+        transition: all 0.2s ease;
+        height: auto; /* Allow height to adjust based on padding */
+        min-height: 52px; /* Increased minimum height for inputs */
+        font-size: 1.05rem; /* Slightly bigger input text */
+    }
+
+        .login-input-group .form-control::placeholder {
+            color: #8c98a4;
+        }
+
+        .login-input-group .form-control:focus {
+            background: #fff;
+            border-color: #4e73df; /* Keep your primary blue focus color */
+            box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+            outline: none;
+        }
+
+    /* Input Group Margins */
+    /* Ensure no conflicting margin classes are used directly on the div in HTML */
+    .login-input-group:nth-of-type(1) { /* Target the first input group specifically */
+        margin-bottom: 2rem !important; /* Keep consistent with existing spacing */
+    }
+
+    .login-input-group:nth-of-type(2) { /* Target the second input group */
+        margin-bottom: 2rem !important; /* Keep consistent with existing spacing */
+    }
+
+
+/* IMPROVED ICONS */
+.login-input-icon, .login-password-toggle {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #4e73df; /* Use your primary blue color for a premium look */
+    font-size: 1.2rem; /* Bigger icon */
+    z-index: 10;
+}
+
+.login-input-icon {
+    left: 18px; /* Adjusted icon position */
+}
+
+.login-password-toggle {
+    right: 18px; /* Adjusted toggle position */
+    cursor: pointer;
+    color: #6c757d; /* Muted color for the toggle eye */
+    transition: color 0.2s;
+}
+
+    .login-password-toggle:hover {
+        color: #4e73df; /* Hover effect */
+    }
+
+
+/* --- Button and Links --- */
+.login-form-options {
+    font-size: 0.95rem; /* Slightly bigger text */
+    margin-bottom: 3rem !important; /* Extra space before button */
+}
+
+.login-remember-me .form-check-label {
+    color: #6c757d; /* Muted text color */
+    text-shadow: none;
+}
+
+.login-forgot-password, .login-signup-text a {
+    color: #4e73df; /* Primary link color */
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+    .login-forgot-password:hover, .login-signup-text a:hover {
+        color: #2e59d9; /* Darker blue on hover */
+    }
+
+.login-signup-text {
+    color: #6c757d; /* Muted 'or' text */
+    margin-top: 3rem !important; /* Increased space for signup text */
+    font-size: 1.05rem; /* Slightly bigger text */
+}
+
+    .login-signup-text a {
+        color: #4e73df; /* Ensure signup link color */
+    }
+
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .login-header-nav {
+        padding: 1rem 2rem;
+    }
+
+    .login-main-content {
+        flex-direction: column; /* Stack columns on smaller screens */
+        padding: 2rem;
+        justify-content: center; /* Center content when stacked */
+        text-align: center; /* Center description text */
+    }
+
+    .login-form-panel {
+        max-width: 400px; /* Adjusted max-width on smaller screens */
+        padding: 3rem 2.5rem; /* Reduced padding */
+        margin-bottom: 2rem; /* Space between form and description */
+    }
+
+    .login-project-description {
+        max-width: 100%; /* Allow description to take full width */
+        padding: 2rem; /* Adjusted padding */
+    }
+
+        .login-project-description::before {
+            border-radius: 1rem; /* Slightly smaller radius for backdrop */
+        }
+
+    .login-project-title {
+        font-size: 2.5rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .login-project-text {
+        font-size: 1.05rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .login-header-nav {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .login-nav-links {
+        gap: 1rem;
+    }
+
+    .login-main-content {
+        padding: 1.5rem;
+    }
+
+    .login-form-panel {
+        margin: 1rem;
+        padding: 2.5rem 1.5rem;
+        max-width: 100%; /* Allow full width on very small screens */
+    }
+
+    .login-project-description {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+
+    .login-project-title {
+        font-size: 2.2rem;
+    }
+
+    .login-project-text {
+        font-size: 1rem;
+    }
+}
+
+/* Keyframe for fadeIn animation (used for form and description) */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Update for h9 (login-subtitle) */
+.login-form-panel .login-subtitle {
+    font-size: 0.85rem; /* Make it smaller */
+    color: #6c757d; /* Muted color for better hierarchy */
+    text-align: center;
+    display: block; /* Ensures margin-bottom works */
+    margin-top: -3rem; /* Adjust this value to bring it closer to h2 */
+    margin-bottom: 2.5rem; /* Adjust this value to control space below it */
+    line-height: 1.4; /* Improve readability for smaller text */
+    padding: 0 1rem; /* Add some horizontal padding to prevent it from touching edges */
+}
+
+/* Adjust the margin-bottom for the h2 to give enough space above the subtitle */
+.login-panel-heading {
+    /* Keep existing styles */
+    font-weight: 800;
+    font-size: 2.2rem;
+    text-align: center;
+    color: #344767;
+    text-shadow: none;
+    margin-bottom: 1rem !important; /* Reduced margin here */
+}
+
+/* Ensure the first input group's margin is correct after these adjustments */
+.login-form-panel .login-input-form .login-input-group:first-of-type {
+    margin-top: 0 !important; /* Remove any inherited top margin */
+}
+
+/* Adjust general spacing if needed, but the above should handle the h9 specifically */
+
+/* In your CSS file */
+
+/* Adjust the margin-bottom for the h2 to position it correctly */
+.login-panel-heading {
+    /* Keep existing styles */
+    font-weight: 800;
+    font-size: 2.2rem;
+    text-align: center;
+    color: #344767;
+    text-shadow: none;
+    margin-bottom: 0.5rem !important; /* Reduced to bring subtitle closer */
+    margin-top: 0 !important; /* Ensure no extra top margin */
+}
+
+/* Update for h9 (login-subtitle) to remove negative margin and set its own bottom margin */
+.login-form-panel .login-subtitle {
+    font-size: 0.85rem;
+    color: #6c757d;
+    text-align: center;
+    display: block;
+    margin-top: 0; /* No negative margin needed now that it's below the heading */
+    margin-bottom: 2.5rem !important; /* Space below subtitle, before first input */
+    line-height: 1.4;
+    padding: 0 1rem;
+}
+
+
+/* Make sure the login-main-content correctly centers its children */
+.login-main-content {
+    flex: 1; /* Take up remaining vertical space */
+    display: flex;
+    align-items: center; /* Vertically center children */
+    justify-content: center; /* Horizontally center children */
+    /* Remove 'gap' if you only have one main child (the form panel) */
+    /* gap: 2rem; <-- Remove or comment this out if only centering one element */
+    padding: 0 4rem;
+    width: 100%;
+    position: relative;
+}
+
+/* If you previously had .login-project-description, you might want to remove it or
+   adjust .login-main-content further if you intend to have both form and description side-by-side again.
+   For now, assuming you only want the form panel centered. */
+
+/* Also, ensure your body is set up for full-page centering if the .login-page-container isn't doing it */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #f0f2f5;
+    font-family: 'Inter', sans-serif;
+    color: #344767;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* Ensure .login-page-container fills the screen */
+.login-page-container {
+    width: 100vw;
+    height: 100vh;
+    color: #344767;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Inter', sans-serif;
+    background: url('/images/background.jpg') no-repeat center center;
+    background-size: cover;
+    position: relative;
+}

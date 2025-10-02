@@ -207,12 +207,6 @@ namespace ELDNET.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
-                    b.Property<string>("RequestStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RequestType")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Students");

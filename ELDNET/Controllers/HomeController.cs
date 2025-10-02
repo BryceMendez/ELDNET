@@ -15,6 +15,10 @@ namespace ELDNET.Controllers
 
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetString("UserRole") == null) // not logged in
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View();
         }
 

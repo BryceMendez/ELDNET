@@ -1,0 +1,87 @@
+﻿@{
+    ViewData["HideNav"] = true;
+    ViewData["Title"] = "Sign Up";
+    ViewData["FullScreen"] = true; // <--- ADD THIS LINE
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="login-page-container">
+    <div class="login-header-nav">
+        <div class="login-brand-logo">ELDNET</div>
+        <div class="login-nav-links">
+            <a href="#">HOME</a>
+            <a href="#">ABOUT US</a>
+            <a href="#" class="login-nav-active">SIGN UP</a> <!-- Updated active link -->
+        </div>
+    </div>
+
+    <div class="login-clouds"></div>
+
+    <div class="login-main-content">
+        <div class="login-form-panel custom-card">
+            <!-- Sign Up specific content goes here -->
+            <h2 class="login-panel-heading">Sign Up</h2>
+            <h9 class="login-subtitle">Join ELDNET to streamline your student processes.</h9> <!-- New subtitle for signup -->
+
+            <form asp-controller="Account" asp-action="SignUp" method="post" class="login-input-form">
+                <div class="login-input-group mb-4">
+                    <span class="login-input-icon"><i class="fas fa-user"></i></span> <!-- User icon for Full Name -->
+                    <input type="text" class="form-control" id="FullName" name="fullName" placeholder="Full Name" required />
+                </div>
+
+                <div class="login-input-group mb-4">
+                    <span class="login-input-icon"><i class="fas fa-envelope"></i></span>
+                    <input type="email" class="form-control" id="Email" name="email" placeholder="Email Address" required />
+                </div>
+
+                <div class="login-input-group mb-4">
+                    <span class="login-input-icon"><i class="fas fa-key"></i></span>
+                    <input type="password" class="form-control" id="Password" name="password" placeholder="Password" required />
+                    <span class="login-password-toggle"><i class="fas fa-eye-slash"></i></span>
+                </div>
+
+                <div class="login-input-group mb-4">
+                    <span class="login-input-icon"><i class="fas fa-key"></i></span> <!-- Key icon for Confirm Password -->
+                    <input type="password" class="form-control" id="ConfirmPassword" name="confirmPassword" placeholder="Confirm Password" required />
+                    <span class="login-password-toggle"><i class="fas fa-eye-slash"></i></span>
+                </div>
+
+                <button type="submit" class="btn btn-gradient">Sign Up</button>
+
+                <div class="login-signup-text text-center mt-4">
+                    Already have an account? <a asp-controller="Account" asp-action="Login">Sign In</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Re-apply password toggle logic to all password fields
+            const passwordFields = document.querySelectorAll('#Password, #ConfirmPassword');
+            passwordFields.forEach(field => {
+                const inputGroup = field.closest('.login-input-group');
+                if (inputGroup) {
+                    const passwordToggle = inputGroup.querySelector('.login-password-toggle');
+                    if (passwordToggle) {
+                        passwordToggle.addEventListener('click', function () {
+                            const icon = this.querySelector('i');
+                            const type = field.getAttribute('type') === 'password' ? 'text' : 'password';
+                            field.setAttribute('type', type);
+
+                            if (type === 'text') {
+                                icon.classList.remove('fas', 'fa-eye-slash');
+                                icon.classList.add('far', 'fa-eye');
+                            } else {
+                                icon.classList.remove('far', 'fa-eye');
+                                icon.classList.add('fas', 'fa-eye-slash');
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+}

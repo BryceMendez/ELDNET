@@ -18,8 +18,12 @@ namespace ELDNET.Controllers
         // GET: LockerRequest
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetString("UserRole") == null) // not logged in
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var requests = _context.LockerRequests.ToList();
-            return View(requests);
+            return RedirectToAction("Create");
         }
 
         // GET: LockerRequest/Create

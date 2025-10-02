@@ -16,8 +16,12 @@ namespace ELDNET.Controllers
         // INDEX
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetString("UserRole") == null) // not logged in
+            {
+                return RedirectToAction("Login", "Account");
+            }
             IEnumerable<GatePass> gatePassList = _db.GatePasses;
-            return View(gatePassList);
+            return RedirectToAction("Create");
         }
 
         // GET: CREATE

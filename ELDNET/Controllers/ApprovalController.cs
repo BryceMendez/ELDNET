@@ -14,25 +14,20 @@ namespace ELDNET.Controllers
             _context = context;
         }
 
-        // 🔹 Show all requests
         public async Task<IActionResult> Index()
         {
             var userRole = HttpContext.Session.GetString("UserRole");
-            var userId = HttpContext.Session.GetString("UserId"); // Get the UserId from session
 
-            // 🔹 Check if not logged in
             if (userRole == null)
             {
                 TempData["error"] = "You must be logged in to access the approval dashboard.";
                 return RedirectToAction("Login", "Account");
             }
 
-            // 🔹 Restrict Approval dashboard to Admin only
-            // Assuming "admin" is the UserId for hardcoded admin, or the Username for Admin table.
-            if (!(userRole == "Admin" && userId == "admin")) // Check both role and specific admin ID if needed
+            if (userRole != "Admin")
             {
                 TempData["error"] = "You are not authorized to view this page.";
-                return RedirectToAction("Index", "Home"); // Redirect to home for unauthorized users
+                return RedirectToAction("Index", "Home");
             }
 
             var viewModel = new ApprovalViewModel
@@ -45,162 +40,92 @@ namespace ELDNET.Controllers
             return View(viewModel);
         }
 
-        // 🔹 GatePass actions
         [HttpPost]
-        public async Task<IActionResult> ApproveGatePass(int id)
+        public async Task<IActionResult> SetApproval(int id, string type, int approver, string decision)
         {
-            // Authorization check (same as Index, but for POST)
             var userRole = HttpContext.Session.GetString("UserRole");
-            var userId = HttpContext.Session.GetString("UserId");
-            if (!(userRole == "Admin" && userId == "admin"))
+            if (userRole != "Admin")
             {
                 TempData["error"] = "You are not authorized to perform this action.";
                 return RedirectToAction("Index", "Home");
             }
 
-            var gp = await _context.GatePasses.FindAsync(id);
-            if (gp != null)
-            {
-                gp.Status = "Approved";
-                await _context.SaveChangesAsync();
-                TempData["success"] = "Gate Pass approved successfully.";
-            }
-            return RedirectToAction(nameof(Index));
+            object entity = await FindEntityAsync(type, id);
+            if (entity == null) return NotFound();
+
+            var statusProp = entity.GetType().GetProperty($"Approver{approver}Status");
+            if (statusProp != null)
+                statusProp.SetValue(entity, decision);
+
+            UpdateFinalStatus(entity);
+            await _context.SaveChangesAsync();
+
+            TempData["success"] = $"Approver {approver} set to {decision}.";
+            return RedirectToAction(nameof(Details), new { id, type });
         }
 
         [HttpPost]
-        public async Task<IActionResult> DenyGatePass(int id)
+        public async Task<IActionResult> ConfirmApproval(int id, string type)
         {
-            // Authorization check
             var userRole = HttpContext.Session.GetString("UserRole");
-            var userId = HttpContext.Session.GetString("UserId");
-            if (!(userRole == "Admin" && userId == "admin"))
+            if (userRole != "Admin")
             {
                 TempData["error"] = "You are not authorized to perform this action.";
                 return RedirectToAction("Index", "Home");
             }
 
-            var gp = await _context.GatePasses.FindAsync(id);
-            if (gp != null)
+            object entity = await FindEntityAsync(type, id);
+            if (entity == null) return NotFound();
+
+            UpdateFinalStatus(entity);
+            var finalProp = entity.GetType().GetProperty("FinalStatus");
+            var statusProp = entity.GetType().GetProperty("Status");
+
+            if (finalProp != null && statusProp != null)
             {
-                gp.Status = "Denied";
-                await _context.SaveChangesAsync();
-                TempData["success"] = "Gate Pass denied.";
+                var finalValue = finalProp.GetValue(entity)?.ToString();
+                statusProp.SetValue(entity, finalValue);
             }
+
+            await _context.SaveChangesAsync();
+            TempData["success"] = "Final decision has been confirmed.";
             return RedirectToAction(nameof(Index));
         }
 
-        // 🔹 Locker actions
-        [HttpPost]
-        public async Task<IActionResult> ApproveLocker(int id)
+        private void UpdateFinalStatus(object entity)
         {
-            // Authorization check
-            var userRole = HttpContext.Session.GetString("UserRole");
-            var userId = HttpContext.Session.GetString("UserId");
-            if (!(userRole == "Admin" && userId == "admin"))
-            {
-                TempData["error"] = "You are not authorized to perform this action.";
-                return RedirectToAction("Index", "Home");
-            }
+            var s1 = entity.GetType().GetProperty("Approver1Status")?.GetValue(entity)?.ToString();
+            var s2 = entity.GetType().GetProperty("Approver2Status")?.GetValue(entity)?.ToString();
+            var s3 = entity.GetType().GetProperty("Approver3Status")?.GetValue(entity)?.ToString();
 
-            var locker = await _context.LockerRequests.FindAsync(id);
-            if (locker != null)
-            {
-                locker.Status = "Approved";
-                await _context.SaveChangesAsync();
-                TempData["success"] = "Locker Request approved successfully.";
-            }
-            return RedirectToAction(nameof(Index));
+            var final = "Pending";
+
+            if (s1 == "Denied" || s2 == "Denied" || s3 == "Denied")
+                final = "Denied";
+            else if (s1 == "Approved" && s2 == "Approved" && s3 == "Approved")
+                final = "Approved";
+
+            var finalProp = entity.GetType().GetProperty("FinalStatus");
+            if (finalProp != null)
+                finalProp.SetValue(entity, final);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> DenyLocker(int id)
+        private async Task<object?> FindEntityAsync(string type, int id)
         {
-            // Authorization check
-            var userRole = HttpContext.Session.GetString("UserRole");
-            var userId = HttpContext.Session.GetString("UserId");
-            if (!(userRole == "Admin" && userId == "admin"))
+            return type switch
             {
-                TempData["error"] = "You are not authorized to perform this action.";
-                return RedirectToAction("Index", "Home");
-            }
-
-            var locker = await _context.LockerRequests.FindAsync(id);
-            if (locker != null)
-            {
-                locker.Status = "Denied";
-                await _context.SaveChangesAsync();
-                TempData["success"] = "Locker Request denied.";
-            }
-            return RedirectToAction(nameof(Index));
-        }
-
-        // 🔹 Reservation actions
-        [HttpPost]
-        public async Task<IActionResult> ApproveReservation(int id)
-        {
-            // Authorization check
-            var userRole = HttpContext.Session.GetString("UserRole");
-            var userId = HttpContext.Session.GetString("UserId");
-            if (!(userRole == "Admin" && userId == "admin"))
-            {
-                TempData["error"] = "You are not authorized to perform this action.";
-                return RedirectToAction("Index", "Home");
-            }
-
-            var res = await _context.ReservationRooms.FindAsync(id);
-            if (res != null)
-            {
-                res.Status = "Approved";
-                await _context.SaveChangesAsync();
-                TempData["success"] = "Room Reservation approved successfully.";
-            }
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> DenyReservation(int id)
-        {
-            // Authorization check
-            var userRole = HttpContext.Session.GetString("UserRole");
-            var userId = HttpContext.Session.GetString("UserId");
-            if (!(userRole == "Admin" && userId == "admin"))
-            {
-                TempData["error"] = "You are not authorized to perform this action.";
-                return RedirectToAction("Index", "Home");
-            }
-
-            var res = await _context.ReservationRooms.FindAsync(id);
-            if (res != null)
-            {
-                res.Status = "Denied";
-                await _context.SaveChangesAsync();
-                TempData["success"] = "Room Reservation denied.";
-            }
-            return RedirectToAction(nameof(Index));
-        }
-
-        // Details methods (also need authorization)
-        public async Task<IActionResult> GatePassDetails(int id)
-        {
-            var userRole = HttpContext.Session.GetString("UserRole");
-            var userId = HttpContext.Session.GetString("UserId");
-            if (!(userRole == "Admin" && userId == "admin"))
-            {
-                TempData["error"] = "You are not authorized to view this page.";
-                return RedirectToAction("Index", "Home");
-            }
-
-            var gp = await _context.GatePasses.FindAsync(id);
-            if (gp == null) return NotFound();
-            return View(gp);
+                "GatePass" => await _context.GatePasses.FindAsync(id),
+                "Locker" => await _context.LockerRequests.FindAsync(id),
+                "Reservation" => await _context.ReservationRooms.FindAsync(id),
+                _ => null
+            };
         }
 
         public async Task<IActionResult> Details(int id, string type)
         {
             var userRole = HttpContext.Session.GetString("UserRole");
-            var userId = HttpContext.Session.GetString("UserId");
-            if (!(userRole == "Admin" && userId == "admin"))
+
+            if (userRole != "Admin")
             {
                 TempData["error"] = "You are not authorized to view this page.";
                 return RedirectToAction("Index", "Home");

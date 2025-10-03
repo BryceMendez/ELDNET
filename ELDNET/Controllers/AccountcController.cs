@@ -14,91 +14,81 @@ namespace ELDNET.Controllers
         {
             _db = db;
         }
-
-        // GET: Login
         public IActionResult Login()
         {
             ViewData["FullScreen"] = true;
             ViewData["HideFooter"] = true;
-            ViewData["HideNav"] = true; // hide navbar
+            ViewData["HideNav"] = true;
+
+            if (TempData["Error"] != null)
+            {
+                ViewBag.Error = TempData["Error"];
+            }
+
             return View();
         }
 
+        // POST
         [HttpPost]
         public IActionResult Login(string username, string password, bool rememberMe)
         {
-            ViewData["HideNav"] = true; // keep nav hidden if login fails
-
-            // 1️⃣ Check hardcoded Admin (optional fallback)
+            ViewData["HideNav"] = true;
             if (username == "admin" && password == "admin123")
             {
                 HttpContext.Session.SetString("UserRole", "Admin");
-                HttpContext.Session.SetString("UserId", "admin"); // Using "admin" as the UserId for the hardcoded admin
-                return RedirectToAction("Index", "Admin"); // send to admin dashboard
+                HttpContext.Session.SetString("UserId", "admin");
+                return RedirectToAction("Index", "Approval");
             }
-
-            // 2️⃣ Check Admin table (if you have one)
             var admin = _db.Admins.FirstOrDefault(a => a.Username == username && a.Password == password);
             if (admin != null)
             {
                 HttpContext.Session.SetString("UserRole", "Admin");
-                HttpContext.Session.SetString("UserId", admin.Username); // Using admin's username as UserId
-                return RedirectToAction("Index", "Admin");
+                HttpContext.Session.SetString("UserId", admin.Username);
+                return RedirectToAction("Index", "Approval");
             }
-
-            // 3️⃣ Check StudentAccounts table
             var student = _db.StudentAccounts
                 .FirstOrDefault(s => s.StudentId == username || s.Email == username);
-
             if (student != null)
             {
                 string hashedPassword = HashPassword(password);
                 if (student.PasswordHash == hashedPassword)
                 {
                     HttpContext.Session.SetString("UserRole", "Student");
-                    HttpContext.Session.SetString("UserId", student.StudentId); // Store the actual StudentId for filtering
-                    HttpContext.Session.SetString("FullName", student.FullName); // Store FullName for display or auto-fill
-                    return RedirectToAction("Index", "Home"); // Redirect to Home or a generic student dashboard
+                    HttpContext.Session.SetString("UserId", student.StudentId);
+                    HttpContext.Session.SetString("FullName", student.FullName);
+                    return RedirectToAction("Index", "Home");
                 }
             }
-
-            // ❌ Invalid login
-            ViewBag.Error = "Invalid username or password.";
-            return View();
+            TempData["Error"] = "Invalid username or password.";
+            return RedirectToAction("Login");
         }
-
-
-        // GET: SignUp
         public IActionResult SignUp()
         {
-            ViewData["HideNav"] = true; // hide navbar
+            ViewData["HideNav"] = true;
             return View();
         }
 
         [HttpPost]
         public IActionResult SignUp(string fullName, string email, string password, string confirmPassword)
         {
-            ViewData["HideNav"] = true; // keep nav hidden during sign up
+            ViewData["HideNav"] = true;
 
             if (password != confirmPassword)
             {
                 ViewBag.Error = "Passwords do not match.";
                 return View();
             }
-
-            // Check if email already exists
             if (_db.StudentAccounts.Any(sa => sa.Email == email))
             {
                 ViewBag.Error = "An account with this email already exists.";
                 return View();
             }
-
-            string studentId = "ucb-" + new Random().Next(100000, 999999).ToString(); // Make StudentId 6 digits
-            // Ensure generated StudentId is unique (unlikely but good practice)
-            while (_db.StudentAccounts.Any(sa => sa.StudentId == studentId))
+            string studentId;
+            do
             {
                 studentId = "ucb-" + new Random().Next(100000, 999999).ToString();
             }
+            while (_db.StudentAccounts.Any(sa => sa.StudentId == studentId));
 
             string hashedPassword = HashPassword(password);
 
@@ -116,15 +106,11 @@ namespace ELDNET.Controllers
             TempData["Message"] = $"Account created! Your Student ID is {studentId}. Use it to log in.";
             return RedirectToAction("Login");
         }
-
-        // ✅ Logout Action
         public IActionResult Logout()
         {
-            HttpContext.Session.Clear(); // remove all session values
-            return RedirectToAction("Login", "Account"); // go back to login page
-        }
-
-        // Password hashing (using SHA256)
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login", "Account");
+        }                    
         private string HashPassword(string password)
         {
             using (SHA256 sha256 = SHA256.Create())

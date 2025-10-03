@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ELDNET.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251002161719_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20251003165619_RemovedStudent")]
+    partial class RemovedStudent
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,6 +57,30 @@ namespace ELDNET.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Approver1Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Approver1Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Approver2Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Approver2Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Approver3Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Approver3Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Color")
                         .HasColumnType("nvarchar(max)");
 
@@ -68,6 +92,13 @@ namespace ELDNET.Migrations
 
                     b.Property<string>("Department")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FinalStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsChangedByApplicant")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Maker")
                         .HasColumnType("nvarchar(max)");
@@ -114,11 +145,26 @@ namespace ELDNET.Migrations
                     b.Property<bool>("AcceptTerms")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Approver1Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Approver1Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ContactNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FinalStatus")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IdNumber")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsChangedByApplicant")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LockerNumber")
                         .HasColumnType("nvarchar(max)");
@@ -160,6 +206,46 @@ namespace ELDNET.Migrations
                     b.Property<string>("ActivityTitle")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Approver1Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Approver1Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Approver2Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Approver2Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Approver3Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Approver3Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Approver4Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Approver4Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Approver5Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Approver5Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -168,6 +254,13 @@ namespace ELDNET.Migrations
 
                     b.Property<string>("EquipmentFacilities")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FinalStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsChangedByApplicant")
+                        .HasColumnType("bit");
 
                     b.Property<string>("NatureOfActivity")
                         .HasColumnType("nvarchar(max)");
@@ -211,38 +304,6 @@ namespace ELDNET.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ReservationRooms");
-                });
-
-            modelBuilder.Entity("ELDNET.Models.Student", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Course")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Firstname")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.Property<string>("Lastname")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("ELDNET.Models.StudentAccount", b =>

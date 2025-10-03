@@ -4,98 +4,166 @@
     ViewData["Title"] = "Activity Reservation Details";
 }
 
-<div class="container py-4 animate__animated animate__fadeIn">
-    <div class="custom-card shadow-lg border-0">
-        <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #28a745, #218838);">
-            @* Green gradient for Activity Reservation *@
-            <h2 class="mb-2 fw-bold"><i class="bi bi-calendar-check me-2"></i>Activity Reservation Details</h2> @* New icon for Reservation *@
-            <p class="mb-0 text-white-50">Comprehensive information for this activity room reservation.</p>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    @* Ensure this links to your main CSS file that now contains the appended styles *@
+    <link href="~/css/site.css" rel="stylesheet" /> @* <--- IMPORTANT: Replace with the actual path to your main CSS file *@
+</head>
+
+<div class="container py-5 animate__animated animate__fadeIn">
+    <div class="reservation-modern-card">
+        <div class="card-header-modern-reservation">
+            <h2 class="mb-2"><i class="bi bi-calendar-check me-3"></i>Activity Reservation Details</h2>
+            <p class="text-white-75">Comprehensive information for this activity room reservation.</p>
         </div>
-        <div class="card-body p-5">
+
+        <div class="card-body p-lg-5 p-4">
             <div class="row g-5">
+
                 <!-- Activity Information Section -->
-                <div class="col-lg-6 border-end-lg pe-lg-5">
-                    <h5 class="text-primary mb-4 pb-2 border-bottom border-primary-subtle">
-                        <i class="bi bi-info-circle me-2"></i>Activity Information
+                <div class="col-lg-6">
+                    <h5 class="reservation-detail-section-title">
+                        <i class="bi bi-info-circle"></i>Activity Information
                     </h5>
-                    <dl class="row detail-list-modern">
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.OrganizationName)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.OrganizationName)</dd>
+                    <dl class="row reservation-detail-list-modern">
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.OrganizationName)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.OrganizationName)</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ActivityTitle)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.ActivityTitle)</dd>
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.ActivityTitle)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.ActivityTitle)</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ActivityDate)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Model.ActivityDate.ToString("MMMM dd, yyyy")</dd>
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.ActivityDate)</dt>
+                        <dd class="col-sm-7">@Model.ActivityDate.ToString("MMMM dd, yyyy")</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Speaker)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Speaker)</dd>
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Speaker)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.Speaker)</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Venue)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Venue)</dd>
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Venue)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.Venue)</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.NatureOfActivity)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.NatureOfActivity)</dd>
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.NatureOfActivity)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.NatureOfActivity)</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PurposeObjective)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.PurposeObjective)</dd>
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.PurposeObjective)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.PurposeObjective)</dd>
                     </dl>
                 </div>
 
                 <!-- Reservation Details Section -->
-                <div class="col-lg-6 ps-lg-5">
-                    <h5 class="text-info mb-4 pb-2 border-bottom border-info-subtle">
-                        <i class="bi bi-clock me-2"></i>Reservation Details
+                <div class="col-lg-6 divider-line">
+                    <h5 class="reservation-detail-section-title">
+                        <i class="bi bi-clock"></i>Reservation Details
                     </h5>
-                    <dl class="row detail-list-modern">
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DateNeeded)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Model.DateNeeded?.ToString("MMMM dd, yyyy")</dd>
+                    <dl class="row reservation-detail-list-modern">
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.DateNeeded)</dt>
+                        <dd class="col-sm-7">@Model.DateNeeded?.ToString("MMMM dd, yyyy")</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.TimeFrom)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Model.TimeFrom?.ToString(@"hh\:mm")</dd> @* Changed format *@
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.TimeFrom)</dt>
+                        <dd class="col-sm-7">@Model.TimeFrom?.ToString(@"hh\:mm")</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.TimeTo)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Model.TimeTo?.ToString(@"hh\:mm")</dd> @* Changed format *@
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.TimeTo)</dt>
+                        <dd class="col-sm-7">@Model.TimeTo?.ToString(@"hh\:mm")</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.RoomNumber)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.RoomNumber)</dd>
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.RoomNumber)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.RoomNumber)</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Participants)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Participants)</dd>
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Participants)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.Participants)</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.EquipmentFacilities)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.EquipmentFacilities)</dd>
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.EquipmentFacilities)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.EquipmentFacilities)</dd>
                     </dl>
 
-                    <h5 class="text-secondary mt-5 mb-4 pb-2 border-bottom border-secondary-subtle">
-                        <i class="bi bi-person-badge me-2"></i>Requester & Status
+                    <h5 class="reservation-detail-section-title mt-5">
+                        <i class="bi bi-person-badge"></i>Requester Info
                     </h5>
-                    <dl class="row detail-list-modern">
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ReservedBy)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.ReservedBy)</dd>
+                    <dl class="row reservation-detail-list-modern">
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.ReservedBy)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.ReservedBy)</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.SourceOfFunds)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.SourceOfFunds)</dd>
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.SourceOfFunds)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.SourceOfFunds)</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Date)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Model.Date.ToString("MMMM dd, yyyy")</dd>
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Date)</dt>
+                        <dd class="col-sm-7">@Model.Date.ToString("MMMM dd, yyyy")</dd>
                     </dl>
                 </div>
-                <!-- Action Buttons -->
-                <div class="col-12 text-center pt-5 border-top">
-                    <form asp-action="ApproveReservation" method="post" class="d-inline me-3">
+            </div>
+
+            <!-- Approval Workflow Section -->
+            <div class="mt-5 pt-5 border-top text-center">
+                <h4 class="reservation-detail-section-title justify-content-center mb-5">
+                    <i class="bi bi-diagram-3"></i>Approval Workflow
+                </h4>
+
+                <div class="row justify-content-center g-4">
+                    <!-- Approver Loop -->
+                    @foreach (var approver in new[]
+                                        {
+                                        new { Name = Model.Approver1Name, Status = Model.Approver1Status, Number = 1 },
+                                        new { Name = Model.Approver2Name, Status = Model.Approver2Status, Number = 2 },
+                                        new { Name = Model.Approver3Name, Status = Model.Approver3Status, Number = 3 },
+                                        new { Name = Model.Approver4Name, Status = Model.Approver4Status, Number = 4 },
+                                        new { Name = Model.Approver5Name, Status = Model.Approver5Status, Number = 5 }
+                                        })
+                    {
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card reservation-approval-card h-100">
+                                <div class="card-body">
+                                    <h5 class="mb-3">
+                                        @if (!string.IsNullOrEmpty(approver.Name))
+                                        {
+                                            @approver.Name
+                                        }
+                                        else
+                                        {
+                                            <span>Approver @approver.Number</span>
+                                        }
+                                    </h5>
+                                    <div class="approval-status mb-4">
+                                        @if (approver.Status == "Pending")
+                                        {
+                                            <i class="bi bi-hourglass-split text-warning"></i>
+                                            <span class="reservation-badge-modern reservation-badge-pending">Pending</span>
+                                        }
+                                        else if (approver.Status == "Approved")
+                                        {
+                                            <i class="bi bi-check-circle-fill text-success"></i>
+                                            <span class="reservation-badge-modern reservation-badge-approved">Approved</span>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-x-circle-fill text-danger"></i>
+                                            <span class="reservation-badge-modern reservation-badge-denied">Denied</span>
+                                        }
+                                    </div>
+                                    <form asp-controller="Approval" asp-action="SetApproval" method="post" class="mt-auto">
+                                        <input type="hidden" name="id" value="@Model.Id" />
+                                        <input type="hidden" name="type" value="Reservation" />
+                                        <input type="hidden" name="approver" value="@approver.Number" />
+
+                                        <button type="submit" name="decision" value="Approved" class="btn btn-success btn-sm me-2 reservation-btn-modern">Approve</button>
+                                        <button type="submit" name="decision" value="Denied" class="btn btn-danger btn-sm reservation-btn-modern">Deny</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- Final Confirmation Section -->
+                <div class="mt-5 pt-4 border-top">
+                    <form asp-controller="Approval" asp-action="ConfirmApproval" method="post" class="mb-4">
                         <input type="hidden" name="id" value="@Model.Id" />
-                        <button type="submit" class="btn btn-success btn-lg" style="min-width: 150px;">
-                            <i class="bi bi-check-circle me-2"></i>Approve
+                        <input type="hidden" name="type" value="Reservation" />
+                        <button type="submit" class="btn btn-primary btn-lg reservation-btn-modern">
+                            <i class="bi bi-check2-circle me-2"></i>Confirm Final Decision
                         </button>
                     </form>
-                    <form asp-action="DenyReservation" method="post" class="d-inline me-3">
-                        <input type="hidden" name="id" value="@Model.Id" />
-                        <button type="submit" class="btn btn-danger btn-lg" style="min-width: 150px;">
-                            <i class="bi bi-x-circle me-2"></i>Deny
-                        </button>
-                    </form>
-                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
+                    <p class="reservation-final-status-text mt-3">Final Status: <strong class="reservation-final-status-@(Model.FinalStatus?.ToLower())">@Model.FinalStatus</strong></p>
+
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg reservation-btn-modern mt-4">
                         <i class="bi bi-arrow-left me-2"></i>Back to List
                     </a>
                 </div>
@@ -103,3 +171,5 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

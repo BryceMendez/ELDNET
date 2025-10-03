@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Gate Pass List";
+    var userRole = Context.Session.GetString("UserRole");
 }
 
 <div class="container p-3">
@@ -10,9 +11,12 @@
             <h2 class="text-primary">Gate Pass List</h2>
         </div>
         <div class="col-6 text-end">
-            <a asp-controller="GatePass" asp-action="Create" class="btn btn-primary">
-                + Create New Gate Pass
-            </a>
+            @if (userRole == "Student")
+            {
+                <a asp-controller="GatePass" asp-action="Create" class="btn btn-primary">
+                    + Create New Gate Pass
+                </a>
+            }
         </div>
     </div>
     <br />
@@ -35,7 +39,10 @@
                     <th>Study Load</th>
                     <th>Registration Form</th>
                     <th>Status</th>
-                    <th class="text-center">Actions</th>
+                    @if (userRole == "Student")
+                    {
+                        <th class="text-center">Actions</th>
+                    }
                 </tr>
             </thead>
             <tbody>
@@ -53,7 +60,7 @@
                         <td>@obj.Maker</td>
                         <td>@obj.Color</td>
 
-                        <!-- Study Load column -->
+                        <!-- Study Load -->
                         <td>
                             @if (!string.IsNullOrEmpty(obj.StudyLoadPath))
                             {
@@ -65,7 +72,7 @@
                             }
                         </td>
 
-                        <!-- Registration Form column waaaaaa test test-->
+                        <!-- Registration Form -->
                         <td>
                             @if (!string.IsNullOrEmpty(obj.RegistrationPath))
                             {
@@ -76,14 +83,25 @@
                                 <span class="text-muted">No File</span>
                             }
                         </td>
+
                         <td>@obj.Status</td>
-                        <td>
-                            <div class="w-20 btn-group" role="group">
-                                <a asp-action="Edit" asp-route-id="@obj.Id">&nbsp;Edit&nbsp;</a> |
-                                <a asp-action="Details" asp-route-id="@obj.Id">&nbsp;Details&nbsp;</a> |
-                                <a asp-action="Delete" asp-route-id="@obj.Id">&nbsp;Delete</a>
-                            </div>
-                        </td>
+
+                        @if (userRole == "Student")
+                        {
+                            <td>
+                                <div class="w-20 btn-group" role="group">
+                                    <a asp-action="Edit" asp-route-id="@obj.Id">&nbsp;Edit&nbsp;</a> |
+                                    <a asp-action="Details" asp-route-id="@obj.Id">&nbsp;Details&nbsp;</a> |
+                                    <a asp-action="Delete" asp-route-id="@obj.Id">&nbsp;Delete</a>
+                                </div>
+                            </td>
+                        }
+                        else if (userRole == "Admin")
+                        {
+                            <td>
+                                <a asp-action="Details" asp-route-id="@obj.Id" class="btn btn-link">View Details</a>
+                            </td>
+                        }
                     </tr>
                 }
             </tbody>

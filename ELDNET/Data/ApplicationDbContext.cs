@@ -13,8 +13,6 @@ namespace ELDNET.Data
 
         }
 
-        public DbSet<Student> Students { get; set; }
-
         public DbSet<GatePass> GatePasses { get; set; }
 
         public DbSet<ReservationRoom> ReservationRooms { get; set; }

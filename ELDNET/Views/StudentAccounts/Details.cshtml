@@ -1,0 +1,31 @@
+﻿@model ELDNET.Models.StudentAccount
+
+@{
+    ViewData["Title"] = "Student Account Details";
+}
+
+<div class="container mt-4">
+    <h2><i class="bi bi-person-circle"></i> Student Account Details</h2>
+
+    <div class="card shadow-sm mt-4">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Student ID</dt>
+                <dd class="col-sm-9">@Model.StudentId</dd>
+
+                <dt class="col-sm-3">Full Name</dt>
+                <dd class="col-sm-9">@Model.FullName</dd>
+
+                <dt class="col-sm-3">Email</dt>
+                <dd class="col-sm-9">@Model.Email</dd>
+
+                <dt class="col-sm-3">Account ID</dt>
+                <dd class="col-sm-9">@Model.Id</dd>
+            </dl>
+
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Back to List
+            </a>
+        </div>
+    </div>
+</div>

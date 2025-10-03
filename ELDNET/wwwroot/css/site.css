@@ -4,99 +4,86 @@ html, body {
     margin: 0;
     padding: 0;
     width: 100%;
-    min-height: 100%; /* ? use min-height instead of height */
+    min-height: 100%;
     overflow-x: hidden;
-    overflow-y: auto; /* ? allow vertical scroll */
+    overflow-y: auto;
 }
-
 body {
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
+    background: #f0f2f5;
     font-family: 'Inter', sans-serif;
     color: #344767;
-    background: #f0f2f5;
-}
-
-
-main {
-    flex: 1; /* Main content takes up available vertical space */
-}
-
-footer {
-    margin-top: auto; /* Push footer to the bottom */
-}
-
-h2, h3, h4, h5, h6 { /* General heading styles */
     margin: 0;
-    font-weight: 700; /* Bolder headings */
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+main {
+    flex: 1;
+}
+footer {
+    margin-top: auto;
+}
+h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-weight: 700;
     letter-spacing: -0.5px;
 }
-
-/* 2. Layout & Full-Screen Components (Login Page Container) */
 .login-page-container {
     width: 100vw;
-    min-height: 100vh; /* ? allow it to grow taller if content exceeds viewport */
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     background: url('/images/background.jpg') no-repeat center center;
     background-size: cover;
     position: relative;
 }
-
 .login-main-content {
-    flex: 1; /* Take up remaining vertical space */
+    flex: 1;
     display: flex;
-    align-items: center; /* Vertically center children */
-    justify-content: center; /* Horizontally center children */
-    padding: 0 4rem; /* Match nav padding */
+    align-items: center;
+    justify-content: center;
+    padding: 0 4rem;
     width: 100%;
     position: relative;
 }
-
-/* 3. Navigation Bar (General & Login Specific) */
 .navbar-custom {
-    background: linear-gradient(135deg, #4e73df, #2e59d9); /* Blue gradient */
-    padding: 0.5rem 1rem; /* Reduced padding */
+    background: linear-gradient(135deg, #4e73df, #2e59d9);
+    padding: 0.5rem 1rem;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     min-height: 50px;
     display: flex;
     align-items: center;
 }
-
-    .navbar-custom .navbar-brand {
-        color: #fff;
-        font-size: 1.3rem;
-        font-weight: 700;
-        letter-spacing: -0.5px;
-        padding: 0; /* Remove specific padding, use navbar padding */
-    }
-
-    .navbar-custom .nav-link {
-        color: #fff !important;
-        font-size: 0.88rem;
-        font-weight: 600;
-        padding: 6px 12px;
-        border-radius: 6px;
-        margin: 0 2px;
-        transition: 0.3s ease-in-out;
-    }
-
-        .navbar-custom .nav-link:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.02);
-        }
-
-    .navbar-custom .navbar-toggler {
-        padding: 0.25rem 0.5rem;
-        font-size: 0.9rem;
-    }
-
-    .navbar-custom .navbar-toggler-icon {
-        height: 1em;
-        width: 1em;
-    }
-
-/* Login Header Navigation */
+.navbar-custom .navbar-brand {
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    padding: 0;
+}
+.navbar-custom .nav-link {
+    color: #fff !important;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin: 0 2px;
+    transition: 0.3s ease-in-out;
+}
+.navbar-custom .nav-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.02);
+}
+.navbar-custom .navbar-toggler {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.9rem;
+}
+.navbar-custom .navbar-toggler-icon {
+    height: 1em;
+    width: 1em;
+}
 .login-header-nav {
     display: flex;
     justify-content: space-between;
@@ -106,7 +93,6 @@ h2, h3, h4, h5, h6 { /* General heading styles */
     animation: slideDown 0.6s ease-out;
     background-color: transparent;
 }
-
 @keyframes slideDown {
     from {
         transform: translateY(-100%);
@@ -116,87 +102,72 @@ h2, h3, h4, h5, h6 { /* General heading styles */
         transform: translateY(0);
     }
 }
-
 .login-brand-logo {
     font-size: 1.5rem;
     font-weight: 800;
     color: #fff;
     text-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
-
 .login-nav-links {
     display: flex;
     gap: 2rem;
 }
-
-    .login-nav-links a {
-        text-decoration: none;
-        color: #fff !important;
-        font-weight: 500;
-        transition: color 0.3s ease;
-        padding-bottom: 5px;
-        border-bottom: 2px solid transparent;
-        text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-    }
-
-        .login-nav-links a:hover {
-            color: #fff;
-        }
-
-        .login-nav-links a.login-nav-active {
-            color: #fff;
-            border-bottom-color: #fff;
-        }
-
-/* 4. General Components (Cards, Forms, Buttons, Alerts, Tables) */
-
-/* Custom Card */
-.custom-card {
-    border-radius: 1rem; /* Softer rounded corners */
-    overflow: hidden; /* Ensures gradient and shadow look good */
-    background: #fff;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Stronger, softer shadow */
+.login-nav-links a {
+    text-decoration: none;
+    color: #fff !important;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    padding-bottom: 5px;
+    border-bottom: 2px solid transparent;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
-    .custom-card .card-header { /* Base for card headers, overridden by specific ones */
-        background: #fff;
-        border-bottom: none;
-        padding: 0;
-        color: #fff; /* Default, will be overridden */
-    }
+.login-nav-links a:hover {
+    color: #fff;
+}
 
-/* Form Styling */
+.login-nav-links a.login-nav-active {
+    color: #fff;
+    border-bottom-color: #fff;
+}
+.custom-card {
+    border-radius: 1rem;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+.custom-card .card-header {
+    background: #fff;
+    border-bottom: none;
+    padding: 0;
+    color: #fff;
+}
 input.form-control,
 select.form-control,
 textarea.form-control {
-    border-radius: 0.75rem; /* More rounded inputs */
-    border: 1px solid #e0e6ed; /* Lighter border */
+    border-radius: 0.75rem;
+    border: 1px solid #e0e6ed;
     box-shadow: none;
     transition: all 0.2s ease-in-out;
     padding: 0.75rem 1rem;
 }
-
-    input.form-control:focus,
-    select.form-control:focus,
-    textarea.form-control:focus {
-        border-color: #4e73df;
-        box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25); /* Bootstrap-like focus ring */
-    }
-
-/* Floating label specific adjustments */
+input.form-control:focus,
+select.form-control:focus,
+textarea.form-control:focus {
+    border-color: #4e73df;
+    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
 .form-floating > .form-control:focus ~ label,
 .form-floating > .form-control:not(:placeholder-shown) ~ label,
 .form-floating > .form-select ~ label {
     opacity: .65;
     transform: scale(.85) translateY(-.5rem) translateX(.15rem);
 }
-
-    .form-floating > .form-control:focus ~ label::after,
-    .form-floating > .form-control:not(:placeholder-shown) ~ label::after,
-    .form-floating > textarea.form-control ~ label::after {
-        background-color: #fff;
-    }
-
+.form-floating > .form-control:focus ~ label::after,
+.form-floating > .form-control:not(:placeholder-shown) ~ label::after,
+.form-floating > textarea.form-control ~ label::after {
+    background-color: #fff;
+}
 .btn-gradient {
     background: linear-gradient(135deg, #4e73df, #1cc88a);
     color: #fff;
@@ -206,16 +177,13 @@ textarea.form-control {
     transition: all 0.3s ease-in-out;
     font-weight: 600;
     box-shadow: 0 4px 10px rgba(78, 115, 223, 0.2);
-    width: 100%; /* ADD THIS LINE */
+    width: 100%;
 }
-
-    .btn-gradient:hover {
-        background: linear-gradient(135deg, #1cc88a, #4e73df);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(78, 115, 223, 0.3);
-    }
-
-/* Delete Button Gradient */
+.btn-gradient:hover {
+    background: linear-gradient(135deg, #1cc88a, #4e73df);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(78, 115, 223, 0.3);
+}
 .btn-gradient-danger {
     background: linear-gradient(45deg, #dc3545, #a71d2a);
     color: white;
@@ -226,17 +194,14 @@ textarea.form-control {
     transition: all 0.3s ease;
     box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
 }
-
-    .btn-gradient-danger:hover {
-        background: linear-gradient(45deg, #a71d2a, #dc3545);
-        box-shadow: 0 6px 15px rgba(220, 53, 69, 0.4);
-        transform: translateY(-2px);
-    }
-
-/* Back Button Styling */
+.btn-gradient-danger:hover {
+    background: linear-gradient(45deg, #a71d2a, #dc3545);
+    box-shadow: 0 6px 15px rgba(220, 53, 69, 0.4);
+    transform: translateY(-2px);
+}
 .btn-outline-secondary-custom {
-    border-color: #92b0e6; /* Lighter blue border */
-    color: #4e73df; /* Primary blue text */
+    border-color: #92b0e6;
+    color: #4e73df;
     background-color: transparent;
     transition: all 0.3s ease;
     padding: 10px 20px;
@@ -244,15 +209,12 @@ textarea.form-control {
     font-weight: 600;
     font-size: 0.95rem;
 }
-
-    .btn-outline-secondary-custom:hover {
-        background-color: #4e73df;
-        color: #fff;
-        box-shadow: 0 4px 12px rgba(78, 115, 223, 0.3);
-        transform: translateY(-2px);
-    }
-
-/* Alert Styling */
+.btn-outline-secondary-custom:hover {
+    background-color: #4e73df;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(78, 115, 223, 0.3);
+    transform: translateY(-2px);
+}
 .alert-danger {
     background-color: #f8d7da;
     color: #721c24;
@@ -261,63 +223,50 @@ textarea.form-control {
     padding: 1.5rem;
     font-size: 1.1rem;
 }
-
 .alert-heading {
     color: #721c24;
     font-size: 1.5rem;
 }
-
-/* Table Styling */
 .table th {
     font-weight: 700;
     color: #344767;
     border-bottom: 2px solid #e9ecef;
 }
-
 .table td {
     color: #6c757d;
     vertical-align: middle;
 }
-
 .table-responsive {
     border-radius: 0.75rem;
     overflow: hidden;
     border: 1px solid #e9ecef;
 }
-
-/* Modern Definition List Styling */
 .detail-list-modern dt {
     font-weight: 600;
-    color: #6c757d; /* Bootstrap secondary text color */
+    color: #6c757d;
     margin-bottom: 0.75rem;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     font-size: 1.05rem;
 }
-
 .detail-list-modern dd {
     margin-bottom: 0.75rem;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
-    color: #344767; /* Darker text color for values */
+    color: #344767;
     font-weight: 500;
     font-size: 1.05rem;
 }
-
 .detail-list-modern .row:nth-of-type(odd) {
     background-color: rgba(0, 0, 0, 0.03);
     border-radius: 0.5rem;
 }
-
 .detail-list-modern a {
     color: #4e73df;
 }
-
-    .detail-list-modern a:hover {
-        color: #2e59d9;
-    }
-
-/* 5. Overlays & Gradients */
+.detail-list-modern a:hover {
+    color: #2e59d9;
+}
 .overlay {
     position: absolute;
     top: 0;
@@ -327,15 +276,12 @@ textarea.form-control {
     background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(78,115,223,0.8) 100%);
     opacity: 0.7;
 }
-
 .overlay-green {
     background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(28,200,138,0.8) 100%);
 }
-
 .overlay-yellow {
     background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(246,194,62,0.8) 100%);
 }
-
 .overlay-text {
     position: absolute;
     bottom: 10%;
@@ -347,49 +293,36 @@ textarea.form-control {
     text-shadow: 0px 3px 6px rgba(0,0,0,0.5);
     width: 100%;
 }
-
-/* 6. Specific Themed Components */
-
-/* --- Delete Locker Request Specific Styles --- */
 .confirmation-card {
     border: 1px solid rgba(220, 53, 69, 0.3);
 }
-
 .delete-header {
     background: linear-gradient(45deg, #dc3545, #a71d2a) !important;
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
     box-shadow: 0 4px 10px rgba(220, 53, 69, 0.2);
 }
+.delete-header h2 {
+    font-size: 2.2rem;
+}
 
-    .delete-header h2 {
-        font-size: 2.2rem;
-    }
-
-    .delete-header p {
-        font-size: 1.1rem;
-    }
-
-/* Custom Colors for Delete Sections (shades of red) */
+.delete-header p {
+    font-size: 1.1rem;
+}
 .text-danger-dark {
     color: #dc3545 !important;
 }
-
 .text-danger-secondary {
     color: #e65c5c !important;
 }
-
 .text-danger-tertiary {
     color: #c9302c !important;
 }
-
 .border-danger-subtle {
     border-color: rgba(220, 53, 69, 0.2) !important;
 }
-
-/* --- GatePass Specific Styles --- */
 .form-header-gatepass {
-    background: linear-gradient(45deg, #4e73df, #2e59d9) !important; /* Stronger blue gradient */
+    background: linear-gradient(45deg, #4e73df, #2e59d9) !important;
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
     color: white;
@@ -400,18 +333,16 @@ textarea.form-control {
     align-items: center;
     justify-content: center;
 }
+.form-header-gatepass h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
 
-    .form-header-gatepass h3 {
-        font-size: 1.8rem;
-        font-weight: 700;
-        letter-spacing: -0.5px;
-    }
-
-    .form-header-gatepass p {
-        font-size: 1.1rem;
-        margin-bottom: 0;
-    }
-
+.form-header-gatepass p {
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
 .image-upload-section {
     border: 2px dashed #92b0e6;
     border-radius: 1rem;
@@ -421,24 +352,22 @@ textarea.form-control {
     transition: all 0.3s ease;
     cursor: pointer;
 }
+.image-upload-section:hover {
+    background-color: #eef4ff;
+    border-color: #4e73df;
+}
 
-    .image-upload-section:hover {
-        background-color: #eef4ff;
-        border-color: #4e73df;
-    }
+.image-upload-section i {
+    font-size: 3rem;
+    color: #4e73df;
+    margin-bottom: 15px;
+}
 
-    .image-upload-section i {
-        font-size: 3rem;
-        color: #4e73df;
-        margin-bottom: 15px;
-    }
-
-    .image-upload-section p {
-        font-size: 1.1rem;
-        color: #344767;
-        font-weight: 600;
-    }
-
+.image-upload-section p {
+    font-size: 1.1rem;
+    color: #344767;
+    font-weight: 600;
+}
 .uploaded-image-preview {
     max-width: 100%;
     height: auto;
@@ -447,21 +376,16 @@ textarea.form-control {
     margin-top: 20px;
     border: 1px solid #dee2e6;
 }
-
 .image-preview-container {
     text-align: center;
     margin-top: 20px;
 }
-
 .text-primary-dark {
     color: #2e59d9 !important;
 }
-
 .border-primary-subtle {
     border-color: rgba(78, 115, 223, 0.2) !important;
 }
-
-/* Gradient Buttons for GatePass Actions (Approve/Deny) */
 .btn-gradient-success-custom {
     background: linear-gradient(45deg, #1cc88a, #17a673);
     color: white;
@@ -473,13 +397,11 @@ textarea.form-control {
     box-shadow: 0 4px 10px rgba(28, 200, 138, 0.3);
     font-size: 0.95rem;
 }
-
-    .btn-gradient-success-custom:hover {
-        background: linear-gradient(45deg, #17a673, #1cc88a);
-        box-shadow: 0 6px 15px rgba(28, 200, 138, 0.4);
-        transform: translateY(-2px);
-    }
-
+.btn-gradient-success-custom:hover {
+    background: linear-gradient(45deg, #17a673, #1cc88a);
+    box-shadow: 0 6px 15px rgba(28, 200, 138, 0.4);
+    transform: translateY(-2px);
+}
 .btn-gradient-danger-custom {
     background: linear-gradient(45deg, #e74a3b, #c32719);
     color: white;
@@ -491,14 +413,11 @@ textarea.form-control {
     box-shadow: 0 4px 10px rgba(231, 74, 59, 0.3);
     font-size: 0.95rem;
 }
-
-    .btn-gradient-danger-custom:hover {
-        background: linear-gradient(45deg, #c32719, #e74a3b);
-        box-shadow: 0 6px 15px rgba(231, 74, 59, 0.4);
-        transform: translateY(-2px);
-    }
-
-/* Custom outline button for View Study Load/Registration */
+.btn-gradient-danger-custom:hover {
+    background: linear-gradient(45deg, #c32719, #e74a3b);
+    box-shadow: 0 6px 15px rgba(231, 74, 59, 0.4);
+    transform: translateY(-2px);
+}
 .btn-outline-primary-custom {
     border-color: #92b0e6;
     color: #4e73df;
@@ -509,58 +428,43 @@ textarea.form-control {
     font-weight: 500;
     font-size: 0.9rem;
 }
-
-    .btn-outline-primary-custom:hover {
-        background-color: #4e73df;
-        color: #fff;
-        border-color: #4e73df;
-        box-shadow: 0 4px 8px rgba(78, 115, 223, 0.2);
-        transform: translateY(-1px);
-    }
-
-/* --- Reservation Room Specific Styles --- */
-/* Custom colors for the blue theme */
+.btn-outline-primary-custom:hover {
+    background-color: #4e73df;
+    color: #fff;
+    border-color: #4e73df;
+    box-shadow: 0 4px 8px rgba(78, 115, 223, 0.2);
+    transform: translateY(-1px);
+}
 .text-blue-primary {
     color: #007bff !important;
 }
-
 .border-blue-primary-subtle {
     border-color: rgba(0, 123, 255, 0.2) !important;
 }
-
 .text-blue-secondary {
     color: #17a2b8 !important;
 }
-
 .border-blue-secondary-subtle {
     border-color: rgba(23, 162, 184, 0.2) !important;
 }
-
 .text-blue-tertiary {
     color: #6c757d !important;
 }
-
 .border-blue-tertiary-subtle {
     border-color: rgba(108, 117, 125, 0.2) !important;
 }
-
-/* Specific Header Styling for Edit View */
 .edit-header-blue {
     background: linear-gradient(45deg, #4e73df, #224abe) !important;
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
     box-shadow: 0 4px 10px rgba(78, 115, 223, 0.2);
 }
-
-    .edit-header-blue h2 {
-        font-size: 2.2rem;
-    }
-
-    .edit-header-blue p {
-        font-size: 1.1rem;
-    }
-
-/* Button Styling (if different from general btn-gradient) */
+.edit-header-blue h2 {
+    font-size: 2.2rem;
+}
+.edit-header-blue p {
+    font-size: 1.1rem;
+}
 .btn-gradient-blue {
     background: linear-gradient(45deg, #4e73df, #224abe);
     color: white;
@@ -570,16 +474,13 @@ textarea.form-control {
     font-weight: bold;
     transition: all 0.3s ease;
     box-shadow: 0 4px 10px rgba(78, 115, 223, 0.3);
-    width: 100%; /* ADD THIS LINE */
+    width: 100%;
 }
-
-    .btn-gradient-blue:hover {
-        background: linear-gradient(45deg, #224abe, #4e73df);
-        box-shadow: 0 6px 15px rgba(78, 115, 223, 0.4);
-        transform: translateY(-2px);
-    }
-
-/* Green Theme (using CSS Variables) */
+.btn-gradient-blue:hover {
+    background: linear-gradient(45deg, #224abe, #4e73df);
+    box-shadow: 0 6px 15px rgba(78, 115, 223, 0.4);
+    transform: translateY(-2px);
+}
 :root {
     --main-green-color: #03AC13;
     --dark-green-gradient-start: #03AC13;
@@ -588,27 +489,21 @@ textarea.form-control {
     --green-accent-text: #04AA6D;
     --darker-green-text: #016E0A;
 }
-
 .bg-main-color-gradient {
     background: linear-gradient(45deg, var(--dark-green-gradient-start), var(--dark-green-gradient-end)) !important;
 }
-
 .text-main-color {
     color: var(--main-green-color) !important;
 }
-
 .text-green-accent {
     color: var(--green-accent-text) !important;
 }
-
 .text-dark-green-header {
     color: var(--darker-green-text) !important;
 }
-
 .border-main-color-subtle {
     border-color: var(--light-green-subtle) !important;
 }
-
 .btn-main-gradient {
     background: linear-gradient(45deg, var(--dark-green-gradient-start), var(--dark-green-gradient-end));
     color: white;
@@ -618,183 +513,144 @@ textarea.form-control {
     font-weight: bold;
     transition: all 0.3s ease;
     box-shadow: 0 4px 10px rgba(3, 172, 19, 0.3);
-    width: 100%; /* ADD THIS LINE */
+    width: 100%;
 }
-
-    .btn-main-gradient:hover {
-        background: linear-gradient(45deg, var(--dark-green-gradient-end), var(--dark-green-gradient-start));
-        box-shadow: 0 6px 15px rgba(3, 172, 19, 0.4);
-        transform: translateY(-2px);
-    }
-
-/* 7. Tabbed Navigation */
+.btn-main-gradient:hover {
+    background: linear-gradient(45deg, var(--dark-green-gradient-end), var(--dark-green-gradient-start));
+    box-shadow: 0 6px 15px rgba(3, 172, 19, 0.4);
+    transform: translateY(-2px);
+}
 .custom-tabs {
     border-bottom: none;
     position: relative;
     z-index: 1;
 }
+.custom-tabs .nav-item {
+    margin-right: 5px;
+}
 
-    .custom-tabs .nav-item {
-        margin-right: 5px;
-    }
+.custom-tabs .nav-link {
+    border: none;
+    border-bottom: 3px solid transparent;
+    border-radius: 10px 10px 0 0;
+    color: #6c757d;
+    font-weight: 600;
+    padding: 15px 25px;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+    margin-bottom: -1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.custom-tabs .nav-link:hover:not(.active) {
+    background-color: #e9ecef;
+    color: #495057;
+}
 
-    .custom-tabs .nav-link {
-        border: none;
-        border-bottom: 3px solid transparent;
-        border-radius: 10px 10px 0 0;
-        color: #6c757d;
-        font-weight: 600;
-        padding: 15px 25px;
-        transition: all 0.3s ease;
-        background-color: #f8f9fa;
-        margin-bottom: -1px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-        .custom-tabs .nav-link:hover:not(.active) {
-            background-color: #e9ecef;
-            color: #495057;
-        }
-
-        .custom-tabs .nav-link.active {
-            color: #fff;
-            font-weight: 700;
-            background-color: var(--tab-active-bg-color);
-            box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.05);
-            border-bottom-color: var(--tab-active-border-color);
-        }
-
-        .custom-tabs .nav-link i {
-            font-size: 1.1rem;
-        }
-
-/* Specific Tab Colors */
+.custom-tabs .nav-link.active {
+    color: #fff;
+    font-weight: 700;
+    background-color: var(--tab-active-bg-color);
+    box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.05);
+    border-bottom-color: var(--tab-active-border-color);
+}
+.custom-tabs .nav-link i {
+    font-size: 1.1rem;
+}
 .tab-blue.active {
     --tab-active-bg-color: #4e73df;
     --tab-active-border-color: #4e73df;
 }
-
 .tab-blue {
     color: #4e73df;
 }
-
-    .tab-blue.active:hover {
-        background-color: #4e73df;
-        color: #fff;
-    }
-
+.tab-blue.active:hover {
+    background-color: #4e73df;
+    color: #fff;
+}
 .tab-green.active {
     --tab-active-bg-color: #03AC13;
     --tab-active-border-color: #03AC13;
 }
-
 .tab-green {
     color: #03AC13;
 }
-
-    .tab-green.active:hover {
-        background-color: #03AC13;
-        color: #fff;
-    }
-
+.tab-green.active:hover {
+    background-color: #03AC13;
+    color: #fff;
+}
 .tab-yellow.active {
     --tab-active-bg-color: #f6c23e;
     --tab-active-border-color: #f6c23e;
 }
-
 .tab-yellow {
     color: #f6c23e;
 }
-
-    .tab-yellow.active:hover {
-        background-color: #f6c23e;
-        color: #fff;
-    }
-
-/* Status Badges with Gradients */
+.tab-yellow.active:hover {
+    background-color: #f6c23e;
+    color: #fff;
+}
 .bg-primary-gradient {
     background: linear-gradient(45deg, #4e73df, #2e59d9) !important;
     color: #fff !important;
 }
-
 .bg-success-gradient {
     background: linear-gradient(45deg, #1cc88a, #03AC13) !important;
     color: #fff !important;
 }
-
 .bg-danger-gradient {
     background: linear-gradient(45deg, #e74a3b, #c32719) !important;
     color: #fff !important;
 }
-
 .bg-warning-gradient {
     background: linear-gradient(45deg, #f6c23e, #d8a41e) !important;
     color: #212529 !important;
 }
-
-/* General Text and Border Colors (for common utility classes) */
 .text-primary {
     color: #007bff !important;
 }
-
 .border-primary-subtle {
     border-color: #cfe2ff !important;
 }
-
 .text-info {
     color: #17a2b8 !important;
 }
-
 .border-info-subtle {
     border-color: #d1ecf1 !important;
 }
-
 .text-secondary {
     color: #6c757d !important;
 }
-
 .border-secondary-subtle {
     border-color: #e2e6ea !important;
 }
-
 .text-dark {
     color: #343a40 !important;
 }
-
 .border-dark-subtle {
     border-color: #ced4da !important;
 }
-
-/* Badges (adjusting base Bootstrap badges) */
 .badge.bg-success {
     background-color: #28a745 !important;
 }
-
 .badge.bg-danger {
     background-color: #dc3545 !important;
 }
-
 .badge.bg-warning {
     background-color: #ffc107 !important;
-    color: #212529 !important; /* Ensure text is readable on warning */
+    color: #212529 !important;
 }
-
-/* Action Buttons (if not using custom gradient buttons) */
 .btn-info-outline {
     color: #4e73df;
     border-color: #4e73df;
     background-color: transparent;
 }
-
-/* Login Card & Form Styling (Specific to Login Page) */
-.login-card { /* Not strictly used by .login-form-panel but kept for context */
+.login-card {
     max-width: 450px;
     border-radius: 1rem;
     overflow: hidden;
 }
-
 .login-form-panel {
     width: 100%;
     max-width: 450px;
@@ -807,163 +663,129 @@ textarea.form-control {
     box-shadow: 0 18px 45px 0 rgba(0, 0, 0, 0.1);
     animation: fadeIn 0.8s ease-out 0.2s backwards;
 }
-
-    .login-form-panel::before {
-        content: none; /* Remove glow effect */
-    }
-
+.login-form-panel::before {
+    content: none;
+}
 .login-panel-heading {
     font-weight: 800;
     font-size: 2.2rem;
     text-align: center;
     color: #344767;
     text-shadow: none;
-    margin-bottom: 0.5rem !important; /* Space above subtitle */
+    margin-bottom: 0.5rem !important;
     margin-top: 0 !important;
 }
-
 .login-form-panel .login-subtitle {
     font-size: 0.85rem;
     color: #6c757d;
     text-align: center;
     display: block;
     margin-top: 0;
-    margin-bottom: 2.5rem !important; /* Space below subtitle, before first input */
+    margin-bottom: 2.5rem !important;
     line-height: 1.4;
     padding: 0 1rem;
 }
-
 .login-input-group {
     position: relative;
 }
-
-    .login-input-group .form-control {
-        background: #f8f9fa; /* Very light gray background for input */
-        border: 1px solid #e9ecef; /* Light border */
-        border-radius: 0.75rem; /* Standard rounded radius */
-        padding: 0.85rem 1rem 0.85rem 50px; /* Increased padding and adjusted icon space */
-        color: #212529;
-        font-weight: 400;
-        transition: all 0.2s ease;
-        height: auto; /* Allow height to adjust based on padding */
-        min-height: 52px; /* Increased minimum height for inputs */
-        font-size: 1.05rem; /* Slightly bigger input text */
-    }
-
-        .login-input-group .form-control::placeholder {
-            color: #8c98a4;
-        }
-
-        .login-input-group .form-control:focus {
-            background: #fff;
-            border-color: #4e73df; /* Keep your primary blue focus color */
-            box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
-            outline: none;
-        }
-
-    /* Input Group Margins */
-    /* Ensure no conflicting margin classes are used directly on the div in HTML */
-    .login-input-group:nth-of-type(1) { /* Target the first input group specifically */
-        margin-bottom: 2rem !important; /* Keep consistent with existing spacing */
-    }
-
-    .login-input-group:nth-of-type(2) { /* Target the second input group */
-        margin-bottom: 2rem !important; /* Keep consistent with existing spacing */
-    }
-
-
-/* IMPROVED ICONS */
+.login-input-group .form-control {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 0.75rem;
+    padding: 0.85rem 1rem 0.85rem 50px;
+    color: #212529;
+    font-weight: 400;
+    transition: all 0.2s ease;
+    height: auto;
+    min-height: 52px;
+    font-size: 1.05rem;
+ }
+.login-input-group .form-control::placeholder {
+    color: #8c98a4;
+}
+.login-input-group .form-control:focus {
+    background: #fff;
+    border-color: #4e73df;
+    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+    outline: none;
+}
+.login-input-group:nth-of-type(1) {
+    margin-bottom: 2rem !important;
+}
+.login-input-group:nth-of-type(2) {
+    margin-bottom: 2rem !important;
+}
 .login-input-icon, .login-password-toggle {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    color: #4e73df; /* Use your primary blue color for a premium look */
-    font-size: 1.2rem; /* Bigger icon */
+    color: #4e73df;
+    font-size: 1.2rem;
     z-index: 10;
 }
-
 .login-input-icon {
-    left: 18px; /* Adjusted icon position */
+    left: 18px;
 }
-
 .login-password-toggle {
-    right: 18px; /* Adjusted toggle position */
+    right: 18px;
     cursor: pointer;
-    color: #6c757d; /* Muted color for the toggle eye */
+    color: #6c757d;
     transition: color 0.2s;
 }
-
-    .login-password-toggle:hover {
-        color: #4e73df; /* Hover effect */
-    }
-
-
-/* --- Button and Links --- */
-.login-form-options {
-    font-size: 0.95rem; /* Slightly bigger text */
-    margin-bottom: 3rem !important; /* Extra space before button */
+.login-password-toggle:hover {
+    color: #4e73df;
 }
-
+.login-form-options {
+    font-size: 0.95rem;
+    margin-bottom: 3rem !important;
+}
 .login-remember-me .form-check-label {
-    color: #6c757d; /* Muted text color */
+    color: #6c757d;
     text-shadow: none;
 }
-
 .login-forgot-password, .login-signup-text a {
-    color: #4e73df; /* Primary link color */
+    color: #4e73df;
     text-decoration: none;
     font-weight: 600;
     transition: color 0.2s;
 }
-
-    .login-forgot-password:hover, .login-signup-text a:hover {
-        color: #2e59d9; /* Darker blue on hover */
-    }
-
-.login-signup-text {
-    color: #6c757d; /* Muted 'or' text */
-    margin-top: 3rem !important; /* Increased space for signup text */
-    font-size: 1.05rem; /* Slightly bigger text */
+.login-forgot-password:hover, .login-signup-text a:hover {
+    color: #2e59d9;
 }
-
-    .login-signup-text a {
-        color: #4e73df; /* Ensure signup link color */
-    }
-
-
-/* Responsive adjustments */
+.login-signup-text {
+    color: #6c757d;
+    margin-top: 3rem !important;
+    font-size: 1.05rem;
+}
+.login-signup-text a {
+    color: #4e73df;
+}
 @media (max-width: 992px) {
     .login-header-nav {
         padding: 1rem 2rem;
     }
-
     .login-main-content {
-        flex-direction: column; /* Stack columns on smaller screens */
+        flex-direction: column;
         padding: 2rem;
-        justify-content: center; /* Center content when stacked */
-        text-align: center; /* Center description text */
+        justify-content: center;
+        text-align: center;
     }
-
     .login-form-panel {
-        max-width: 400px; /* Adjusted max-width on smaller screens */
-        padding: 3rem 2.5rem; /* Reduced padding */
-        margin-bottom: 2rem; /* Space between form and description */
+        max-width: 400px;
+        padding: 3rem 2.5rem;
+        margin-bottom: 2rem;
     }
-
     .login-project-description {
-        max-width: 100%; /* Allow description to take full width */
-        padding: 2rem; /* Adjusted padding */
+        max-width: 100%;
+        padding: 2rem;
     }
-
         .login-project-description::before {
-            border-radius: 1rem; /* Slightly smaller radius for backdrop */
+            border-radius: 1rem;
         }
-
     .login-project-title {
         font-size: 2.5rem;
         margin-bottom: 1.2rem;
     }
-
     .login-project-text {
         font-size: 1.05rem;
     }
@@ -987,7 +809,7 @@ textarea.form-control {
     .login-form-panel {
         margin: 1rem;
         padding: 2.5rem 1.5rem;
-        max-width: 100%; /* Allow full width on very small screens */
+        max-width: 100%;
     }
 
     .login-project-description {
@@ -1003,8 +825,6 @@ textarea.form-control {
         font-size: 1rem;
     }
 }
-
-/* Keyframe for fadeIn animation (used for form and description) */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -1017,81 +837,57 @@ textarea.form-control {
     }
 }
 
-/* Update for h9 (login-subtitle) */
-.login-form-panel .login-subtitle {
-    font-size: 0.85rem; /* Make it smaller */
-    color: #6c757d; /* Muted color for better hierarchy */
-    text-align: center;
-    display: block; /* Ensures margin-bottom works */
-    margin-top: -3rem; /* Adjust this value to bring it closer to h2 */
-    margin-bottom: 2.5rem; /* Adjust this value to control space below it */
-    line-height: 1.4; /* Improve readability for smaller text */
-    padding: 0 1rem; /* Add some horizontal padding to prevent it from touching edges */
-}
-
-/* Adjust the margin-bottom for the h2 to give enough space above the subtitle */
-.login-panel-heading {
-    /* Keep existing styles */
-    font-weight: 800;
-    font-size: 2.2rem;
-    text-align: center;
-    color: #344767;
-    text-shadow: none;
-    margin-bottom: 1rem !important; /* Reduced margin here */
-}
-
-/* Ensure the first input group's margin is correct after these adjustments */
-.login-form-panel .login-input-form .login-input-group:first-of-type {
-    margin-top: 0 !important; /* Remove any inherited top margin */
-}
-
-/* Adjust general spacing if needed, but the above should handle the h9 specifically */
-
-/* In your CSS file */
-
-/* Adjust the margin-bottom for the h2 to position it correctly */
-.login-panel-heading {
-    /* Keep existing styles */
-    font-weight: 800;
-    font-size: 2.2rem;
-    text-align: center;
-    color: #344767;
-    text-shadow: none;
-    margin-bottom: 0.5rem !important; /* Reduced to bring subtitle closer */
-    margin-top: 0 !important; /* Ensure no extra top margin */
-}
-
-/* Update for h9 (login-subtitle) to remove negative margin and set its own bottom margin */
 .login-form-panel .login-subtitle {
     font-size: 0.85rem;
     color: #6c757d;
     text-align: center;
     display: block;
-    margin-top: 0; /* No negative margin needed now that it's below the heading */
-    margin-bottom: 2.5rem !important; /* Space below subtitle, before first input */
+    margin-top: -3rem;
+    margin-bottom: 2.5rem;
     line-height: 1.4;
     padding: 0 1rem;
 }
 
+.login-panel-heading {
+    font-weight: 800;
+    font-size: 2.2rem;
+    text-align: center;
+    color: #344767;
+    text-shadow: none;
+    margin-bottom: 1rem !important;
+}
 
-/* Make sure the login-main-content correctly centers its children */
+.login-form-panel .login-input-form .login-input-group:first-of-type {
+    margin-top: 0 !important;
+}
+.login-panel-heading {
+    font-weight: 800;
+    font-size: 2.2rem;
+    text-align: center;
+    color: #344767;
+    text-shadow: none;
+    margin-bottom: 0.5rem !important;
+    margin-top: 0 !important;
+}
+.login-form-panel .login-subtitle {
+    font-size: 0.85rem;
+    color: #6c757d;
+    text-align: center;
+    display: block;
+    margin-top: 0;
+    margin-bottom: 2.5rem !important;
+    line-height: 1.4;
+    padding: 0 1rem;
+}
 .login-main-content {
-    flex: 1; /* Take up remaining vertical space */
+    flex: 1;
     display: flex;
-    align-items: center; /* Vertically center children */
-    justify-content: center; /* Horizontally center children */
-    /* Remove 'gap' if you only have one main child (the form panel) */
-    /* gap: 2rem; <-- Remove or comment this out if only centering one element */
+    align-items: center;
+    justify-content: center;
     padding: 0 4rem;
     width: 100%;
     position: relative;
 }
-
-/* If you previously had .login-project-description, you might want to remove it or
-   adjust .login-main-content further if you intend to have both form and description side-by-side again.
-   For now, assuming you only want the form panel centered. */
-
-/* Also, ensure your body is set up for full-page centering if the .login-page-container isn't doing it */
 body {
     display: flex;
     flex-direction: column;
@@ -1100,10 +896,9 @@ body {
     font-family: 'Inter', sans-serif;
     color: #344767;
     margin: 0;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
-
-/* Ensure .login-page-container fills the screen */
 .login-page-container {
     width: 100vw;
     height: 100vh;
@@ -1114,4 +909,664 @@ body {
     background: url('/images/background.jpg') no-repeat center center;
     background-size: cover;
     position: relative;
+}
+.modern-card, .modern-card h2, .modern-card p,
+.detail-section-title, .detail-list-modern dt, .detail-list-modern dd,
+.approval-card, .approval-card h5, .badge-modern, .btn-modern,
+.final-status-text {
+    font-family: 'Inter', sans-serif !important;
+}
+.modern-card {
+    border-radius: 1rem !important;
+    overflow: hidden !important;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1) !important;
+    background-color: #ffffff !important;
+    border: none !important;
+}
+    .modern-card .card-header-modern {
+        background: linear-gradient(135deg, #4a00e0, #8e2de2) !important;
+        color: white !important;
+        padding: 3.5rem 2rem !important;
+        text-align: center !important;
+        border-bottom: none !important;
+        position: relative !important;
+        overflow: hidden !important;
+        border-top-left-radius: 1rem !important;
+        border-top-right-radius: 1rem !important;
+    }
+
+        .modern-card .card-header-modern h2 {
+            font-size: 2.5rem !important;
+            font-weight: 700 !important;
+            margin-bottom: 0.75rem !important;
+            letter-spacing: -0.03em !important;
+        }
+
+        .modern-card .card-header-modern p {
+            font-size: 1.15rem !important;
+            opacity: 0.95 !important;
+            max-width: 700px !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
+
+        .modern-card .card-header-modern::before {
+            content: '' !important;
+            position: absolute !important;
+            top: -60% !important;
+            left: -60% !important;
+            width: 250% !important;
+            height: 250% !important;
+            background: rgba(255, 255, 255, 0.07) !important;
+            transform: rotate(25deg) !important;
+            z-index: 0 !important;
+            pointer-events: none !important;
+        }
+
+    .modern-card .detail-section-title {
+        font-size: 1.4rem !important;
+        font-weight: 600 !important;
+        color: #212529 !important; 
+        margin-bottom: 1.8rem !important;
+        padding-bottom: 1rem !important;
+        border-bottom: 2px solid rgba(74, 0, 224, 0.2) !important;
+        display: flex !important;
+        align-items: center !important;
+        position: relative !important;
+    }
+        .modern-card .detail-section-title i {
+            color: #4a00e0 !important;
+            margin-right: 1rem !important;
+            font-size: 1.6rem !important;
+        }
+        .modern-card .detail-section-title::after {
+            content: '' !important;
+            position: absolute !important;
+            bottom: -2px !important;
+            left: 0 !important;
+            width: 60px !important;
+            height: 2px !important;
+            background: #4a00e0 !important;
+        }
+
+    .modern-card .detail-list-modern dt {
+        font-weight: 500 !important;
+        color: #6c757d !important;
+        padding: 0.6rem 0 !important;
+        font-size: 0.95rem !important;
+    }
+
+    .modern-card .detail-list-modern dd {
+        font-weight: 600 !important;
+        color: #343a40 !important;
+        padding: 0.6rem 0 !important;
+        margin-bottom: 0 !important;
+        font-size: 0.98rem !important;
+    }
+
+
+    .modern-card .file-link {
+        display: inline-flex !important;
+        align-items: center !important;
+        color: #007bff !important;
+        font-weight: 600 !important;
+        text-decoration: none !important;
+        transition: color 0.3s ease, transform 0.3s ease !important;
+        padding: 0.4rem 0.8rem !important;
+        border-radius: 0.3rem !important;
+        background-color: #e9f5ff !important;
+    }
+
+        .modern-card .file-link:hover {
+            color: #0056b3 !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.1) !important;
+            background-color: #dbeaff !important;
+        }
+
+        .modern-card .file-link i {
+            font-size: 1.1rem !important;
+            margin-right: 0.6rem !important;
+        }
+
+    .modern-card .approval-card {
+        border: 1px solid #e0e0e0 !important;
+        border-radius: 0.75rem !important;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07) !important;
+        transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+        background-color: #ffffff !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+        .modern-card .approval-card:hover {
+            transform: translateY(-8px) !important;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .modern-card .approval-card .card-body {
+            padding: 2.5rem !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            text-align: center !important;
+            flex-grow: 1 !important;
+        }
+
+        .modern-card .approval-card h5 {
+            font-size: 1.3rem !important;
+            font-weight: 600 !important;
+            color: #343a40 !important;
+            margin-bottom: 1.5rem !important;
+            min-height: 40px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-wrap: wrap !important;
+        }
+
+    .modern-card .approval-status i {
+        font-size: 3rem !important;
+        margin-bottom: 1rem !important;
+        display: block !important;
+        line-height: 1 !important;
+    }
+
+    .modern-card .badge-modern {
+        padding: 0.7em 1.2em !important;
+        border-radius: 0.6rem !important;
+        font-size: 0.95em !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.05em !important;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05) !important;
+    }
+
+    .modern-card .badge-pending {
+        background-color: #ffc107 !important;
+        color: #343a40 !important;
+    }
+
+    .modern-card .badge-approved {
+        background-color: #28a745 !important;
+        color: white !important;
+    }
+
+    .modern-card .badge-denied {
+        background-color: #dc3545 !important;
+        color: white !important;
+    }
+    .modern-card .btn-modern {
+        border-radius: 0.6rem !important;
+        padding: 0.8rem 1.8rem !important;
+        font-size: 1rem !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+        margin-top: 1rem !important;
+        min-width: 120px !important;
+    }
+
+        .modern-card .btn-modern:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1) !important;
+        }
+
+    .modern-card .btn-primary.btn-modern {
+        background-color: #4a00e0 !important;
+        border-color: #4a00e0 !important;
+        color: white !important;
+    }
+
+        .modern-card .btn-primary.btn-modern:hover {
+            background-color: #3b00b3 !important;
+            border-color: #3b00b3 !important;
+        }
+
+    .modern-card .btn-success.btn-modern {
+        background-color: #28a745 !important;
+        border-color: #28a745 !important;
+        color: white !important;
+    }
+
+        .modern-card .btn-success.btn-modern:hover {
+            background-color: #218838 !important;
+            border-color: #218838 !important;
+        }
+
+    .modern-card .btn-danger.btn-modern {
+        background-color: #dc3545 !important;
+        border-color: #dc3545 !important;
+        color: white !important;
+    }
+
+        .modern-card .btn-danger.btn-modern:hover {
+            background-color: #c82333 !important;
+            border-color: #c82333 !important;
+        }
+
+    .modern-card .btn-outline-secondary.btn-modern {
+        color: #6c757d !important;
+        border-color: #6c757d !important;
+        background-color: transparent !important;
+    }
+
+        .modern-card .btn-outline-secondary.btn-modern:hover {
+            color: white !important;
+            background-color: #6c757d !important;
+            border-color: #6c757d !important;
+        }
+    .modern-card .divider-line {
+        border-left: 1px solid #e9ecef !important;
+    }
+    .modern-card .final-status-text {
+        font-size: 1.6rem !important;
+        font-weight: 700 !important;
+        letter-spacing: -0.02em !important;
+    }
+
+    .modern-card .final-status-pending {
+        color: #ffc107 !important;
+    }
+
+    .modern-card .final-status-approved {
+        color: #28a745 !important;
+    }
+
+    .modern-card .final-status-denied {
+        color: #dc3545 !important;
+    }
+
+    .modern-card .confirmed-by-section {
+        font-size: 1.1rem !important;
+        color: #6c757d !important;
+        margin-top: 1.5rem !important;
+    }
+
+        .modern-card .confirmed-by-section strong {
+            color: #343a40 !important;
+        }
+@media (max-width: 991.98px) {
+    .modern-card .divider-line {
+        border-left: none !important;
+        border-top: 1px solid #e9ecef !important;
+        margin-top: 3.5rem !important;
+        padding-top: 3.5rem !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .modern-card .card-header-modern {
+        padding: 2.5rem 1.5rem !important;
+    }
+
+        .modern-card .card-header-modern h2 {
+            font-size: 2rem !important;
+        }
+
+        .modern-card .card-header-modern p {
+            font-size: 1rem !important;
+        }
+
+    .modern-card .detail-section-title {
+        font-size: 1.2rem !important;
+    }
+
+    .modern-card .approval-card .card-body {
+        padding: 1.5rem !important;
+    }
+
+    .modern-card .approval-status i {
+        font-size: 2.5rem !important;
+    }
+
+    .modern-card .btn-modern {
+        padding: 0.6rem 1.2rem !important;
+        font-size: 0.9rem !important;
+    }
+}
+.reservation-modern-card, .reservation-modern-card h2, .reservation-modern-card p,
+.reservation-detail-section-title, .reservation-detail-list-modern dt, .reservation-detail-list-modern dd,
+.reservation-approval-card, .reservation-approval-card h5, .reservation-badge-modern, .reservation-btn-modern,
+.reservation-final-status-text {
+    font-family: 'Inter', sans-serif !important;
+}
+
+.reservation-modern-card {
+    border-radius: 1rem !important;
+    overflow: hidden !important;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1) !important;
+    background-color: #ffffff !important;
+    border: none !important;
+}
+
+    .reservation-modern-card .card-header-modern-reservation {
+        background: linear-gradient(135deg, #03AC13, #028910) !important;
+        color: white !important;
+        padding: 3.5rem 2rem !important;
+        text-align: center !important;
+        border-bottom: none !important;
+        position: relative !important;
+        overflow: hidden !important;
+        border-top-left-radius: 1rem !important;
+        border-top-right-radius: 1rem !important;
+    }
+
+        .reservation-modern-card .card-header-modern-reservation h2 {
+            font-size: 2.5rem !important;
+            font-weight: 700 !important;
+            margin-bottom: 0.75rem !important;
+            letter-spacing: -0.03em !important;
+        }
+
+        .reservation-modern-card .card-header-modern-reservation p {
+            font-size: 1.15rem !important;
+            opacity: 0.95 !important;
+            max-width: 700px !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
+
+        .reservation-modern-card .card-header-modern-reservation::before {
+            content: '' !important;
+            position: absolute !important;
+            top: -60% !important;
+            left: -60% !important;
+            width: 250% !important;
+            height: 250% !important;
+            background: rgba(255, 255, 255, 0.07) !important;
+            transform: rotate(25deg) !important;
+            z-index: 0 !important;
+            pointer-events: none !important;
+        }
+    .reservation-modern-card .reservation-detail-section-title {
+        font-size: 1.4rem !important;
+        font-weight: 600 !important;
+        color: #212529 !important;
+        margin-bottom: 1.8rem !important;
+        padding-bottom: 1rem !important;
+        border-bottom: 2px solid rgba(3, 172, 19, 0.2) !important;
+        display: flex !important;
+        align-items: center !important;
+        position: relative !important;
+    }
+
+        .reservation-modern-card .reservation-detail-section-title i {
+            color: #03AC13 !important;
+            margin-right: 1rem !important;
+            font-size: 1.6rem !important;
+        }
+
+        .reservation-modern-card .reservation-detail-section-title::after {
+            content: '' !important;
+            position: absolute !important;
+            bottom: -2px !important;
+            left: 0 !important;
+            width: 60px !important;
+            height: 2px !important;
+            background: #03AC13 !important;
+        }
+
+    .reservation-modern-card .reservation-detail-list-modern dt {
+        font-weight: 500 !important;
+        color: #6c757d !important;
+        padding: 0.6rem 0 !important;
+        font-size: 0.95rem !important;
+    }
+
+    .reservation-modern-card .reservation-detail-list-modern dd {
+        font-weight: 600 !important;
+        color: #343a40 !important;
+        padding: 0.6rem 0 !important;
+        margin-bottom: 0 !important;
+        font-size: 0.98rem !important;
+    }
+
+    .reservation-modern-card .reservation-approval-card {
+        border: 1px solid #e0e0e0 !important;
+        border-radius: 0.75rem !important;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07) !important;
+        transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+        background-color: #ffffff !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+        .reservation-modern-card .reservation-approval-card:hover {
+            transform: translateY(-8px) !important;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .reservation-modern-card .reservation-approval-card .card-body {
+            padding: 2.5rem !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            text-align: center !important;
+            flex-grow: 1 !important;
+        }
+
+        .reservation-modern-card .reservation-approval-card h5 {
+            font-size: 1.3rem !important;
+            font-weight: 600 !important;
+            color: #343a40 !important;
+            margin-bottom: 1.5rem !important;
+            min-height: 40px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-wrap: wrap !important;
+        }
+
+    .reservation-modern-card .approval-status i {
+        font-size: 3rem !important;
+        margin-bottom: 1rem !important;
+        display: block !important;
+        line-height: 1 !important;
+    }
+
+    .reservation-modern-card .reservation-badge-modern {
+        padding: 0.7em 1.2em !important;
+        border-radius: 0.6rem !important;
+        font-size: 0.95em !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.05em !important;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05) !important;
+    }
+
+    .reservation-modern-card .reservation-badge-pending {
+        background-color: #ffc107 !important;
+        color: #343a40 !important;
+    }
+
+    .reservation-modern-card .reservation-badge-approved {
+        background-color: #28a745 !important;
+        color: white !important;
+    }
+
+    .reservation-modern-card .reservation-badge-denied {
+        background-color: #dc3545 !important;
+        color: white !important;
+    }
+    .reservation-modern-card .reservation-btn-modern {
+        border-radius: 0.6rem !important;
+        padding: 0.8rem 1.8rem !important;
+        font-size: 1rem !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+        margin-top: 1rem !important;
+        min-width: 120px !important;
+    }
+
+        .reservation-modern-card .reservation-btn-modern:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1) !important;
+        }
+
+    .reservation-modern-card .reservation-btn-primary.reservation-btn-modern {
+        background: linear-gradient(45deg, #03AC13, #028910) !important;
+        border-color: #03AC13 !important;
+        color: white !important;
+    }
+
+        .reservation-modern-card .reservation-btn-primary.reservation-btn-modern:hover {
+            background: linear-gradient(45deg, #028910, #03AC13) !important;
+            border-color: #028910 !important;
+        }
+
+    .reservation-modern-card .reservation-btn-success.reservation-btn-modern {
+        background-color: #28a745 !important;
+        border-color: #28a745 !important;
+        color: white !important;
+    }
+
+        .reservation-modern-card .reservation-btn-success.reservation-btn-modern:hover {
+            background-color: #218838 !important;
+            border-color: #218838 !important;
+        }
+
+    .reservation-modern-card .reservation-btn-danger.reservation-btn-modern {
+        background-color: #dc3545 !important;
+        border-color: #dc3545 !important;
+        color: white !important;
+    }
+
+        .reservation-modern-card .reservation-btn-danger.reservation-btn-modern:hover {
+            background-color: #c82333 !important;
+            border-color: #c82333 !important;
+        }
+
+    .reservation-modern-card .reservation-btn-outline-secondary.reservation-btn-modern {
+        color: #6c757d !important;
+        border-color: #6c757d !important;
+        background-color: transparent !important;
+    }
+
+        .reservation-modern-card .reservation-btn-outline-secondary.reservation-btn-modern:hover {
+            color: white !important;
+            background-color: #6c757d !important;
+            border-color: #6c757d !important;
+        }
+
+    .reservation-modern-card .divider-line {
+        border-left: 1px solid #e9ecef !important;
+    }
+
+    .reservation-modern-card .reservation-final-status-text {
+        font-size: 1.6rem !important;
+        font-weight: 700 !important;
+        letter-spacing: -0.02em !important;
+    }
+
+    .reservation-modern-card .reservation-final-status-pending {
+        color: #ffc107 !important;
+    }
+
+    .reservation-modern-card .reservation-final-status-approved {
+        color: #28a745 !important;
+    }
+
+    .reservation-modern-card .reservation-final-status-denied {
+        color: #dc3545 !important;
+    }
+
+    .reservation-modern-card .confirmed-by-section {
+        font-size: 1.1rem !important;
+        color: #6c757d !important;
+        margin-top: 1.5rem !important;
+    }
+
+        .reservation-modern-card .confirmed-by-section strong {
+            color: #343a40 !important;
+        }
+
+@media (max-width: 991.98px) {
+    .reservation-modern-card .divider-line {
+        border-left: none !important;
+        border-top: 1px solid #e9ecef !important;
+        margin-top: 3.5rem !important;
+        padding-top: 3.5rem !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .reservation-modern-card .card-header-modern-reservation {
+        padding: 2.5rem 1.5rem !important;
+    }
+
+        .reservation-modern-card .card-header-modern-reservation h2 {
+            font-size: 2rem !important;
+        }
+
+        .reservation-modern-card .card-header-modern-reservation p {
+            font-size: 1rem !important;
+        }
+
+    .reservation-modern-card .reservation-detail-section-title {
+        font-size: 1.2rem !important;
+    }
+
+    .reservation-modern-card .reservation-approval-card .card-body {
+        padding: 1.5rem !important;
+    }
+
+    .reservation-modern-card .approval-status i {
+        font-size: 2.5rem !important;
+    }
+
+    .reservation-modern-card .reservation-btn-modern {
+        padding: 0.6rem 1.2rem !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+/* Custom gradients */
+.bg-primary-gradient {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+}
+
+.bg-success-gradient {
+    background: linear-gradient(45deg, #28a745, #1e7e34);
+    color: white;
+}
+
+.bg-warning-gradient {
+    background: linear-gradient(45deg, #ffc107, #d39e00);
+    color: black; /* Keep text dark for contrast */
+}
+
+.bg-danger-gradient {
+    background: linear-gradient(45deg, #dc3545, #a71d2a);
+    color: white;
+}
+/* New: Gradient for 'Changed' status */
+.bg-info-gradient {
+    background: linear-gradient(45deg, #17a2b8, #117a8b);
+    color: white;
+}
+
+/* For the Final Status Text in details views */
+.final-status-pending {
+    color: #ffc107;
+}
+
+.final-status-approved {
+    color: #28a745;
+}
+
+.final-status-denied {
+    color: #dc3545;
+}
+
+.final-status-changed {
+    color: #17a2b8;
+}
+/* New: Color for changed status text */
+
+/* Optional: Animation for changed status alert */
+.animate__animated.animate__pulse {
+    --animate-duration: 2s;
 }

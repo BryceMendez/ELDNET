@@ -8,24 +8,30 @@ namespace ELDNET.Models
     {
         public int Id { get; set; }
 
-        // Add this property to link to the student
+        // 🔹 Link to Student
         public string? StudentId { get; set; } // Foreign key to StudentAccount.StudentId
 
         public string? Name { get; set; }
+
         [Display(Name = "ID Number")]
         public string? IdNumber { get; set; }
+
         [Display(Name = "Locker Number")]
         public string? LockerNumber { get; set; }
+
         public string? Semester { get; set; }
+
         [Display(Name = "Contact Number")]
         public string? ContactNumber { get; set; }
+
+        // 🔹 Overall Status
         public string? Status { get; set; } = "Pending";
 
-        // saved in DB
+        // 🔹 File paths (saved in DB)
         public string? StudyLoadPath { get; set; }
         public string? RegistrationPath { get; set; }
 
-        // not saved in DB, used for uploads
+        // 🔹 Not saved in DB, used for uploads
         [NotMapped]
         [Display(Name = "Study Load")]
         public IFormFile? StudyLoadFile { get; set; }
@@ -36,5 +42,13 @@ namespace ELDNET.Models
 
         [Display(Name = "Accept Terms and Conditions")]
         public bool AcceptTerms { get; set; }
+
+        public bool IsChangedByApplicant { get; set; } = false;
+
+        // 🔹 Approval Workflow Fields
+        public string Approver1Name { get; set; } = "Bladimir Swarovski (OSD Director)";
+        public string Approver1Status { get; set; } = "Pending";
+
+        public string FinalStatus { get; set; } = "Pending";
     }
 }

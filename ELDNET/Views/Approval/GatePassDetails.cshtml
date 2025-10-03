@@ -4,77 +4,78 @@
     ViewData["Title"] = "Gate Pass Details";
 }
 
-<div class="container py-4 animate__animated animate__fadeIn">
-    <div class="custom-card shadow-lg border-0">
-        <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #007bff, #0056b3);">
-            @* Blue gradient for Gate Pass *@
-            <h2 class="mb-2 fw-bold"><i class="bi bi-person-lines-fill me-2"></i>Gate Pass Details</h2> @* New icon for Gate Pass *@
-            <p class="mb-0 text-white-50">Comprehensive information for this gate pass request.</p>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    @* Ensure this links to your main CSS file that now contains the appended styles *@
+    <link href="~/css/site.css" rel="stylesheet" /> @* <--- IMPORTANT: Replace with the actual path to your main CSS file *@
+</head>
+
+<div class="container py-5 animate__animated animate__fadeIn">
+    <div class="modern-card">
+        <div class="card-header-modern">
+            <h2 class="mb-2"><i class="bi bi-person-lines-fill me-3"></i>Gate Pass Details</h2>
+            <p class="text-white-75">Comprehensive information for this gate pass request.</p>
         </div>
-        <div class="card-body p-5">
+
+        <div class="card-body p-lg-5 p-4">
             <div class="row g-5">
-                @* Increased gap for better separation *@
 
                 <!-- Requestor Information Section -->
-                <div class="col-lg-6 border-end-lg pe-lg-5">
-                    @* Added right border for separation on large screens *@
-                    <h5 class="text-primary mb-4 pb-2 border-bottom border-primary-subtle">
-                        @* Using text-primary for section header *@
-                        <i class="bi bi-person-circle me-2"></i>Requestor Information
+                <div class="col-lg-6">
+                    <h5 class="detail-section-title">
+                        <i class="bi bi-person-circle"></i>Requestor Information
                     </h5>
                     <dl class="row detail-list-modern">
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Name)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Name)</dd>
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Name)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.Name)</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.SchoolYear)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.SchoolYear)</dd>
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.SchoolYear)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.SchoolYear)</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Address)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Address)</dd>
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Address)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.Address)</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Date)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Model.Date.ToString("MMMM dd, yyyy")</dd>
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Date)</dt>
+                        <dd class="col-sm-7">@Model.Date.ToString("MMMM dd, yyyy")</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Role)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Role)</dd>
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Role)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.Role)</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Department)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Department)</dd>
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Department)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.Department)</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CourseYear)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.CourseYear)</dd>
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.CourseYear)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.CourseYear)</dd>
                     </dl>
                 </div>
 
                 <!-- Vehicle & Document Information Section -->
-                <div class="col-lg-6 ps-lg-5">
-                    @* Added left padding for separation on large screens *@
-                    <h5 class="text-info mb-4 pb-2 border-bottom border-info-subtle">
-                        @* Using text-info for section header *@
-                        <i class="bi bi-car-front me-2"></i>Vehicle Information
+                <div class="col-lg-6 divider-line">
+                    <h5 class="detail-section-title">
+                        <i class="bi bi-car-front"></i>Vehicle Information
                     </h5>
                     <dl class="row detail-list-modern">
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PlateNumber)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.PlateNumber)</dd>
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.PlateNumber)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.PlateNumber)</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Maker)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Maker)</dd>
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Maker)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.Maker)</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Color)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Color)</dd>
+                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Color)</dt>
+                        <dd class="col-sm-7">@Html.DisplayFor(model => model.Color)</dd>
                     </dl>
 
-                    <h5 class="text-secondary mt-5 mb-4 pb-2 border-bottom border-secondary-subtle">
-                        @* Using text-secondary for section header *@
-                        <i class="bi bi-file-earmark-text me-2"></i>Uploaded Files
+                    <h5 class="detail-section-title mt-5">
+                        <i class="bi bi-file-earmark-text"></i>Uploaded Files
                     </h5>
                     <dl class="row detail-list-modern">
-                        <dt class="col-sm-4">Study Load File:</dt>
-                        <dd class="col-sm-8">
+                        <dt class="col-sm-5">Study Load File:</dt>
+                        <dd class="col-sm-7">
                             @if (!string.IsNullOrEmpty(Model.StudyLoadPath))
                             {
-                                <a href="@Url.Content(Model.StudyLoadPath)" target="_blank" class="text-primary fw-bold text-decoration-none">
-                                    <i class="bi bi-file-earmark-arrow-down me-1"></i> View Study Load
+                                <a href="@Url.Content(Model.StudyLoadPath)" target="_blank" class="file-link">
+                                    <i class="bi bi-box-arrow-down-right"></i> View Study Load
                                 </a>
                             }
                             else
@@ -83,12 +84,12 @@
                             }
                         </dd>
 
-                        <dt class="col-sm-4">Registration Form:</dt>
-                        <dd class="col-sm-8">
+                        <dt class="col-sm-5">Registration Form:</dt>
+                        <dd class="col-sm-7">
                             @if (!string.IsNullOrEmpty(Model.RegistrationPath))
                             {
-                                <a href="@Url.Content(Model.RegistrationPath)" target="_blank" class="text-primary fw-bold text-decoration-none">
-                                    <i class="bi bi-file-earmark-arrow-down me-1"></i> View Registration Form
+                                <a href="@Url.Content(Model.RegistrationPath)" target="_blank" class="file-link">
+                                    <i class="bi bi-box-arrow-down-right"></i> View Registration Form
                                 </a>
                             }
                             else
@@ -98,23 +99,79 @@
                         </dd>
                     </dl>
                 </div>
+            </div>
 
-                <!-- Action Buttons -->
-                <div class="col-12 text-center pt-5 border-top">
-                    @* Removed the @if (Model.Status == "Pending") condition here *@
-                    <form asp-action="ApproveGatePass" method="post" class="d-inline me-3">
+            <!-- Approval Workflow Section -->
+            <div class="mt-5 pt-5 border-top text-center">
+                <h4 class="detail-section-title justify-content-center mb-5">
+                    <i class="bi bi-diagram-3"></i>Approval Workflow
+                </h4>
+
+                <div class="row justify-content-center g-4">
+                    <!-- Approver Loop -->
+                    @foreach (var approver in new[]
+                                        {
+                                        new { Name = Model.Approver1Name, Status = Model.Approver1Status, Number = 1 },
+                                        new { Name = Model.Approver2Name, Status = Model.Approver2Status, Number = 2 },
+                                        new { Name = Model.Approver3Name, Status = Model.Approver3Status, Number = 3 }
+                                        })
+                    {
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card approval-card h-100">
+                                <div class="card-body">
+                                    <h5 class="mb-3">
+                                        @if (!string.IsNullOrEmpty(approver.Name))
+                                        {
+                                            @approver.Name
+                                        }
+                                        else
+                                        {
+                                            <span>Approver @approver.Number</span>
+                                        }
+                                    </h5>
+                                    <div class="approval-status mb-4">
+                                        @if (approver.Status == "Pending")
+                                        {
+                                            <i class="bi bi-hourglass-split text-warning"></i>
+                                            <span class="badge badge-modern badge-pending">Pending</span>
+                                        }
+                                        else if (approver.Status == "Approved")
+                                        {
+                                            <i class="bi bi-check-circle-fill text-success"></i>
+                                            <span class="badge badge-modern badge-approved">Approved</span>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-x-circle-fill text-danger"></i>
+                                            <span class="badge badge-modern badge-denied">Denied</span>
+                                        }
+                                    </div>
+                                    <form asp-controller="Approval" asp-action="SetApproval" method="post" class="mt-auto">
+                                        <input type="hidden" name="id" value="@Model.Id" />
+                                        <input type="hidden" name="type" value="GatePass" />
+                                        <input type="hidden" name="approver" value="@approver.Number" />
+
+                                        <button type="submit" name="decision" value="Approved" class="btn btn-success btn-sm me-2 btn-modern">Approve</button>
+                                        <button type="submit" name="decision" value="Denied" class="btn btn-danger btn-sm btn-modern">Deny</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- Final Confirmation Section -->
+                <div class="mt-5 pt-4 border-top">
+                    <form asp-controller="Approval" asp-action="ConfirmApproval" method="post" class="mb-4">
                         <input type="hidden" name="id" value="@Model.Id" />
-                        <button type="submit" class="btn btn-success btn-lg" style="min-width: 150px;">
-                            <i class="bi bi-check-circle me-2"></i>Approve
+                        <input type="hidden" name="type" value="GatePass" />
+                        <button type="submit" class="btn btn-primary btn-lg btn-modern">
+                            <i class="bi bi-check2-circle me-2"></i>Confirm Final Decision
                         </button>
                     </form>
-                    <form asp-action="DenyGatePass" method="post" class="d-inline me-3">
-                        <input type="hidden" name="id" value="@Model.Id" />
-                        <button type="submit" class="btn btn-danger btn-lg" style="min-width: 150px;">
-                            <i class="bi bi-x-circle me-2"></i>Deny
-                        </button>
-                    </form>
-                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
+                    <p class="final-status-text mt-3">Final Status: <strong class="final-status-@(Model.FinalStatus?.ToLower())">@Model.FinalStatus</strong></p>
+
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg btn-modern mt-4">
                         <i class="bi bi-arrow-left me-2"></i>Back to List
                     </a>
                 </div>
@@ -122,3 +179,5 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

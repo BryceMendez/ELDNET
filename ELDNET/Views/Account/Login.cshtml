@@ -22,6 +22,12 @@ Layout = "~/Views/Shared/_Layout.cshtml";
             <h9 class="login-subtitle">Sign In to access Gate Pass, Reservation Room, Locker Request form</h9>
 
             <form asp-controller="Account" asp-action="Login" method="post" class="login-input-form">
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger text-center mb-3">
+                        @TempData["Error"]
+                    </div>
+                }
                 <div class="login-input-group mb-4">
                     <span class="login-input-icon"><i class="fas fa-envelope"></i></span>
                     <input type="text" class="form-control" id="Username" name="username" placeholder="Email Address" required />

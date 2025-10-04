@@ -1,8 +1,8 @@
-﻿﻿@{
-ViewData["HideNav"] = true;
-ViewData["Title"] = "Sign Up";
-ViewData["FullScreen"] = true; // <--- ADD THIS LINE
-Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@{
+    ViewData["HideNav"] = true;
+    ViewData["Title"] = "Sign Up";
+    ViewData["FullScreen"] = true;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="login-page-container">
@@ -11,7 +11,7 @@ Layout = "~/Views/Shared/_Layout.cshtml";
         <div class="login-nav-links">
             <a href="#">HOME</a>
             <a href="#">ABOUT US</a>
-            <a href="#" class="login-nav-active">SIGN UP</a> <!-- Updated active link -->
+            <a href="#" class="login-nav-active">SIGN UP</a>
         </div>
     </div>
 
@@ -19,13 +19,19 @@ Layout = "~/Views/Shared/_Layout.cshtml";
 
     <div class="login-main-content">
         <div class="login-form-panel custom-card">
-            <!-- Sign Up specific content goes here -->
             <h2 class="login-panel-heading">Sign Up</h2>
-            <h9 class="login-subtitle">Join ELDNET to streamline your student processes.</h9> <!-- New subtitle for signup -->
+            <h9 class="login-subtitle">Join ELDNET to streamline your student processes.</h9>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger mb-3" role="alert">
+                    @ViewBag.Error
+                </div>
+            }
 
             <form asp-controller="Account" asp-action="SignUp" method="post" class="login-input-form">
                 <div class="login-input-group mb-4">
-                    <span class="login-input-icon"><i class="fas fa-user"></i></span> <!-- User icon for Full Name -->
+                    <span class="login-input-icon"><i class="fas fa-user"></i></span>
                     <input type="text" class="form-control" id="FullName" name="fullName" placeholder="Full Name" required />
                 </div>
 
@@ -41,10 +47,28 @@ Layout = "~/Views/Shared/_Layout.cshtml";
                 </div>
 
                 <div class="login-input-group mb-4">
-                    <span class="login-input-icon"><i class="fas fa-key"></i></span> <!-- Key icon for Confirm Password -->
+                    <span class="login-input-icon"><i class="fas fa-key"></i></span>
                     <input type="password" class="form-control" id="ConfirmPassword" name="confirmPassword" placeholder="Confirm Password" required />
                     <span class="login-password-toggle"><i class="fas fa-eye-slash"></i></span>
                 </div>
+
+                <!-- Account Type Radio Buttons - Integrated into your styling -->
+                <div class="login-input-group mb-4">
+                    <label class="form-label d-block mb-2">Account Type:</label>
+                    <div class="d-flex justify-content-center">
+                        @* Added for horizontal alignment of radio buttons *@
+                        <div class="form-check form-check-inline me-3">
+                            @* Added margin for spacing *@
+                            <input class="form-check-input" type="radio" name="accountType" id="accountTypeStudent" value="Student" checked>
+                            <label class="form-check-label" for="accountTypeStudent">Non-Faculty</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="accountType" id="accountTypeFaculty" value="Faculty">
+                            <label class="form-check-label" for="accountTypeFaculty">Faculty</label>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Account Type Radio Buttons -->
 
                 <button type="submit" class="btn btn-gradient">Sign Up</button>
 

@@ -97,13 +97,24 @@ namespace ELDNET.Controllers
             var s1 = entity.GetType().GetProperty("Approver1Status")?.GetValue(entity)?.ToString();
             var s2 = entity.GetType().GetProperty("Approver2Status")?.GetValue(entity)?.ToString();
             var s3 = entity.GetType().GetProperty("Approver3Status")?.GetValue(entity)?.ToString();
+            var currentStatus = entity.GetType().GetProperty("Status")?.GetValue(entity)?.ToString(); // Get the current Status
 
             var final = "Pending";
+            bool hasDecisions = !string.IsNullOrEmpty(s1) || !string.IsNullOrEmpty(s2) || !string.IsNullOrEmpty(s3);
 
-            if (s1 == "Denied" || s2 == "Denied" || s3 == "Denied")
+            if (currentStatus == "Changed" && !hasDecisions)
+            {
+                final = "Changed";
+            }
+            else if (s1 == "Denied" || s2 == "Denied" || s3 == "Denied")
+            {
                 final = "Denied";
+            }
             else if (s1 == "Approved" && s2 == "Approved" && s3 == "Approved")
+            {
                 final = "Approved";
+            }
+            // If it's not "Changed", not Denied, and not Fully Approved, it remains "Pending" (default)
 
             var finalProp = entity.GetType().GetProperty("FinalStatus");
             if (finalProp != null)

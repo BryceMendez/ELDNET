@@ -3,6 +3,8 @@ using ELDNET.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Microsoft.EntityFrameworkCore; // Added for AsNoTracking
+using Microsoft.AspNetCore.Http; // Required for HttpContext.Session.GetString
+using System; // Required for DateTime
 
 namespace ELDNET.Controllers
 {
@@ -36,7 +38,11 @@ namespace ELDNET.Controllers
             }
             // Admins see all reservations
 
-            var roomReservations = reservationsQuery.ToList();
+            // --- MODIFICATION START ---
+            // Order by Date (submission date) in descending order to show the latest on top
+            var roomReservations = reservationsQuery.OrderByDescending(r => r.Date).ToList();
+            // --- MODIFICATION END ---
+
             return View(roomReservations); // Return to a proper Index view
         }
 
@@ -58,7 +64,7 @@ namespace ELDNET.Controllers
             {
                 model.ReservedBy = fullName;
             }
-            model.Date = DateTime.Now; // Pre-fill submission date
+            model.Date = DateTime.Now; // Pre-fill submission date for sorting
             model.ActivityDate = DateTime.Now; // Pre-fill activity date
             model.DateNeeded = DateTime.Now; // Pre-fill date needed
 
@@ -80,14 +86,19 @@ namespace ELDNET.Controllers
             }
 
             room.StudentId = studentId;
+            room.Date = DateTime.Now; // Ensure submission date is set on creation for sorting
 
-            // Clear specific ModelState entries if you're auto-setting them
+            // Remove ModelState entries for properties managed by the system
             ModelState.Remove(nameof(room.StudentId));
-            // ModelState.Remove(nameof(room.ReservedBy)); // If pre-filled and should not be changed
+            ModelState.Remove(nameof(room.Date)); 
+            ModelState.Remove(nameof(room.Status));
+            ModelState.Remove(nameof(room.FinalStatus));
+            ModelState.Remove(nameof(room.Approver1Status));
+            ModelState.Remove(nameof(room.Approver2Status));
+            ModelState.Remove(nameof(room.Approver3Status));
 
             if (ModelState.IsValid)
             {
-                room.Date = DateTime.Now; // Ensure submission date is set on creation
                 _context.ReservationRooms.Add(room);
                 _context.SaveChanges();
                 TempData["success"] = "Room Reservation created successfully";
@@ -97,7 +108,7 @@ namespace ELDNET.Controllers
             // Re-assign pre-filled values if ModelState is invalid
             var fullName = HttpContext.Session.GetString("FullName");
             if (fullName != null) room.ReservedBy = fullName;
-            room.Date = DateTime.Now;
+            room.Date = DateTime.Now; // Re-set date
             if (room.ActivityDate == DateTime.MinValue) room.ActivityDate = DateTime.Now; // If not valid, default
             if (room.DateNeeded == null) room.DateNeeded = DateTime.Now; // If not valid, default
 
@@ -152,6 +163,14 @@ namespace ELDNET.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            // --- NEW: Prevent editing if approved ---
+            if (room.FinalStatus == "Approved" || room.Status == "Approved")
+            {
+                TempData["warning"] = "Approved room reservations cannot be edited. You can view the details.";
+                return RedirectToAction(nameof(Details), new { id = room.Id });
+            }
+            // --- END NEW ---
+
             return View(room);
         }
 
@@ -180,22 +199,41 @@ namespace ELDNET.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // Preserve StudentId and original Status
-            room.StudentId = originalRoom.StudentId;
-            room.Status = originalRoom.Status;
-            room.Date = originalRoom.Date; // Preserve original submission date
+            // --- NEW: Prevent POSTing edits if approved ---
+            if (originalRoom.FinalStatus == "Approved" || originalRoom.Status == "Approved")
+            {
+                TempData["warning"] = "Approved room reservations cannot be edited.";
+                return RedirectToAction(nameof(Details), new { id = room.Id });
+            }
+            // --- END NEW ---
 
-            // Clear specific ModelState entries if you're auto-setting them
+            // Preserve StudentId and original submission date (Date field)
+            room.StudentId = originalRoom.StudentId;
+            room.Date = originalRoom.Date; // Preserve original creation date
+
+            room.Status = "Changed";
+            room.FinalStatus = "Changed";
+
+            // Reset all approver statuses since content has changed
+            room.Approver1Status = "Pending";
+            room.Approver2Status = "Pending";
+            room.Approver3Status = "Pending";
+
+            // Clear specific ModelState entries that are now being manually set
             ModelState.Remove(nameof(room.StudentId));
             ModelState.Remove(nameof(room.Status));
-            ModelState.Remove(nameof(room.Date));
-            // ModelState.Remove(nameof(room.ReservedBy));
+            ModelState.Remove(nameof(room.FinalStatus));
+            ModelState.Remove(nameof(room.Approver1Status));
+            ModelState.Remove(nameof(room.Approver2Status));
+            ModelState.Remove(nameof(room.Approver3Status));
+            ModelState.Remove(nameof(room.Date)); // Ensure Date isn't validated as user didn't set it
+
 
             if (ModelState.IsValid)
             {
                 _context.ReservationRooms.Update(room);
                 _context.SaveChanges();
-                TempData["success"] = "Room Reservation updated successfully";
+                TempData["success"] = "Room Reservation updated successfully. Status changed to 'Changed' - requires re-approval.";
                 return RedirectToAction(nameof(Index));
             }
             return View(room);

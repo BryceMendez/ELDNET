@@ -15,6 +15,8 @@ namespace ELDNET.Controllers
             _db = db;
         }
 
+
+
         // INDEX - Displays list of gate passes
         public IActionResult Index()
         {
@@ -34,9 +36,9 @@ namespace ELDNET.Controllers
                 // Students only see their own gate passes
                 gatePassesQuery = gatePassesQuery.Where(gp => gp.StudentId == studentId);
             }
-            // Admins see all gate passes
 
-            var gatePassList = gatePassesQuery.ToList();
+            var gatePassList = gatePassesQuery.OrderByDescending(gp => gp.Date).ToList(); 
+
             return View(gatePassList); // Return to a proper Index view
         }
 
@@ -57,7 +59,7 @@ namespace ELDNET.Controllers
             {
                 model.Name = fullName;
             }
-            model.Date = DateTime.Now; // Pre-fill date
+            model.Date = DateTime.Now;
 
             return View(model);
         }
@@ -78,9 +80,7 @@ namespace ELDNET.Controllers
 
             obj.StudentId = studentId;
 
-            // Clear specific ModelState entries if you're auto-setting them
             ModelState.Remove(nameof(obj.StudentId));
-            // ModelState.Remove(nameof(obj.Name)); // If Name is pre-filled and should not be changed by user
 
             if (ModelState.IsValid)
             {
@@ -146,12 +146,20 @@ namespace ELDNET.Controllers
             var gatePass = _db.GatePasses.Find(id);
             if (gatePass == null) return NotFound();
 
-            // Authorization check
+   
             if (userRole == "Student" && gatePass.StudentId != studentId)
             {
                 TempData["error"] = "You are not authorized to edit this gate pass.";
                 return RedirectToAction(nameof(Index));
             }
+
+            //cant edit if approved
+            if (gatePass.FinalStatus == "Approved" || gatePass.Status == "Approved") 
+            {
+
+                return RedirectToAction(nameof(Details), new { id = gatePass.Id });
+            }
+            // --- END NEW ---
 
             return View(gatePass);
         }
@@ -170,32 +178,49 @@ namespace ELDNET.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            if (obj.Id == 0) return NotFound(); // Ensure Id is present for update
+            if (obj.Id == 0) return NotFound();
 
             // Retrieve original to preserve StudentId and prevent tampering
             var originalGatePass = _db.GatePasses.AsNoTracking().FirstOrDefault(gp => gp.Id == obj.Id);
             if (originalGatePass == null) return NotFound();
 
-            // Authorization check
             if (userRole == "Student" && originalGatePass.StudentId != studentId)
             {
                 TempData["error"] = "You are not authorized to edit this gate pass.";
                 return RedirectToAction(nameof(Index));
             }
 
-            // Preserve StudentId and potentially other fields
+            //cant edit if approved
+            if (originalGatePass.FinalStatus == "Approved" || originalGatePass.Status == "Approved")
+            {
+                return RedirectToAction(nameof(Details), new { id = obj.Id }); // Redirect to details or index
+            }
+            // Preserve StudentId
             obj.StudentId = originalGatePass.StudentId;
-            // Also preserve status if admin is the only one who should change it
-            obj.Status = originalGatePass.Status;
 
+            // Mark as "Changed" when user edits their submission
+            obj.Status = "Changed";
+            obj.FinalStatus = "Changed";
 
-            // Clear specific ModelState entries if you're auto-setting them
+            // Reset all approver statuses aside sa last time na null
+            obj.Approver1Status = "Pending";
+            obj.Approver2Status = "Pending";
+            obj.Approver3Status = "Pending";
+
+            // Clear specific ModelState entries that are now being manually set
             ModelState.Remove(nameof(obj.StudentId));
             ModelState.Remove(nameof(obj.Status));
-            // ModelState.Remove(nameof(obj.Name));
+            ModelState.Remove(nameof(obj.FinalStatus));
+            ModelState.Remove(nameof(obj.Approver1Status));
+            ModelState.Remove(nameof(obj.Approver2Status));
+            ModelState.Remove(nameof(obj.Approver3Status));
+
 
             if (ModelState.IsValid)
             {
+                // ... (rest of your file upload and update logic) ...
+
+                // Save file logic
                 string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
                 string studentUploadsFolder = Path.Combine(uploadsFolder, "gatepass", originalGatePass.StudentId ?? "unknown");
 
@@ -238,7 +263,7 @@ namespace ELDNET.Controllers
 
                 _db.GatePasses.Update(obj);
                 _db.SaveChanges();
-                TempData["success"] = "Gate Pass updated successfully";
+                TempData["success"] = "Gate Pass updated successfully. Status changed to 'Changed' - requires re-approval.";
                 return RedirectToAction(nameof(Index));
             }
             return View(obj);

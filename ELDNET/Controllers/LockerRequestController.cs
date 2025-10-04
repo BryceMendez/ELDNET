@@ -15,7 +15,7 @@ namespace ELDNET.Controllers
             _context = context;
         }
 
-        // GET: LockerRequest - Displays list of requests
+
         public IActionResult Index()
         {
             var userRole = HttpContext.Session.GetString("UserRole");
@@ -31,12 +31,13 @@ namespace ELDNET.Controllers
 
             if (userRole == "Student")
             {
-                // Students only see their own requests
+ 
                 requestsQuery = requestsQuery.Where(r => r.StudentId == studentId);
             }
-            // Admins see all requests
+ 
+            var requests = requestsQuery.OrderByDescending(r => r.Date).ToList();
+  
 
-            var requests = requestsQuery.ToList();
             return View(requests); // Return to a proper Index view
         }
 
@@ -63,6 +64,7 @@ namespace ELDNET.Controllers
             {
                 model.IdNumber = studentId;
             }
+            model.Date = DateTime.Now; // Pre-fill submission date
 
             return View(model);
         }
@@ -83,10 +85,18 @@ namespace ELDNET.Controllers
 
             // Assign the StudentId from the session
             request.StudentId = studentId;
+            request.Date = DateTime.Now; // Set submission date on creation
 
+            // Remove ModelState entries for properties managed by the system
             ModelState.Remove(nameof(request.Name));
             ModelState.Remove(nameof(request.IdNumber));
             ModelState.Remove(nameof(request.StudentId));
+            ModelState.Remove(nameof(request.Date));
+            ModelState.Remove(nameof(request.Status));
+            ModelState.Remove(nameof(request.FinalStatus));
+            ModelState.Remove(nameof(request.Approver1Status));
+
+
 
             if (ModelState.IsValid)
             {
@@ -133,6 +143,7 @@ namespace ELDNET.Controllers
             var fullName = HttpContext.Session.GetString("FullName");
             if (fullName != null) request.Name = fullName;
             if (studentId != null && studentId.StartsWith("ucb-")) request.IdNumber = studentId;
+            request.Date = DateTime.Now; // Re-set submission date
 
             return View(request);
         }
@@ -160,6 +171,13 @@ namespace ELDNET.Controllers
                 TempData["error"] = "You are not authorized to edit this locker request.";
                 return RedirectToAction(nameof(Index));
             }
+
+            // --- NEW: Prevent editing if approved ---
+            if (lockerRequest.FinalStatus == "Approved" || lockerRequest.Status == "Approved")
+            {
+                return RedirectToAction(nameof(Details), new { id = lockerRequest.Id });
+            }
+
 
             return View(lockerRequest);
         }
@@ -191,11 +209,24 @@ namespace ELDNET.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // Preserve StudentId and potentially other fields if not updated via form
-            lockerRequest.StudentId = originalRequest.StudentId;
 
-            // Clear specific ModelState entries if you're auto-setting them
+            if (originalRequest.FinalStatus == "Approved" || originalRequest.Status == "Approved")
+            {
+                return RedirectToAction(nameof(Details), new { id = lockerRequest.Id });
+            }
+            lockerRequest.StudentId = originalRequest.StudentId;
+            lockerRequest.Date = originalRequest.Date; // Preserve original submission date
+            lockerRequest.Status = "Changed";
+            lockerRequest.FinalStatus = "Changed";
+            lockerRequest.Approver1Status = "Pending";
+
+            // Clear specific ModelState entries that are now being manually set
             ModelState.Remove(nameof(lockerRequest.StudentId));
+            ModelState.Remove(nameof(lockerRequest.Date)); // Ensure this isn't validated as user didn't set it
+            ModelState.Remove(nameof(lockerRequest.Status));
+            ModelState.Remove(nameof(lockerRequest.FinalStatus));
+            ModelState.Remove(nameof(lockerRequest.Approver1Status));
+
 
 
             if (ModelState.IsValid)
@@ -243,7 +274,7 @@ namespace ELDNET.Controllers
 
                     _context.Update(lockerRequest);
                     _context.SaveChanges();
-                    TempData["success"] = "Locker Request updated successfully";
+                    TempData["success"] = "Locker Request updated successfully. Status changed to 'Changed' - requires re-approval.";
                 }
                 catch (DbUpdateConcurrencyException)
                 {

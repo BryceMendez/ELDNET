@@ -1,9 +1,13 @@
 using ELDNET.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Http; // Required for HttpContext.Session.GetString
+using Microsoft.AspNetCore.Authorization; // Required for [Authorize] attribute
 
 namespace ELDNET.Controllers
 {
+
+    [Authorize(Roles = "Admin,Student,Faculty")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -17,20 +21,18 @@ namespace ELDNET.Controllers
         {
             var userRole = HttpContext.Session.GetString("UserRole");
 
-            if (userRole == null) // not logged in
+
+            if (userRole == null) // This condition will likely not be met due to [Authorize]
             {
                 return RedirectToAction("Login", "Account");
             }
             else if (userRole == "Admin")
             {
-                return RedirectToAction("Index", "Admin"); // Admins go to their dashboard
+                // Admins go to their dashboard
+                return RedirectToAction("Index", "Approval"); // Assuming "Approval" is your Admin controller
             }
-            else if (userRole == "Student")
-            {
 
-                return View(); // Return to the default Home/Index view, which will act as student dashboard
-            }
-            return View(); // Fallback
+            return View(); // Student and Faculty accounts will render the Home/Index view
         }
 
         public IActionResult Privacy()

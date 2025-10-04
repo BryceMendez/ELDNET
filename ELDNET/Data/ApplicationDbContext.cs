@@ -21,6 +21,8 @@ namespace ELDNET.Data
 
         public DbSet<StudentAccount> StudentAccounts { get; set; }
 
+        public DbSet<FacultyAccount> FacultyAccounts { get; set; }
+
         public DbSet<Admin> Admins { get; set; }
 
     }

@@ -4,28 +4,56 @@
     ViewData["Title"] = "Student Account Details";
 }
 
-<div class="container mt-4">
-    <h2><i class="bi bi-person-circle"></i> Student Account Details</h2>
+<div class="container py-4 animate__animated animate__fadeIn">
+    <div class="custom-card shadow-lg border-0">
+        <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #007FFF);">
+            <h2 class="mb-2 fw-bold"><i class="bi bi-person-circle me-2"></i>Student Account Details</h2>
+            <p class="mb-0 text-white-50">Comprehensive information about this student account.</p>
+        </div>
 
-    <div class="card shadow-sm mt-4">
-        <div class="card-body">
-            <dl class="row">
-                <dt class="col-sm-3">Student ID</dt>
-                <dd class="col-sm-9">@Model.StudentId</dd>
+        <div class="card-body p-5">
+            <div class="row g-5">
+                <!-- Student Information Section -->
+                <div class="col-lg-6 border-end-lg pe-lg-5">
+                    <h5 class="text-primary mb-4 pb-2 border-bottom border-primary-subtle">
+                        <i class="bi bi-person-lines-fill me-2"></i>Student Information
+                    </h5>
+                    <dl class="row detail-list-modern">
+                        <dt class="col-sm-4">Student ID</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Model.StudentId</dd>
 
-                <dt class="col-sm-3">Full Name</dt>
-                <dd class="col-sm-9">@Model.FullName</dd>
+                        <dt class="col-sm-4">Full Name</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Model.FullName</dd>
 
-                <dt class="col-sm-3">Email</dt>
-                <dd class="col-sm-9">@Model.Email</dd>
+                        <dt class="col-sm-4">Email</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Model.Email</dd>
+                    </dl>
+                </div>
 
-                <dt class="col-sm-3">Account ID</dt>
-                <dd class="col-sm-9">@Model.Id</dd>
-            </dl>
+                <!-- Account Information Section -->
+                <div class="col-lg-6 ps-lg-5">
+                    <h5 class="text-success mb-4 pb-2 border-bottom border-success-subtle">
+                        <i class="bi bi-key-fill me-2"></i>Account Information
+                    </h5>
+                    <dl class="row detail-list-modern">
+                        <dt class="col-sm-4">Account ID</dt>
+                        <dd class="col-sm-8 text-dark fw-semibold">@Model.Id</dd>
 
-            <a asp-action="Index" class="btn btn-secondary">
-                <i class="bi bi-arrow-left"></i> Back to List
-            </a>
+                        <dt class="col-sm-4">Status</dt>
+                        <dd class="col-sm-8">
+                            <span class="badge bg-success px-3 py-2 rounded-pill">Active</span>
+                            @* You can change to dynamic status display later *@
+                        </dd>
+                    </dl>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="col-12 text-center pt-5 border-top">
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
+                        <i class="bi bi-arrow-left me-2"></i>Back to List
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

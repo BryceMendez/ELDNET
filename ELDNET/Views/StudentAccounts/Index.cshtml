@@ -4,30 +4,52 @@
     ViewData["Title"] = "Student Accounts";
 }
 
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2><i class="bi bi-people"></i> Student Accounts</h2>
+<div class="page-wrapper bg-white">
+
+    <!-- Page Header -->
+    <div class="page-banner text-white p-4 mb-4 rounded-4 shadow-sm d-flex justify-content-between align-items-center"
+         style="background-color: #007FFF; margin-top: 30px;">
+        <div>
+            <h1 class="fw-bold mb-1 display-6">
+                <i class="bi bi-mortarboard-fill me-2"></i> Student Accounts
+            </h1>
+            <p class="text-light opacity-75 mb-0 fs-6">Monitor and manage all registered student accounts.</p>
+        </div>
+        <div>
+            <span class="fw-semibold fs-5 text-white">
+                Total Students: @(Model?.Count() ?? 0)
+            </span>
+        </div>
     </div>
 
+
+    <!-- Success Message -->
     @if (TempData["Message"] != null)
     {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            @TempData["Message"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <div class="alert alert-success alert-dismissible fade show border-0 rounded-4 shadow-sm mb-4 px-4 py-3" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i> @TempData["Message"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     }
 
-    <div class="card shadow-sm">
-        <div class="card-body">
+    <!-- Student Accounts Table -->
+    <div class="card border-0 rounded-4 shadow-lg overflow-hidden">
+        <div class="card-header bg-white text-dark border-0 py-3 px-4 d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 fw-semibold text-dark">
+                <i class="bi bi-people-fill me-2"></i> Registered Students
+            </h5>
+        </div>
+
+        <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead class="table-primary">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light border-bottom">
                         <tr>
-                            <th>#</th>
-                            <th>Student ID</th>
-                            <th>Full Name</th>
-                            <th>Email</th>
-                            <th>Actions</th>
+                            <th class="ps-4 text-secondary text-uppercase small">#</th>
+                            <th class="text-secondary text-uppercase small">Student ID</th>
+                            <th class="text-secondary text-uppercase small">Full Name</th>
+                            <th class="text-secondary text-uppercase small">Email</th>
+                            <th class="text-center text-secondary text-uppercase small">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,36 +59,51 @@
                             foreach (var student in Model)
                             {
                                 <tr>
-                                    <td>@counter</td>
-                                    <td><strong>@student.StudentId</strong></td>
-                                    <td>@student.FullName</td>
-                                    <td>@student.Email</td>
+                                    <td class="ps-4 text-muted">@counter</td>
                                     <td>
-                                        <a asp-action="Details" asp-route-id="@student.Id"
-                                           class="btn btn-sm btn-info">
-                                            <i class="bi bi-eye"></i> View
-                                        </a>
-                                        <button type="button" class="btn btn-sm btn-danger"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal@(student.Id)">
-                                            <i class="bi bi-trash"></i> Delete
-                                        </button>
+                                        <span class="badge bg-light text-primary fw-semibold px-3 py-2 rounded-pill border border-primary">
+                                            @student.StudentId
+                                        </span>
+                                    </td>
+                                    <td class="fw-semibold text-dark">@student.FullName</td>
+                                    <td class="text-muted">@student.Email</td>
+                                    <td class="text-center">
+                                        <div class="btn-group" role="group">
+                                            <a asp-action="Details" asp-route-id="@student.Id"
+                                               class="btn btn-primary rounded-pill px-3 me-2">
+                                                <i class="bi bi-eye-fill me-1"></i> View
+                                            </a>
 
-                                        <!-- Delete Confirmation Modal -->
-                                        <div class="modal fade" id="deleteModal@(student.Id)" tabindex="-1">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Confirm Delete</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            <button type="button" class="btn btn-danger rounded-pill px-3"
+                                                    data-bs-toggle="modal" data-bs-target="#deleteModal@(student.Id)">
+                                                <i class="bi bi-trash3-fill me-1"></i> Delete
+                                            </button>
+                                        </div>
+
+                                        <!-- Delete Modal -->
+                                        <div class="modal fade" id="deleteModal@(student.Id)" tabindex="-1"
+                                             aria-labelledby="deleteModalLabel@(student.Id)" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content border-0 rounded-4 shadow-lg">
+                                                    <div class="modal-header bg-gradient-danger border-0 rounded-top-4">
+                                                        <h5 class="modal-title fw-semibold text-white" id="deleteModalLabel@(student.Id)">
+                                                            <i class="bi bi-exclamation-triangle-fill me-2"></i> Confirm Deletion
+                                                        </h5>
+                                                        <button type="button" class="btn-close btn-close-white"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        Are you sure you want to delete <strong>@student.FullName</strong>?
+                                                    <div class="modal-body p-4">
+                                                        <p class="mb-3">Are you sure you want to delete this student?</p>
+                                                        <h6 class="fw-bold text-danger">
+                                                            @student.FullName
+                                                            <span class="text-muted">(ID: @student.StudentId)</span>
+                                                        </h6>
+                                                        <p class="text-muted small mt-3">This action cannot be undone.</p>
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                    <div class="modal-footer border-top-0 pt-0 justify-content-center">
+                                                        <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
                                                         <form asp-action="Delete" asp-route-id="@student.Id" method="post" class="d-inline">
-                                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                                            <button type="submit" class="btn btn-danger rounded-pill px-4">Delete</button>
                                                         </form>
                                                     </div>
                                                 </div>
@@ -80,7 +117,11 @@
                         else
                         {
                             <tr>
-                                <td colspan="5" class="text-center text-muted">No student accounts found.</td>
+                                <td colspan="5" class="text-center py-5 text-muted">
+                                    <i class="bi bi-emoji-frown display-6 d-block mb-2"></i>
+                                    <h5 class="fw-semibold mb-1">No Student Accounts Found</h5>
+                                    <p class="small mb-0">There are currently no registered students.</p>
+                                </td>
                             </tr>
                         }
                     </tbody>

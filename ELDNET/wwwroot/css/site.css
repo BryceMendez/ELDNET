@@ -35,7 +35,7 @@ h2, h3, h4, h5, h6 {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: url('/images/background.jpg') no-repeat center center;
+    background: url('/images/background2.png') no-repeat center center;
     background-size: cover;
     position: relative;
 }
@@ -906,7 +906,7 @@ body {
     display: flex;
     flex-direction: column;
     font-family: 'Inter', sans-serif;
-    background: url('/images/background.jpg') no-repeat center center;
+    background: url('/images/background2.png') no-repeat center center;
     background-size: cover;
     position: relative;
 }
@@ -1569,4 +1569,230 @@ body {
 /* Optional: Animation for changed status alert */
 .animate__animated.animate__pulse {
     --animate-duration: 2s;
+}
+
+.same-size-panel {
+    width: 400px;
+    min-height: 520px;
+    margin: 0 auto;
+    position: relative;
+    top: -80px; /* move box higher (was -40px) */
+}
+
+/* Adjust spacing and round corners */
+.compact-signup-panel {
+    width: 440px; /* slightly wider for better balance */
+    min-height: 520px; /* taller box */
+    padding: 30px 50px; /* more inner space left/right */
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 25px; /* more rounded corners */
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    position: relative;
+    top: -60px; /* raise the sign-up box higher on the form */
+}
+
+    /* Input field spacing */
+    .compact-signup-panel .login-input-group {
+        margin-bottom: 1rem !important;
+    }
+
+    /* Subtitle style */
+    .compact-signup-panel .login-subtitle {
+        display: block;
+        margin-bottom: 1.2rem;
+        font-size: 0.95rem;
+        color: #555;
+    }
+
+    /* Make text boxes fill nicely within the new padding */
+    .compact-signup-panel .form-control {
+        width: 100%;
+        max-width: 380px;
+        margin: 0 auto;
+    }
+.page-wrapper {
+    background-color: transparent !important;
+}
+
+/* Header Banner */
+.page-banner {
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 16px; /* Ensure the page banner itself has rounded corners */
+}
+
+    .page-banner h1 {
+        font-weight: 700;
+    }
+
+/* Alert Styling */
+.alert {
+    border-radius: 12px !important;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.alert-success {
+    background-color: #e6ffed;
+    color: #1a7e39;
+}
+
+    .alert-success .btn-close {
+        filter: invert(20%) sepia(90%) saturate(1000%) hue-rotate(100deg) brightness(80%);
+    }
+
+/* Card Styling - Main container for the table */
+.modern-card {
+    background-color: transparent; /* No white box */
+    box-shadow: none; /* Remove drop shadow if you want it fully flat */
+}
+
+
+    /* Card Header - "Registered Students" section */
+    .modern-card .card-header {
+        border-top-left-radius: 16px; /* Explicitly apply rounded corners to the top of the card header */
+        border-top-right-radius: 16px;
+        padding-bottom: 1.5rem; /* Add a little more padding below the header content */
+        z-index: 2; /* Ensure header is above table content visually */
+        position: relative;
+    }
+
+
+/* Table Styling - The core changes are here */
+.modern-table {
+    width: 100%;
+    border-collapse: collapse; /* Essential for removing cell spacing */
+    border-spacing: 0;
+    margin-top: 0; /* No top margin to push it down from the card-header */
+}
+
+    .modern-table thead th {
+        /* Remove all borders for a completely borderless header */
+        border-bottom: none; /* Explicitly remove bottom border */
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        font-weight: 600;
+        letter-spacing: 0.7px;
+        font-size: 0.75rem;
+        padding: 1rem 1rem;
+        color: #6c757d;
+        background-color: #ffffff; /* Ensure the table header background is white to blend */
+        text-align: left; /* Default text alignment */
+    }
+
+        .modern-table thead th:first-child {
+            padding-left: 24px; /* Adjust padding for first column for alignment with card-body */
+        }
+
+        .modern-table thead th:last-child {
+            padding-right: 24px; /* Adjust padding for last column */
+            text-align: center; /* Center align Actions header */
+        }
+
+
+    .modern-table tbody tr {
+        transition: background-color 0.25s ease;
+        border-bottom: none; /* Explicitly remove bottom border for rows */
+    }
+        /* Add a subtle visual separation for rows on larger screens, without being a hard line */
+        .modern-table tbody tr + tr {
+            /* No border, rely on subtle hover and spacing */
+        }
+
+        .modern-table tbody tr:hover {
+            background-color: #f7f9fc; /* Light hover background remains */
+        }
+
+    .modern-table td {
+        padding: 1rem 1rem;
+        font-size: 0.9rem;
+        vertical-align: middle;
+        color: #495057;
+        border: none; /* Remove all cell borders */
+    }
+
+        .modern-table td.ps-4 {
+            padding-left: 24px; /* Adjust padding for first column for alignment with card-body */
+            color: #888;
+        }
+
+        .modern-table td:last-child {
+            padding-right: 24px; /* Adjust padding for last column */
+        }
+
+        .modern-table td:empty { /* Handle empty cells if any for consistent padding */
+            padding: 1rem 1rem;
+        }
+
+
+/* Badge Styling */
+.badge {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+    border-radius: 0.75rem;
+}
+
+    .badge.bg-light.text-primary {
+        background-color: #e5f0ff !important;
+        color: #0d6efd !important;
+        border: 1px solid rgba(13, 110, 253, 0.3);
+    }
+
+/* Button Styling (as previously defined for solid -> white on hover) */
+.btn {
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 50rem !important;
+    transition: all 0.3s ease-in-out;
+    font-size: 0.875rem;
+    border: none;
+}
+
+.btn-primary-solid-hover-white {
+    background-color: #0d6efd;
+    color: #fff;
+    border: 1px solid #0d6efd;
+}
+
+    .btn-primary-solid-hover-white:hover {
+        background-color: #fff;
+        color: #0d6efd;
+        border-color: #0d6efd;
+    }
+
+.btn-danger-solid-hover-white {
+    background-color: #dc3545;
+    color: #fff;
+    border: 1px solid #dc3545;
+}
+
+    .btn-danger-solid-hover-white:hover {
+        background-color: #fff;
+        color: #dc3545;
+        border-color: #dc3545;
+    }
+
+    .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        color: #fff;
+    }
+
+
+/* Rounded Modal */
+.modal-content {
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header .btn-close {
+    filter: invert(100%) brightness(200%);
+}
+
+.bg-gradient-danger {
+    background: linear-gradient(45deg, #ff6b6b 0%, #ff8e8e 100%) !important;
+    color: #fff !important;
 }

@@ -1,8 +1,17 @@
-﻿﻿@{
-ViewData["HideNav"] = true;
-ViewData["Title"] = "Login";
-Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@{
+    ViewData["HideNav"] = true;
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<style>
+    /* Move the sign-in box higher */
+    .login-form-panel {
+        position: relative;
+        top: -40px; /* adjust this value if you want it higher or lower */
+    }
+</style>
+
 <div class="login-page-container">
     <div class="login-header-nav">
         <div class="login-brand-logo">ELDNET</div>
@@ -17,7 +26,6 @@ Layout = "~/Views/Shared/_Layout.cshtml";
 
     <div class="login-main-content">
         <div class="login-form-panel custom-card">
-            <!-- REORDERED: h2 first, then login-subtitle -->
             <h2 class="login-panel-heading">Sign In</h2>
             <h9 class="login-subtitle">Sign In to access Gate Pass, Reservation Room, Locker Request form</h9>
 
@@ -28,6 +36,7 @@ Layout = "~/Views/Shared/_Layout.cshtml";
                         @TempData["Error"]
                     </div>
                 }
+
                 <div class="login-input-group mb-4">
                     <span class="login-input-icon"><i class="fas fa-envelope"></i></span>
                     <input type="text" class="form-control" id="Username" name="username" placeholder="Email Address" required />

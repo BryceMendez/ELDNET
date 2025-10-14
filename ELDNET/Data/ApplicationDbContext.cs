@@ -9,8 +9,6 @@ namespace ELDNET.Data
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-
-
         }
 
         public DbSet<GatePass> GatePasses { get; set; }

@@ -7,40 +7,36 @@
 <div class="page-wrapper bg-white">
 
     <!-- Page Header -->
-    <div class="page-banner text-white p-4 mb-4 rounded-4 shadow-sm d-flex justify-content-between align-items-center"
-         style="background-color: #007FFF; margin-top: 30px;">
-        <div>
-            <h1 class="fw-bold mb-1 display-6">
-                <i class="bi bi-mortarboard-fill me-2"></i> Student Accounts
-            </h1>
-            <p class="text-light opacity-75 mb-0 fs-6">Monitor and manage all registered student accounts.</p>
-        </div>
-        <div>
-            <span class="fw-semibold fs-5 text-white">
-                Total Students: @(Model?.Count() ?? 0)
-            </span>
-        </div>
+    <div class="text-center mb-3 mt-4">
+        <h2 class="display-6 fw-bold text-gradient-blue">
+            <i class="bi bi-mortarboard-fill me-3"></i>Student Accounts
+        </h2>
+        <p class="lead text-muted mt-2">
+            Monitor and manage all registered student accounts.
+        </p>
     </div>
-
 
     <!-- Success Message -->
     @if (TempData["Message"] != null)
     {
-        <div class="alert alert-success alert-dismissible fade show border-0 rounded-4 shadow-sm mb-4 px-4 py-3" role="alert">
+        <div class="alert alert-success alert-dismissible fade show border-0 rounded-5 shadow-sm mb-4 px-4 py-3" role="alert" style="border-radius: 30px;">
             <i class="bi bi-check-circle-fill me-2"></i> @TempData["Message"]
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     }
 
-    <!-- Student Accounts Table -->
-    <div class="card border-0 rounded-4 shadow-lg overflow-hidden">
-        <div class="card-header bg-white text-dark border-0 py-3 px-4 d-flex justify-content-between align-items-center">
+    <!-- Student Accounts Table Box (Very Round Corners) -->
+    <div class="card border-0 shadow-lg overflow-hidden mt-n2 rounded-5" style="border-radius: 20px;">
+        <div class="card-header bg-white text-dark border-0 py-3 px-4 d-flex justify-content-between align-items-center rounded-top-5" style="border-top-left-radius: 30px; border-top-right-radius: 30px;">
             <h5 class="mb-0 fw-semibold text-dark">
                 <i class="bi bi-people-fill me-2"></i> Registered Students
             </h5>
+            <span class="fw-semibold fs-6 text-dark">
+                Total Students: @(Model?.Count() ?? 0)
+            </span>
         </div>
 
-        <div class="card-body p-0">
+        <div class="card-body pt-0 px-4 pb-4 rounded-bottom-5" style="border-bottom-left-radius: 30px; border-bottom-right-radius: 30px;">
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="bg-light border-bottom">
@@ -84,8 +80,8 @@
                                         <div class="modal fade" id="deleteModal@(student.Id)" tabindex="-1"
                                              aria-labelledby="deleteModalLabel@(student.Id)" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content border-0 rounded-4 shadow-lg">
-                                                    <div class="modal-header bg-gradient-danger border-0 rounded-top-4">
+                                                <div class="modal-content border-0 rounded-5 shadow-lg" style="border-radius: 30px;">
+                                                    <div class="modal-header bg-gradient-danger border-0 rounded-top-5" style="border-top-left-radius: 30px; border-top-right-radius: 30px;">
                                                         <h5 class="modal-title fw-semibold text-white" id="deleteModalLabel@(student.Id)">
                                                             <i class="bi bi-exclamation-triangle-fill me-2"></i> Confirm Deletion
                                                         </h5>

@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Gate Pass List";
-    var userRole = Context.Session.GetString("UserRole");
+    var userRole = Context.Session.GetString("UserRole"); // Get user role from session
 }
 
 <div class="container p-3">
@@ -11,10 +11,11 @@
             <h2 class="text-primary">Gate Pass List</h2>
         </div>
         <div class="col-6 text-end">
-            @if (userRole == "Student")
+            @* CONDITIONAL CREATE BUTTON FOR STUDENTS AND FACULTY *@
+            @if (userRole == "Student" || userRole == "Faculty") // Modified condition
             {
                 <a asp-controller="GatePass" asp-action="Create" class="btn btn-primary">
-                    + Create New Gate Pass
+                    <i class="bi bi-plus-circle"></i> &nbsp; Create New Gate Pass
                 </a>
             }
         </div>
@@ -39,9 +40,14 @@
                     <th>Study Load</th>
                     <th>Registration Form</th>
                     <th>Status</th>
-                    @if (userRole == "Student")
+                    @* CONDITIONAL ACTIONS COLUMN HEADER *@
+                    @if (userRole == "Student" || userRole == "Faculty") // Modified condition
                     {
                         <th class="text-center">Actions</th>
+                    }
+                    else if (userRole == "Admin")
+                    {
+                        <th class="text-center">Details</th>
                     }
                 </tr>
             </thead>
@@ -86,12 +92,13 @@
 
                         <td>@obj.Status</td>
 
-                        @if (userRole == "Student")
+                        @* CONDITIONAL ACTIONS FOR EACH ROW *@
+                        @if (userRole == "Student" || userRole == "Faculty") // Modified condition
                         {
                             <td>
                                 <div class="w-20 btn-group" role="group">
-                                    <a asp-action="Edit" asp-route-id="@obj.Id">&nbsp;Edit&nbsp;</a> |
-                                    <a asp-action="Details" asp-route-id="@obj.Id">&nbsp;Details&nbsp;</a> |
+                                    <a asp-action="Edit" asp-route-id="@obj.Id">&nbsp;Edit&nbsp; </a>|
+                                    <a asp-action="Details" asp-route-id="@obj.Id">&nbsp;Details&nbsp;</a>|
                                     <a asp-action="Delete" asp-route-id="@obj.Id">&nbsp;Delete</a>
                                 </div>
                             </td>
@@ -99,7 +106,9 @@
                         else if (userRole == "Admin")
                         {
                             <td>
-                                <a asp-action="Details" asp-route-id="@obj.Id" class="btn btn-link">View Details</a>
+                                <div class="w-75 btn-group" role="group">
+                                    <a asp-action="Details" asp-route-id="@obj.Id" class="btn btn-info btn-sm mx-1">View Details</a>
+                                </div>
                             </td>
                         }
                     </tr>
@@ -114,3 +123,7 @@
         </div>
     }
 </div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+}

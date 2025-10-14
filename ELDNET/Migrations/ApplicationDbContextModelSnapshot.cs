@@ -81,6 +81,7 @@ namespace ELDNET.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Approver1Name")
@@ -108,15 +109,21 @@ namespace ELDNET.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Color")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CourseYear")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Department")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FacultyId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FinalStatus")
@@ -127,24 +134,30 @@ namespace ELDNET.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Maker")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PlateNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RegistrationPath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SchoolYear")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StudentId")
@@ -178,34 +191,43 @@ namespace ELDNET.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ContactNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("FacultyId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FinalStatus")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IdNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsChangedByApplicant")
                         .HasColumnType("bit");
 
                     b.Property<string>("LockerNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RegistrationPath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Semester")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StudentId")
@@ -231,6 +253,7 @@ namespace ELDNET.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ActivityTitle")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Approver1Name")
@@ -258,74 +281,78 @@ namespace ELDNET.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Approver4Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Approver4Status")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Approver5Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Approver5Status")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DateNeeded")
+                    b.Property<DateTime>("DateNeeded")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EquipmentFacilities")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FacultyId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FinalStatus")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsChangedByApplicant")
-                        .HasColumnType("bit");
-
                     b.Property<string>("NatureOfActivity")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OrganizationName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Participants")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Participants")
+                        .HasColumnType("int");
 
                     b.Property<string>("PurposeObjective")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ReservedBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RoomNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SourceOfFunds")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Speaker")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StudentId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeSpan?>("TimeFrom")
+                    b.Property<TimeSpan>("TimeFrom")
                         .HasColumnType("time");
 
-                    b.Property<TimeSpan?>("TimeTo")
+                    b.Property<TimeSpan>("TimeTo")
                         .HasColumnType("time");
 
                     b.Property<string>("Venue")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

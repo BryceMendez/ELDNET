@@ -57,13 +57,13 @@
                     </h5>
                     <dl class="row reservation-detail-list-modern">
                         <dt class="col-sm-5">@Html.DisplayNameFor(model => model.DateNeeded)</dt>
-                        <dd class="col-sm-7">@Model.DateNeeded?.ToString("MMMM dd, yyyy")</dd>
+                        <dd class="col-sm-7">@Model.DateNeeded.ToString("MMMM dd, yyyy")</dd>
 
                         <dt class="col-sm-5">@Html.DisplayNameFor(model => model.TimeFrom)</dt>
-                        <dd class="col-sm-7">@Model.TimeFrom?.ToString(@"hh\:mm")</dd>
+                        <dd class="col-sm-7">@Model.TimeFrom.ToString(@"hh\:mm")</dd>
 
                         <dt class="col-sm-5">@Html.DisplayNameFor(model => model.TimeTo)</dt>
-                        <dd class="col-sm-7">@Model.TimeTo?.ToString(@"hh\:mm")</dd>
+                        <dd class="col-sm-7">@Model.TimeTo.ToString(@"hh\:mm")</dd>
 
                         <dt class="col-sm-5">@Html.DisplayNameFor(model => model.RoomNumber)</dt>
                         <dd class="col-sm-7">@Html.DisplayFor(model => model.RoomNumber)</dd>

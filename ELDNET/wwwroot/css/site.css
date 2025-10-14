@@ -1796,3 +1796,26 @@ body {
     background: linear-gradient(45deg, #ff6b6b 0%, #ff8e8e 100%) !important;
     color: #fff !important;
 }
+/* ===== Admin Dashboard Page Styles (No Hover Movement or Expansion) ===== */
+.admin-dashboard-page .btn-gradient {
+    background: linear-gradient(135deg, #007bff, #00c6ff);
+    color: #fff;
+    border: 2px solid transparent; /* keeps same size on hover */
+    border-radius: 50px;
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+    .admin-dashboard-page .btn-gradient:hover {
+        background: #fff;
+        color: #007bff;
+        border-color: #007bff; /* only change color, not size */
+    }
+
+.admin-dashboard-page .card {
+    transition: box-shadow 0.3s ease;
+    border-radius: 20px;
+}
+
+    .admin-dashboard-page .card:hover {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }

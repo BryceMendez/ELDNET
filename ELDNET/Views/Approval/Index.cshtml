@@ -2,55 +2,78 @@
 
 @{
     ViewData["Title"] = "Approvals";
+    string activeTab = ViewBag.ActiveTab as string ?? "gatepass"; // default active tab
 }
 
-<div class="container py-5">
-    <div class="text-center mb-5">
-        <h2 class="display-5 fw-bold text-gradient-blue">
-            <i class="bi bi-patch-check-fill me-3"></i>Approval Dashboard
+<div class="container py-4">
+    <div class="text-center mb-3">
+        <h2 class="display-6 fw-bold text-gradient-blue">
+            <i class="bi bi-patch-check-fill me-3"></i> Approval Dashboard
         </h2>
-        <p class="lead text-muted mt-3">Manage and review all pending, approved, and denied requests efficiently.</p>
+        <p class="lead text-muted mt-2">
+            Manage and review all pending, approved, and denied requests efficiently.
+        </p>
     </div>
 
-    <div class="custom-card shadow-lg border-0">
+    <div class="custom-card shadow-lg border-0 mt-n2 rounded-4 overflow-hidden">
         <div class="card-header bg-white p-0 border-bottom-0">
             <ul class="nav nav-tabs custom-tabs" id="approvalTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active tab-blue" id="gatePass-tab" data-bs-toggle="tab" data-bs-target="#gatePassContent" type="button" role="tab" aria-controls="gatePassContent" aria-selected="true">
-                        <i class="bi bi-person-walking me-2"></i>Gate Pass Requests
-                        <span class="badge bg-primary-gradient ms-2 rounded-pill">@(Model.GatePasses?.Count(gp => gp.Status == "Pending") ?? 0)</span>
+                    <button class="nav-link @(activeTab == "gatepass" ? "active" : "") tab-blue"
+                            id="gatePass-tab" data-bs-toggle="tab" data-bs-target="#gatePassContent"
+                            type="button" role="tab" aria-controls="gatePassContent"
+                            aria-selected="@(activeTab == "gatepass")">
+                        <i class="bi bi-person-walking me-2"></i> Gate Pass Requests
+                        <span class="badge bg-primary-gradient ms-2 rounded-pill">
+                            @(Model.GatePasses?.Count(gp => gp.Status == "Pending") ?? 0)
+                        </span>
                     </button>
                 </li>
+
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link tab-green" id="activityRes-tab" data-bs-toggle="tab" data-bs-target="#activityResContent" type="button" role="tab" aria-controls="activityResContent" aria-selected="false">
-                        <i class="bi bi-calendar-check-fill me-2"></i>Activity Reservations
-                        <span class="badge bg-success-gradient ms-2 rounded-pill">@(Model.ActivityReservations?.Count(ar => ar.Status == "Pending") ?? 0)</span>
+                    <button class="nav-link @(activeTab == "reservation" ? "active" : "") tab-green"
+                            id="activityRes-tab" data-bs-toggle="tab" data-bs-target="#activityResContent"
+                            type="button" role="tab" aria-controls="activityResContent"
+                            aria-selected="@(activeTab == "reservation")">
+                        <i class="bi bi-calendar-check-fill me-2"></i> Activity Reservations
+                        <span class="badge bg-success-gradient ms-2 rounded-pill">
+                            @(Model.ActivityReservations?.Count(ar => ar.Status == "Pending") ?? 0)
+                        </span>
                     </button>
                 </li>
+
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link tab-yellow" id="lockerReq-tab" data-bs-toggle="tab" data-bs-target="#lockerReqContent" type="button" role="tab" aria-controls="lockerReqContent" aria-selected="false">
-                        <i class="bi bi-lock-fill me-2"></i>Locker Requests
-                        <span class="badge bg-warning-gradient ms-2 rounded-pill text-dark">@(Model.LockerRequests?.Count(lr => lr.Status == "Pending") ?? 0)</span>
+                    <button class="nav-link @(activeTab == "locker" ? "active" : "") tab-yellow"
+                            id="lockerReq-tab" data-bs-toggle="tab" data-bs-target="#lockerReqContent"
+                            type="button" role="tab" aria-controls="lockerReqContent"
+                            aria-selected="@(activeTab == "locker")">
+                        <i class="bi bi-lock-fill me-2"></i> Locker Requests
+                        <span class="badge bg-warning-gradient ms-2 rounded-pill text-dark">
+                            @(Model.LockerRequests?.Count(lr => lr.Status == "Pending") ?? 0)
+                        </span>
                     </button>
                 </li>
             </ul>
         </div>
+
         <div class="card-body p-4 p-lg-5">
             <div class="tab-content" id="approvalTabsContent">
-                <!-- Gate Pass Requests Tab Content -->
-                <div class="tab-pane fade show active" id="gatePassContent" role="tabpanel" aria-labelledby="gatePass-tab">
+
+                <!-- Gate Pass Requests -->
+                <div class="tab-pane fade @(activeTab == "gatepass" ? "show active" : "")"
+                     id="gatePassContent" role="tabpanel" aria-labelledby="gatePass-tab">
                     @if (Model.GatePasses != null && Model.GatePasses.Any())
                     {
                         <div class="table-responsive">
                             <table class="table table-hover align-middle mb-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Department</th>
-                                        <th scope="col">Course & Year</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col" class="text-center">Actions</th>
+                                        <th>Name</th>
+                                        <th>Department</th>
+                                        <th>Course & Year</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th class="text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -67,7 +90,8 @@
                                                 </span>
                                             </td>
                                             <td class="text-center">
-                                                <a asp-action="Details" asp-route-id="@gp.Id" asp-route-type="GatePass" class="btn btn-info-outline btn-sm px-3">
+                                                <a asp-action="Details" asp-route-id="@gp.Id" asp-route-type="GatePass"
+                                                   class="btn btn-info-outline btn-sm px-3">
                                                     <i class="bi bi-eye me-1"></i> Details
                                                 </a>
                                             </td>
@@ -79,26 +103,27 @@
                     }
                     else
                     {
-                        <div class="alert alert-info border-0 text-center py-4" role="alert">
-                            <i class="bi bi-info-circle-fill me-2"></i>No gate pass requests to display.
+                        <div class="alert alert-info border-0 text-center py-4">
+                            <i class="bi bi-info-circle-fill me-2"></i> No gate pass requests to display.
                         </div>
                     }
                 </div>
 
-                <!-- Activity Reservations Tab Content -->
-                <div class="tab-pane fade" id="activityResContent" role="tabpanel" aria-labelledby="activityRes-tab">
+                <!-- Activity Reservations -->
+                <div class="tab-pane fade @(activeTab == "reservation" ? "show active" : "")"
+                     id="activityResContent" role="tabpanel" aria-labelledby="activityRes-tab">
                     @if (Model.ActivityReservations != null && Model.ActivityReservations.Any())
                     {
                         <div class="table-responsive">
                             <table class="table table-hover align-middle mb-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th scope="col">Organization</th>
-                                        <th scope="col">Activity Title</th>
-                                        <th scope="col">Venue</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col" class="text-center">Actions</th>
+                                        <th>Organization</th>
+                                        <th>Activity Title</th>
+                                        <th>Venue</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th class="text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -115,7 +140,8 @@
                                                 </span>
                                             </td>
                                             <td class="text-center">
-                                                <a asp-action="Details" asp-route-id="@res.Id" asp-route-type="Reservation" class="btn btn-info-outline btn-sm px-3">
+                                                <a asp-action="Details" asp-route-id="@res.Id" asp-route-type="Reservation"
+                                                   class="btn btn-info-outline btn-sm px-3">
                                                     <i class="bi bi-eye me-1"></i> Details
                                                 </a>
                                             </td>
@@ -127,26 +153,27 @@
                     }
                     else
                     {
-                        <div class="alert alert-success border-0 text-center py-4" role="alert">
-                            <i class="bi bi-info-circle-fill me-2"></i>No activity reservations to display.
+                        <div class="alert alert-success border-0 text-center py-4">
+                            <i class="bi bi-info-circle-fill me-2"></i> No activity reservations to display.
                         </div>
                     }
                 </div>
 
-                <!-- Locker Requests Tab Content -->
-                <div class="tab-pane fade" id="lockerReqContent" role="tabpanel" aria-labelledby="lockerReq-tab">
+                <!-- Locker Requests -->
+                <div class="tab-pane fade @(activeTab == "locker" ? "show active" : "")"
+                     id="lockerReqContent" role="tabpanel" aria-labelledby="lockerReq-tab">
                     @if (Model.LockerRequests != null && Model.LockerRequests.Any())
                     {
                         <div class="table-responsive">
                             <table class="table table-hover align-middle mb-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Locker Number</th>
-                                        <th scope="col">Semester</th>
-                                        <th scope="col">Contact</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col" class="text-center">Actions</th>
+                                        <th>Name</th>
+                                        <th>Locker Number</th>
+                                        <th>Semester</th>
+                                        <th>Contact</th>
+                                        <th>Status</th>
+                                        <th class="text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -163,7 +190,8 @@
                                                 </span>
                                             </td>
                                             <td class="text-center">
-                                                <a asp-action="Details" asp-route-id="@locker.Id" asp-route-type="Locker" class="btn btn-info-outline btn-sm px-3">
+                                                <a asp-action="Details" asp-route-id="@locker.Id" asp-route-type="Locker"
+                                                   class="btn btn-info-outline btn-sm px-3">
                                                     <i class="bi bi-eye me-1"></i> Details
                                                 </a>
                                             </td>
@@ -175,8 +203,8 @@
                     }
                     else
                     {
-                        <div class="alert alert-warning border-0 text-center py-4" role="alert">
-                            <i class="bi bi-info-circle-fill me-2"></i>No locker requests to display.
+                        <div class="alert alert-warning border-0 text-center py-4">
+                            <i class="bi bi-info-circle-fill me-2"></i> No locker requests to display.
                         </div>
                     }
                 </div>

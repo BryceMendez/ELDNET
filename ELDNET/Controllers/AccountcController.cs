@@ -52,7 +52,7 @@ namespace ELDNET.Controllers
                 var adminClaimsIdentity = new ClaimsIdentity(adminClaims, CookieAuthenticationDefaults.AuthenticationScheme);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(adminClaimsIdentity), new AuthenticationProperties { IsPersistent = rememberMe });
 
-                return RedirectToAction("Index", "Approval");
+                return RedirectToAction("Index", "AdminHome");
             }
             var admin = _db.Admins.FirstOrDefault(a => a.Username == username && a.Password == password);
             if (admin != null)
@@ -68,7 +68,7 @@ namespace ELDNET.Controllers
                 var adminClaimsIdentity = new ClaimsIdentity(adminClaims, CookieAuthenticationDefaults.AuthenticationScheme);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(adminClaimsIdentity), new AuthenticationProperties { IsPersistent = rememberMe });
 
-                return RedirectToAction("Index", "Approval");
+                return RedirectToAction("Index", "AdminHome");
             }
 
             // Check for student login
@@ -95,7 +95,6 @@ namespace ELDNET.Controllers
                     };
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
-                    // --------------------------------------------------------
                     HttpContext.Session.SetString("UserRole", "Student");
                     HttpContext.Session.SetString("UserId", student.StudentId);
                     HttpContext.Session.SetString("FullName", student.FullName);

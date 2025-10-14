@@ -1,185 +1,107 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ELDNET.Models
 {
     public class ReservationRoom
     {
-        /*[Required]
+        [Key]
         public int Id { get; set; }
-        [Required]
-        // 🔹 Link to Student
-        public string? StudentId { get; set; } // Foreign key to StudentAccount.StudentId
-        [Required]
+
+        public string? StudentId { get; set; }
+
+        public string? FacultyId { get; set; }
+
+        [Required(ErrorMessage = "Organization Name is required.")]
         [Display(Name = "Organization Name")]
-        public string? OrganizationName { get; set; }
-        [Required]
+        public string OrganizationName { get; set; }
+
+        [Required(ErrorMessage = "Activity Title is required.")]
         [Display(Name = "Activity Title")]
-        public string? ActivityTitle { get; set; }
-        [Required]
-        [Display(Name = "Activity Date")]
-        public DateTime ActivityDate { get; set; }
-        [Required]
-        public string? Speaker { get; set; }
-        [Required]
-        public string? Venue { get; set; }
-        [Required]
-        [Display(Name = "Purpose/Objective")]
-        public string? PurposeObjective { get; set; }
-        [Required]
-        [Display(Name = "Date Needed")]
-        public DateTime? DateNeeded { get; set; }
+        public string ActivityTitle { get; set; }
 
-        [Required]
-        [Display(Name = "Time From")]
-        public TimeSpan? TimeFrom { get; set; }
+        [Display(Name = "Speaker")]
+        public string? Speaker { get; set; } // Speaker might be optional
 
-        [Required]
-        [Display(Name = "Time To")]
-        public TimeSpan? TimeTo { get; set; }
+        [Required(ErrorMessage = "Venue is required.")]
+        public string Venue { get; set; }
 
-        [Required]
-        public string? Participants { get; set; }
-
-        [Required]
-        [Display(Name = "Equipment/Facilities Needed")]
-        public string? EquipmentFacilities { get; set; }
-
-        [Required]
-        [Display(Name = "Nature of Activity")]
-        public string? NatureOfActivity { get; set; }
-
-        [Required]
-        [Display(Name = "Source of Funds")]
-        public string? SourceOfFunds { get; set; }
-
-        [Required]
+        // Added RoomNumber as it's required in your controller logic and validation
+        [Required(ErrorMessage = "Room Number is required.")]
         [Display(Name = "Room Number")]
-        public string? RoomNumber { get; set; }
+        public string RoomNumber { get; set; }
 
+        [Required(ErrorMessage = "Purpose/Objective is required.")]
+        [Display(Name = "Purpose / Objective")]
+        public string PurposeObjective { get; set; }
+
+        // Date of Submission - Set by the system, not by the user via form.
         [Required]
-        [Display(Name = "Reserved By")]
-        public string? ReservedBy { get; set; }
-
-        
-        // 🔹 Overall status
-        public string? Status { get; set; } = "Pending";
-
-        [Required]
+        [Display(Name = "Date Submitted")]
+        [DataType(DataType.Date)]
         public DateTime Date { get; set; }
 
-        [Required]
-        public bool IsChangedByApplicant { get; set; } = false;
+        // Date of the actual activity - User provides this via form.
+        [Required(ErrorMessage = "Activity Date is required.")]
+        [Display(Name = "Activity Date")]
+        [DataType(DataType.Date)]
+        public DateTime ActivityDate { get; set; }
 
-        // 🔹 Approval Workflow Fields (5 approvers)
-        public string Approver1Name { get; set; } = "Atty. Virgil B. Villanueva (OSD Director)";
+        // Date needed for setup/preparation - User provides this via form.
+        [Required(ErrorMessage = "Date Needed is required.")]
+        [Display(Name = "Date Needed (for setup/preparation)")]
+        [DataType(DataType.Date)]
+        public DateTime DateNeeded { get; set; }
+
+        [Required(ErrorMessage = "Start Time is required.")]
+        [Display(Name = "Time From")]
+        [DataType(DataType.Time)]
+        public TimeSpan TimeFrom { get; set; }
+
+        [Required(ErrorMessage = "End Time is required.")]
+        [Display(Name = "Time To")]
+        [DataType(DataType.Time)]
+        public TimeSpan TimeTo { get; set; }
+
+        [Required(ErrorMessage = "Number of Participants is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Number of Participants must be at least 1.")]
+        public int Participants { get; set; }
+
+        [Required(ErrorMessage = "Source of Funds is required.")]
+        [Display(Name = "Source of Funds")]
+        public string SourceOfFunds { get; set; }
+
+        [Display(Name = "Equipment and Facilities")]
+        public string? EquipmentFacilities { get; set; } // Equipment might be optional
+
+        [Required(ErrorMessage = "Nature of Activity is required.")]
+        [Display(Name = "Nature of Activity")]
+        public string NatureOfActivity { get; set; }
+
+        // Reserved By - Pre-filled from session, but can be displayed.
+        // It's [Required] so if session is null, validation will catch it.
+        [Required(ErrorMessage = "Reserved By is required.")]
+        [Display(Name = "Reserved By")]
+        public string ReservedBy { get; set; }
+
+        // Approval Statuses
+        public string Status { get; set; } = "Pending";
+        public string FinalStatus { get; set; } = "Pending";
+
+        public string Approver1Name { get; set; } = "Mr. John Doe (Department Head)"; // Example
         public string Approver1Status { get; set; } = "Pending";
 
-        public string Approver2Name { get; set; } = "Ms. Nitcy Milagros (Department Head/ Dean)";
+        public string Approver2Name { get; set; } = "Ms. Jane Smith (Dean)"; // Example
         public string Approver2Status { get; set; } = "Pending";
 
-        public string Approver3Name { get; set; } = "Otelia G. Moho (Campus Director)";
+        public string Approver3Name { get; set; } = "Dr. Bill Gates (VP Academics)"; // Example
         public string Approver3Status { get; set; } = "Pending";
 
-        public string Approver4Name { get; set; } = "Engr. Jessir Flores (Building Officer)";
-        public string Approver4Status { get; set; } = "Pending";
+        public string? Approver4Name { get; set; }
+        public string? Approver4Status { get; set; }
 
-        public string Approver5Name { get; set; } = "Eduardo Hona (DSU Head Guard)";
-        public string Approver5Status { get; set; } = "Pending";
-
-        public string FinalStatus { get; set; } = "Pending";*/
-    
-    
- 
-
-
-        
-            
-            public int Id { get; set; }
-            
-            // 🔹 Link to Student
-            public string? StudentId { get; set; } // Foreign key to StudentAccount.StudentId
-        
-            [Display(Name = "Organization Name")]
-            public string? OrganizationName { get; set; }
-  
-            [Display(Name = "Activity Title")]
-            public string? ActivityTitle { get; set; }
-          
-            [Display(Name = "Activity Date")]
-            public DateTime ActivityDate { get; set; }
-        
-            public string? Speaker { get; set; }
-          
-            public string? Venue { get; set; }
-        
-            [Display(Name = "Purpose/Objective")]
-            public string? PurposeObjective { get; set; }
-      
-            [Display(Name = "Date Needed")]
-            public DateTime? DateNeeded { get; set; }
-
-          
-            [Display(Name = "Time From")]
-            public TimeSpan? TimeFrom { get; set; }
-
-           
-            [Display(Name = "Time To")]
-            public TimeSpan? TimeTo { get; set; }
-
-            
-            public string? Participants { get; set; }
-
-           
-            [Display(Name = "Equipment/Facilities Needed")]
-            public string? EquipmentFacilities { get; set; }
-
-         
-            [Display(Name = "Nature of Activity")]
-            public string? NatureOfActivity { get; set; }
-
-          
-            [Display(Name = "Source of Funds")]
-            public string? SourceOfFunds { get; set; }
-
-       
-            [Display(Name = "Room Number")]
-            public string? RoomNumber { get; set; }
-
-         
-            [Display(Name = "Reserved By")]
-            public string? ReservedBy { get; set; }
-
-
-            // 🔹 Overall status
-            public string? Status { get; set; } = "Pending";
-
-           
-            public DateTime Date { get; set; }
-
-            
-            public bool IsChangedByApplicant { get; set; } = false;
-
-            // 🔹 Approval Workflow Fields (5 approvers)
-            public string Approver1Name { get; set; } = "Atty. Virgil B. Villanueva (OSD Director)";
-            public string Approver1Status { get; set; } = "Pending";
-
-            public string Approver2Name { get; set; } = "Ms. Nitcy Milagros (Department Head/ Dean)";
-            public string Approver2Status { get; set; } = "Pending";
-
-            public string Approver3Name { get; set; } = "Otelia G. Moho (Campus Director)";
-            public string Approver3Status { get; set; } = "Pending";
-
-            public string Approver4Name { get; set; } = "Engr. Jessir Flores (Building Officer)";
-            public string Approver4Status { get; set; } = "Pending";
-
-            public string Approver5Name { get; set; } = "Eduardo Hona (DSU Head Guard)";
-            public string Approver5Status { get; set; } = "Pending";
-
-            public string FinalStatus { get; set; } = "Pending";
-        }
+        public string? Approver5Name { get; set; }
+        public string? Approver5Status { get; set; }
     }
-
-
-
-
+}

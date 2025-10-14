@@ -2,7 +2,11 @@
 using ELDNET.Data;
 using ELDNET.Models;
 using System.Linq;
-using Microsoft.EntityFrameworkCore; // Added for AsNoTracking
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http; // For HttpContext.Session
+using System.IO; // For Path, Directory, FileStream
+using System; // For DateTime
+using System.Threading.Tasks; // For async operations
 
 namespace ELDNET.Controllers
 {
@@ -15,13 +19,11 @@ namespace ELDNET.Controllers
             _db = db;
         }
 
-
-
         // INDEX - Displays list of gate passes
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var userRole = HttpContext.Session.GetString("UserRole");
-            var studentId = HttpContext.Session.GetString("UserId");
+            var userId = HttpContext.Session.GetString("UserId");
 
             if (userRole == null) // not logged in
             {
@@ -31,15 +33,34 @@ namespace ELDNET.Controllers
 
             IQueryable<GatePass> gatePassesQuery = _db.GatePasses;
 
+            // --- CORRECTION FOR INDEX FILTERING START ---
             if (userRole == "Student")
             {
-                // Students only see their own gate passes
-                gatePassesQuery = gatePassesQuery.Where(gp => gp.StudentId == studentId);
+                if (string.IsNullOrEmpty(userId))
+                {
+                    TempData["error"] = "Student ID not found in session.";
+                    return RedirectToAction("Login", "Account");
+                }
+                gatePassesQuery = gatePassesQuery.Where(gp => gp.StudentId == userId);
             }
+            else if (userRole == "Faculty") // Filter for Faculty's own gate passes
+            {
+                if (string.IsNullOrEmpty(userId))
+                {
+                    TempData["error"] = "Faculty ID not found in session.";
+                    return RedirectToAction("Login", "Account");
+                }
+                gatePassesQuery = gatePassesQuery.Where(gp => gp.FacultyId == userId);
+            }
+            // Admins will see all gate passes as no filter is applied for them.
+            // --- CORRECTION FOR INDEX FILTERING END ---
 
-            var gatePassList = gatePassesQuery.OrderByDescending(gp => gp.Date).ToList(); 
+            var gatePassList = await gatePassesQuery.OrderByDescending(gp => gp.Date).ToListAsync();
 
-            return View(gatePassList); // Return to a proper Index view
+            // Pass user role to the view to conditionally show the Create button
+            ViewBag.UserRole = userRole;
+
+            return View(gatePassList);
         }
 
         // GET: CREATE
@@ -47,19 +68,42 @@ namespace ELDNET.Controllers
         {
             var userRole = HttpContext.Session.GetString("UserRole");
             var fullName = HttpContext.Session.GetString("FullName");
+            var userId = HttpContext.Session.GetString("UserId");
 
-            if (userRole == null || userRole == "Admin") // Only students can create
+            if (string.IsNullOrEmpty(userRole) || userRole == "Admin")
             {
-                TempData["error"] = "Only students can create gate passes.";
+                TempData["error"] = "Only students or faculty can create gate passes.";
                 return RedirectToAction("Index", "Home");
             }
-
-            var model = new GatePass();
-            if (fullName != null)
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(fullName))
             {
-                model.Name = fullName;
+                TempData["error"] = "User information (ID or Full Name) missing from session. Please log in again.";
+                return RedirectToAction("Login", "Account");
             }
-            model.Date = DateTime.Now;
+
+            var model = new GatePass
+            {
+                Name = fullName,
+                Date = DateTime.Now,
+                Status = "Pending",
+                FinalStatus = "Pending",
+                Approver1Status = "Pending",
+                Approver2Status = "Pending",
+                Approver3Status = "Pending"
+            };
+
+            // --- THIS LOGIC IS CORRECT: Sets StudentId or FacultyId based on role ---
+            if (userRole == "Student")
+            {
+                model.StudentId = userId;
+                model.FacultyId = null; // Ensure FacultyId is null for students
+            }
+            else if (userRole == "Faculty")
+            {
+                model.FacultyId = userId;
+                model.StudentId = null; // Ensure StudentId is null for faculty
+            }
+            // --- END OF CORRECT LOGIC ---
 
             return View(model);
         }
@@ -67,148 +111,53 @@ namespace ELDNET.Controllers
         // POST: CREATE
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(GatePass obj)
+        public async Task<IActionResult> Create(GatePass obj)
         {
             var userRole = HttpContext.Session.GetString("UserRole");
-            var studentId = HttpContext.Session.GetString("UserId");
+            var userId = HttpContext.Session.GetString("UserId");
+            var fullName = HttpContext.Session.GetString("FullName");
 
-            if (userRole == null || userRole == "Admin")
+            if (string.IsNullOrEmpty(userRole) || userRole == "Admin")
             {
-                TempData["error"] = "Only students can create gate passes.";
+                TempData["error"] = "Only students or faculty can create gate passes.";
                 return RedirectToAction("Index", "Home");
             }
-
-            obj.StudentId = studentId;
-
-            ModelState.Remove(nameof(obj.StudentId));
-
-            if (ModelState.IsValid)
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(fullName))
             {
-                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-                string studentUploadsFolder = Path.Combine(uploadsFolder, "gatepass", studentId ?? "unknown"); // Organize by student ID
-
-                if (!Directory.Exists(studentUploadsFolder))
-                    Directory.CreateDirectory(studentUploadsFolder);
-
-                // Save Study Load file
-                if (obj.StudyLoadFile != null && obj.StudyLoadFile.Length > 0)
-                {
-                    string uniqueFileName = $"{Guid.NewGuid().ToString()}_{obj.StudyLoadFile.FileName}";
-                    string filePath = Path.Combine(studentUploadsFolder, uniqueFileName);
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        obj.StudyLoadFile.CopyTo(stream);
-                    }
-                    obj.StudyLoadPath = $"/uploads/gatepass/{studentId}/{uniqueFileName}";
-                }
-
-                // Save Registration Form file
-                if (obj.RegistrationFile != null && obj.RegistrationFile.Length > 0)
-                {
-                    string uniqueFileName = $"{Guid.NewGuid().ToString()}_{obj.RegistrationFile.FileName}";
-                    string filePath = Path.Combine(studentUploadsFolder, uniqueFileName);
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        obj.RegistrationFile.CopyTo(stream);
-                    }
-                    obj.RegistrationPath = $"/uploads/gatepass/{studentId}/{uniqueFileName}";
-                }
-
-                _db.GatePasses.Add(obj);
-                _db.SaveChanges();
-
-                TempData["success"] = "Gate Pass created successfully";
-                return RedirectToAction(nameof(Index));
-            }
-
-            // Re-assign pre-filled values if ModelState is invalid
-            var fullName = HttpContext.Session.GetString("FullName");
-            if (fullName != null) obj.Name = fullName;
-            obj.Date = DateTime.Now; // Re-set date
-
-            return View(obj);
-        }
-
-        // GET: EDIT
-        public IActionResult Edit(int? id)
-        {
-            var userRole = HttpContext.Session.GetString("UserRole");
-            var studentId = HttpContext.Session.GetString("UserId");
-
-            if (userRole == null)
-            {
-                TempData["error"] = "You must be logged in to edit gate passes.";
+                TempData["error"] = "User information (ID or Full Name) missing from session. Please log in again.";
                 return RedirectToAction("Login", "Account");
             }
 
-            if (id == null || id == 0) return NotFound();
-
-            var gatePass = _db.GatePasses.Find(id);
-            if (gatePass == null) return NotFound();
-
-   
-            if (userRole == "Student" && gatePass.StudentId != studentId)
+            // --- THIS LOGIC IS CORRECT: Re-assigns StudentId or FacultyId before saving ---
+            // This is crucial because StudentId/FacultyId are not directly in the form inputs.
+            if (userRole == "Student")
             {
-                TempData["error"] = "You are not authorized to edit this gate pass.";
-                return RedirectToAction(nameof(Index));
+                obj.StudentId = userId;
+                obj.FacultyId = null;
             }
-
-            //cant edit if approved
-            if (gatePass.FinalStatus == "Approved" || gatePass.Status == "Approved") 
+            else if (userRole == "Faculty")
             {
-
-                return RedirectToAction(nameof(Details), new { id = gatePass.Id });
+                obj.FacultyId = userId;
+                obj.StudentId = null;
             }
-            // --- END NEW ---
+            // --- END OF CORRECT LOGIC ---
 
-            return View(gatePass);
-        }
+            obj.Name = fullName;
+            obj.Date = DateTime.Now;
 
-        // POST: EDIT
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(GatePass obj)
-        {
-            var userRole = HttpContext.Session.GetString("UserRole");
-            var studentId = HttpContext.Session.GetString("UserId");
-
-            if (userRole == null)
-            {
-                TempData["error"] = "You must be logged in to edit gate passes.";
-                return RedirectToAction("Login", "Account");
-            }
-
-            if (obj.Id == 0) return NotFound();
-
-            // Retrieve original to preserve StudentId and prevent tampering
-            var originalGatePass = _db.GatePasses.AsNoTracking().FirstOrDefault(gp => gp.Id == obj.Id);
-            if (originalGatePass == null) return NotFound();
-
-            if (userRole == "Student" && originalGatePass.StudentId != studentId)
-            {
-                TempData["error"] = "You are not authorized to edit this gate pass.";
-                return RedirectToAction(nameof(Index));
-            }
-
-            //cant edit if approved
-            if (originalGatePass.FinalStatus == "Approved" || originalGatePass.Status == "Approved")
-            {
-                return RedirectToAction(nameof(Details), new { id = obj.Id }); // Redirect to details or index
-            }
-            // Preserve StudentId
-            obj.StudentId = originalGatePass.StudentId;
-
-            // Mark as "Changed" when user edits their submission
-            obj.Status = "Changed";
-            obj.FinalStatus = "Changed";
-
-            // Reset all approver statuses aside sa last time na null
+            obj.Status = "Pending";
+            obj.FinalStatus = "Pending";
             obj.Approver1Status = "Pending";
             obj.Approver2Status = "Pending";
             obj.Approver3Status = "Pending";
 
-            // Clear specific ModelState entries that are now being manually set
+            // --- CHANGE HERE: No need to Remove ModelState for StudentId/FacultyId if they are nullable ---
+            // However, removing them is harmless if you're populating them manually.
+            // I'll keep them removed here as it doesn't hurt, and you might have other reasons.
             ModelState.Remove(nameof(obj.StudentId));
+            ModelState.Remove(nameof(obj.FacultyId));
+            ModelState.Remove(nameof(obj.Name));
+            ModelState.Remove(nameof(obj.Date));
             ModelState.Remove(nameof(obj.Status));
             ModelState.Remove(nameof(obj.FinalStatus));
             ModelState.Remove(nameof(obj.Approver1Status));
@@ -218,64 +167,280 @@ namespace ELDNET.Controllers
 
             if (ModelState.IsValid)
             {
-                // ... (rest of your file upload and update logic) ...
-
-                // Save file logic
                 string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-                string studentUploadsFolder = Path.Combine(uploadsFolder, "gatepass", originalGatePass.StudentId ?? "unknown");
+                // Use the correct ID for the folder based on role
+                string userSpecificId = userRole == "Student" ? obj.StudentId : obj.FacultyId;
+                string userUploadsFolder = Path.Combine(uploadsFolder, "gatepass", userSpecificId ?? "unknown");
 
-                if (!Directory.Exists(studentUploadsFolder))
-                    Directory.CreateDirectory(studentUploadsFolder);
+
+                if (!Directory.Exists(userUploadsFolder))
+                    Directory.CreateDirectory(userUploadsFolder);
+
+                // Save Study Load file
+                if (obj.StudyLoadFile != null && obj.StudyLoadFile.Length > 0)
+                {
+                    string uniqueFileName = $"{Guid.NewGuid()}_{obj.StudyLoadFile.FileName}";
+                    string filePath = Path.Combine(userUploadsFolder, uniqueFileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await obj.StudyLoadFile.CopyToAsync(stream);
+                    }
+                    obj.StudyLoadPath = $"/uploads/gatepass/{userSpecificId}/{uniqueFileName}";
+                }
+                else
+                {
+                    ModelState.AddModelError(nameof(obj.StudyLoadFile), "Please upload the Study Load file.");
+                    return View(obj);
+                }
+
+
+                // Save Registration Form file
+                if (obj.RegistrationFile != null && obj.RegistrationFile.Length > 0)
+                {
+                    string uniqueFileName = $"{Guid.NewGuid()}_{obj.RegistrationFile.FileName}";
+                    string filePath = Path.Combine(userUploadsFolder, uniqueFileName);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await obj.RegistrationFile.CopyToAsync(stream);
+                    }
+                    obj.RegistrationPath = $"/uploads/gatepass/{userSpecificId}/{uniqueFileName}";
+                }
+                else
+                {
+                    ModelState.AddModelError(nameof(obj.RegistrationFile), "Please upload the Registration Form file.");
+                    return View(obj);
+                }
+
+                _db.GatePasses.Add(obj);
+                await _db.SaveChangesAsync();
+
+                TempData["success"] = "Gate Pass created successfully";
+                return RedirectToAction(nameof(Index));
+            }
+
+            // --- THIS PART IS FINE, ensures model state for view is correct if validation fails ---
+            obj.Name = fullName;
+            if (userRole == "Student")
+            {
+                obj.StudentId = userId;
+                obj.FacultyId = null;
+            }
+            else if (userRole == "Faculty")
+            {
+                obj.FacultyId = userId;
+                obj.StudentId = null;
+            }
+            obj.Date = DateTime.Now;
+            // --- END OF FINE PART ---
+
+            return View(obj);
+        }
+
+        // GET: EDIT
+        public async Task<IActionResult> Edit(int? id)
+        {
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserId");
+
+            if (string.IsNullOrEmpty(userRole))
+            {
+                TempData["error"] = "You must be logged in to edit gate passes.";
+                return RedirectToAction("Login", "Account");
+            }
+
+            if (id == null || id == 0) return NotFound();
+
+            var gatePass = await _db.GatePasses.FindAsync(id);
+            if (gatePass == null) return NotFound();
+
+            // --- THIS AUTHORIZATION LOGIC IS CORRECT ---
+            if (userRole == "Student" && gatePass.StudentId != userId)
+            {
+                TempData["error"] = "You are not authorized to edit this gate pass.";
+                return RedirectToAction(nameof(Index));
+            }
+            else if (userRole == "Faculty" && gatePass.FacultyId != userId)
+            {
+                TempData["error"] = "You are not authorized to edit this gate pass.";
+                return RedirectToAction(nameof(Index));
+            }
+            // --- END OF CORRECT AUTHORIZATION LOGIC ---
+
+            if (gatePass.FinalStatus == "Approved" || gatePass.Status == "Approved")
+            {
+                TempData["info"] = "Approved gate passes cannot be edited. Viewing details instead.";
+                return RedirectToAction(nameof(Details), new { id = gatePass.Id });
+            }
+
+            return View(gatePass);
+        }
+
+        // POST: EDIT
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(GatePass obj)
+        {
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = HttpContext.Session.GetString("UserId");
+
+            if (string.IsNullOrEmpty(userRole))
+            {
+                TempData["error"] = "You must be logged in to edit gate passes.";
+                return RedirectToAction("Login", "Account");
+            }
+
+            if (obj.Id == 0) return NotFound();
+
+            var originalGatePass = await _db.GatePasses.AsNoTracking().FirstOrDefaultAsync(gp => gp.Id == obj.Id);
+            if (originalGatePass == null) return NotFound();
+
+            // --- THIS AUTHORIZATION LOGIC IS CORRECT ---
+            if (userRole == "Student" && originalGatePass.StudentId != userId)
+            {
+                TempData["error"] = "You are not authorized to edit this gate pass.";
+                return RedirectToAction(nameof(Index));
+            }
+            else if (userRole == "Faculty" && originalGatePass.FacultyId != userId)
+            {
+                TempData["error"] = "You are not authorized to edit this gate pass.";
+                return RedirectToAction(nameof(Index));
+            }
+            // --- END OF CORRECT AUTHORIZATION LOGIC ---
+
+            if (originalGatePass.FinalStatus == "Approved" || originalGatePass.Status == "Approved")
+            {
+                TempData["info"] = "Approved gate passes cannot be edited.";
+                return RedirectToAction(nameof(Details), new { id = obj.Id });
+            }
+
+            // --- THIS PART IS CORRECT: Preserves original IDs and updates status ---
+            obj.StudentId = originalGatePass.StudentId;
+            obj.FacultyId = originalGatePass.FacultyId;
+            obj.Name = originalGatePass.Name;
+            obj.Date = originalGatePass.Date;
+
+            obj.Status = "Changed";
+            obj.FinalStatus = "Changed";
+
+            obj.Approver1Status = "Pending";
+            obj.Approver2Status = "Pending";
+            obj.Approver3Status = "Pending";
+
+            obj.Approver1Name = originalGatePass.Approver1Name;
+            obj.Approver2Name = originalGatePass.Approver2Name;
+            obj.Approver3Name = originalGatePass.Approver3Name;
+            // --- END OF CORRECT PART ---
+
+            // --- CHANGE HERE: No need to Remove ModelState for StudentId/FacultyId if they are nullable ---
+            // Keeping them removed for consistency with Create, as it's harmless.
+            ModelState.Remove(nameof(obj.StudentId));
+            ModelState.Remove(nameof(obj.FacultyId));
+            ModelState.Remove(nameof(obj.Name));
+            ModelState.Remove(nameof(obj.Date));
+            ModelState.Remove(nameof(obj.Status));
+            ModelState.Remove(nameof(obj.FinalStatus));
+            ModelState.Remove(nameof(obj.Approver1Status));
+            ModelState.Remove(nameof(obj.Approver2Status));
+            ModelState.Remove(nameof(obj.Approver3Status));
+            ModelState.Remove(nameof(obj.Approver1Name));
+            ModelState.Remove(nameof(obj.Approver2Name));
+            ModelState.Remove(nameof(obj.Approver3Name));
+
+
+            if (ModelState.IsValid)
+            {
+                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+                string userSpecificId = userRole == "Student" ? originalGatePass.StudentId : originalGatePass.FacultyId;
+                string userUploadsFolder = Path.Combine(uploadsFolder, "gatepass", userSpecificId ?? "unknown");
+
+                if (!Directory.Exists(userUploadsFolder))
+                    Directory.CreateDirectory(userUploadsFolder);
 
                 // Update Study Load file if uploaded
                 if (obj.StudyLoadFile != null && obj.StudyLoadFile.Length > 0)
                 {
-                    string uniqueFileName = $"{Guid.NewGuid().ToString()}_{obj.StudyLoadFile.FileName}";
-                    string filePath = Path.Combine(studentUploadsFolder, uniqueFileName);
+                    if (!string.IsNullOrEmpty(originalGatePass.StudyLoadPath))
+                    {
+                        string oldFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", originalGatePass.StudyLoadPath.TrimStart('/'));
+                        if (System.IO.File.Exists(oldFilePath))
+                        {
+                            System.IO.File.Delete(oldFilePath);
+                        }
+                    }
+
+                    string uniqueFileName = $"{Guid.NewGuid()}_{obj.StudyLoadFile.FileName}";
+                    string filePath = Path.Combine(userUploadsFolder, uniqueFileName);
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
-                        obj.StudyLoadFile.CopyTo(stream);
+                        await obj.StudyLoadFile.CopyToAsync(stream);
                     }
-                    obj.StudyLoadPath = $"/uploads/gatepass/{originalGatePass.StudentId}/{uniqueFileName}";
+                    obj.StudyLoadPath = $"/uploads/gatepass/{userSpecificId}/{uniqueFileName}";
                 }
                 else
                 {
-                    // Preserve existing path if no new file uploaded
                     obj.StudyLoadPath = originalGatePass.StudyLoadPath;
                 }
 
                 // Update Registration Form file if uploaded
                 if (obj.RegistrationFile != null && obj.RegistrationFile.Length > 0)
                 {
-                    string uniqueFileName = $"{Guid.NewGuid().ToString()}_{obj.RegistrationFile.FileName}";
-                    string filePath = Path.Combine(studentUploadsFolder, uniqueFileName);
+                    if (!string.IsNullOrEmpty(originalGatePass.RegistrationPath))
+                    {
+                        string oldFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", originalGatePass.RegistrationPath.TrimStart('/'));
+                        if (System.IO.File.Exists(oldFilePath))
+                        {
+                            System.IO.File.Delete(oldFilePath);
+                        }
+                    }
+
+                    string uniqueFileName = $"{Guid.NewGuid()}_{obj.RegistrationFile.FileName}";
+                    string filePath = Path.Combine(userUploadsFolder, uniqueFileName);
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
-                        obj.RegistrationFile.CopyTo(stream);
+                        await obj.RegistrationFile.CopyToAsync(stream);
                     }
-                    obj.RegistrationPath = $"/uploads/gatepass/{originalGatePass.StudentId}/{uniqueFileName}";
+                    obj.RegistrationPath = $"/uploads/gatepass/{userSpecificId}/{uniqueFileName}";
                 }
                 else
                 {
-                    // Preserve existing path if no new file uploaded
                     obj.RegistrationPath = originalGatePass.RegistrationPath;
                 }
 
+                if (string.IsNullOrEmpty(obj.StudyLoadPath))
+                {
+                    ModelState.AddModelError(nameof(obj.StudyLoadFile), "Study Load file is required.");
+                }
+                if (string.IsNullOrEmpty(obj.RegistrationPath))
+                {
+                    ModelState.AddModelError(nameof(obj.RegistrationFile), "Registration Form file is required.");
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    return View(obj);
+                }
+
                 _db.GatePasses.Update(obj);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
                 TempData["success"] = "Gate Pass updated successfully. Status changed to 'Changed' - requires re-approval.";
                 return RedirectToAction(nameof(Index));
             }
+            // If model state is invalid due to other reasons, ensure session-derived values are re-assigned
+            obj.Name = HttpContext.Session.GetString("FullName");
+            obj.StudentId = originalGatePass.StudentId; // Keep original for display
+            obj.FacultyId = originalGatePass.FacultyId; // Keep original for display
+            obj.Date = originalGatePass.Date;
+
             return View(obj);
         }
 
         // GET: DETAILS
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             var userRole = HttpContext.Session.GetString("UserRole");
-            var studentId = HttpContext.Session.GetString("UserId");
+            var userId = HttpContext.Session.GetString("UserId");
 
-            if (userRole == null)
+            if (string.IsNullOrEmpty(userRole))
             {
                 TempData["error"] = "You must be logged in to view gate pass details.";
                 return RedirectToAction("Login", "Account");
@@ -283,26 +448,32 @@ namespace ELDNET.Controllers
 
             if (id == null || id == 0) return NotFound();
 
-            var gatePass = _db.GatePasses.Find(id);
+            var gatePass = await _db.GatePasses.FindAsync(id);
             if (gatePass == null) return NotFound();
 
-            // Authorization check
-            if (userRole == "Student" && gatePass.StudentId != studentId)
+            // --- CORRECTION FOR DETAILS AUTHORIZATION START ---
+            if (userRole == "Student" && gatePass.StudentId != userId)
             {
                 TempData["error"] = "You are not authorized to view this gate pass.";
                 return RedirectToAction(nameof(Index));
             }
+            else if (userRole == "Faculty" && gatePass.FacultyId != userId) // Faculty can only view their own
+            {
+                TempData["error"] = "You are not authorized to view this gate pass.";
+                return RedirectToAction(nameof(Index));
+            }
+            // --- CORRECTION FOR DETAILS AUTHORIZATION END ---
 
             return View(gatePass);
         }
 
         // GET: DELETE
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             var userRole = HttpContext.Session.GetString("UserRole");
-            var studentId = HttpContext.Session.GetString("UserId");
+            var userId = HttpContext.Session.GetString("UserId");
 
-            if (userRole == null)
+            if (string.IsNullOrEmpty(userRole))
             {
                 TempData["error"] = "You must be logged in to delete gate passes.";
                 return RedirectToAction("Login", "Account");
@@ -310,14 +481,26 @@ namespace ELDNET.Controllers
 
             if (id == null || id == 0) return NotFound();
 
-            var gatePass = _db.GatePasses.Find(id);
+            var gatePass = await _db.GatePasses.FindAsync(id);
             if (gatePass == null) return NotFound();
 
-            // Authorization check
-            if (userRole == "Student" && gatePass.StudentId != studentId)
+            // --- CORRECTION FOR DELETE AUTHORIZATION START ---
+            if (userRole == "Student" && gatePass.StudentId != userId)
             {
                 TempData["error"] = "You are not authorized to delete this gate pass.";
                 return RedirectToAction(nameof(Index));
+            }
+            else if (userRole == "Faculty" && gatePass.FacultyId != userId) // Faculty can only delete their own
+            {
+                TempData["error"] = "You are not authorized to delete this gate pass.";
+                return RedirectToAction(nameof(Index));
+            }
+            // --- CORRECTION FOR DELETE AUTHORIZATION END ---
+
+            if (gatePass.FinalStatus == "Approved" || gatePass.Status == "Approved")
+            {
+                TempData["error"] = "Approved gate passes cannot be deleted.";
+                return RedirectToAction(nameof(Details), new { id = gatePass.Id });
             }
 
             return View(gatePass);
@@ -326,25 +509,40 @@ namespace ELDNET.Controllers
         // POST: DELETE
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeletePOST(int? id)
+        public async Task<IActionResult> DeletePOST(int? id)
         {
             var userRole = HttpContext.Session.GetString("UserRole");
-            var studentId = HttpContext.Session.GetString("UserId");
+            var userId = HttpContext.Session.GetString("UserId");
 
-            if (userRole == null)
+            if (string.IsNullOrEmpty(userRole))
             {
                 TempData["error"] = "You must be logged in to delete gate passes.";
                 return RedirectToAction("Login", "Account");
             }
 
-            var gatePass = _db.GatePasses.Find(id);
-            if (gatePass == null) return NotFound();
+            var gatePass = await _db.GatePasses.FindAsync(id);
+            if (gatePass == null)
+            {
+                return NotFound();
+            }
 
-            // Authorization check
-            if (userRole == "Student" && gatePass.StudentId != studentId)
+            // --- CORRECTION FOR DELETE POST AUTHORIZATION START ---
+            if (userRole == "Student" && gatePass.StudentId != userId)
             {
                 TempData["error"] = "You are not authorized to delete this gate pass.";
                 return RedirectToAction(nameof(Index));
+            }
+            else if (userRole == "Faculty" && gatePass.FacultyId != userId) // Faculty can only delete their own
+            {
+                TempData["error"] = "You are not authorized to delete this gate pass.";
+                return RedirectToAction(nameof(Index));
+            }
+            // --- CORRECTION FOR DELETE POST AUTHORIZATION END ---
+
+            if (gatePass.FinalStatus == "Approved" || gatePass.Status == "Approved")
+            {
+                TempData["error"] = "Approved gate passes cannot be deleted.";
+                return RedirectToAction(nameof(Details), new { id = gatePass.Id });
             }
 
             // Optional: Delete the files from wwwroot if they exist
@@ -365,9 +563,8 @@ namespace ELDNET.Controllers
                 }
             }
 
-
             _db.GatePasses.Remove(gatePass);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             TempData["success"] = "Gate Pass deleted successfully";
             return RedirectToAction(nameof(Index));
         }

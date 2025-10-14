@@ -1,0 +1,149 @@
+﻿@model ELDNET.Controllers.AdminDashboardViewModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<!-- Header - Keep Centered -->
+<div class="text-center mb-4" style="margin-top: 40px;">
+    @* text-center is back here *@
+    <h2 class="fw-bold text-primary" style="font-size: 3rem;">
+        @* Removed inline text-align: left *@
+        <i class="bi bi-speedometer2 me-3"></i> Admin Dashboard
+    </h2>
+    <p class="text-muted mt-2 mb-0" style="font-size: 1.1rem;">
+        @* Removed inline text-align: left *@
+        Overview of key metrics and quick access to management tools.
+    </p>
+</div>
+
+<!-- Pending Requests Section -->
+<section class="mb-5 mt-2">
+    <!-- added mt-2 to bring closer -->
+    <h3 class="fw-bold text-secondary mb-4 text-start" style="margin-top: -10px;">
+        @* Added text-start here, removed inline style *@
+        <!-- slightly higher -->
+        <i class="fas fa-clock me-2 text-primary"></i> Request Summaries
+    </h3>
+
+    <div class="row g-4 text-center">
+        @* text-center is back here *@
+        <!-- Total Gate Pass -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card shadow-lg border-0 h-100" style="border-radius: 20px;">
+                @if (Model.PendingGatePasses > 0)
+                {
+                    <div class="position-absolute top-0 end-0 m-3 badge bg-danger">
+                        @Model.PendingGatePasses New
+                    </div>
+                }
+                <div class="card-body p-4">
+                    @* Removed text-start *@
+                    <h1 class="fw-bold text-dark display-2 mb-3">@Model.TotalGatePasses</h1>
+                    <div class="d-flex align-items-center justify-content-center mb-3">
+                        @* justify-content-center is back *@
+                        <i class="fas fa-door-open text-primary me-2" style="font-size: 2rem;"></i>
+                        <p class="fw-semibold text-muted mb-0" style="font-size: 1.3rem;">Total Gate Passes</p>
+                    </div>
+                    <a href="@Url.Action("Index", "Approval", new { tab = "gatepass" })" class="btn btn-gradient mt-2">
+                        <i class="fas fa-edit me-1"></i> Manage Requests
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Room Reservations -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card shadow-lg border-0 h-100" style="border-radius: 20px;">
+                @if (Model.PendingRoomReservations > 0)
+                {
+                    <div class="position-absolute top-0 end-0 m-3 badge bg-danger">
+                        @Model.PendingRoomReservations New
+                    </div>
+                }
+                <div class="card-body p-4">
+                    @* Removed text-start *@
+                    <h1 class="fw-bold text-dark display-2 mb-3">@Model.TotalRoomReservations</h1>
+                    <div class="d-flex align-items-center justify-content-center mb-3">
+                        @* justify-content-center is back *@
+                        <i class="fas fa-door-closed text-warning me-2" style="font-size: 2rem;"></i>
+                        <p class="fw-semibold text-muted mb-0" style="font-size: 1.3rem;">Total Room Reservations</p>
+                    </div>
+                    <a href="@Url.Action("Index", "Approval", new { tab = "reservation" })" class="btn btn-gradient mt-2">
+                        <i class="fas fa-edit me-1"></i> Manage Requests
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Locker Requests -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card shadow-lg border-0 h-100" style="border-radius: 20px;">
+                @if (Model.PendingLockerRequests > 0)
+                {
+                    <div class="position-absolute top-0 end-0 m-3 badge bg-danger">
+                        @Model.PendingLockerRequests New
+                    </div>
+                }
+                <div class="card-body p-4">
+                    @* Removed text-start *@
+                    <h1 class="fw-bold text-dark display-2 mb-3">@Model.TotalLockerRequests</h1>
+                    <div class="d-flex align-items-center justify-content-center mb-3">
+                        @* justify-content-center is back *@
+                        <i class="fas fa-lock text-success me-2" style="font-size: 2rem;"></i>
+                        <p class="fw-semibold text-muted mb-0" style="font-size: 1.3rem;">Total Locker Requests</p>
+                    </div>
+                    <a href="@Url.Action("Index", "Approval", new { tab = "locker" })" class="btn btn-gradient mt-2">
+                        <i class="fas fa-edit me-1"></i> Manage Requests
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Accounts Summary (no changes needed here as they already show total) -->
+<section>
+    <h3 class="fw-bold text-secondary mb-4 text-start">
+        @* Added text-start here, removed inline style *@
+        <i class="fas fa-users me-2 text-primary"></i> Accounts Summary
+    </h3>
+
+    <div class="row g-4 text-center">
+        @* text-center is back here *@
+        <!-- Total Students -->
+        <div class="col-lg-6 col-md-12">
+            <div class="card shadow-lg border-0 h-100" style="border-radius: 20px;">
+                <div class="card-body p-4">
+                    @* Removed text-start *@
+                    <h1 class="fw-bold text-dark display-2 mb-3">@Model.TotalStudents</h1>
+                    <div class="d-flex align-items-center justify-content-center mb-3">
+                        @* justify-content-center is back *@
+                        <i class="fas fa-user-graduate text-info me-2" style="font-size: 2rem;"></i>
+                        <p class="fw-semibold text-muted mb-0" style="font-size: 1.3rem;">Total Students</p>
+                    </div>
+                    <a href="@Url.Action("Index", "StudentAccounts")" class="btn btn-gradient mt-2">
+                        <i class="fas fa-eye me-1"></i> View Students
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Faculty -->
+        <div class="col-lg-6 col-md-12">
+            <div class="card shadow-lg border-0 h-100" style="border-radius: 20px;">
+                <div class="card-body p-4">
+                    @* Removed text-start *@
+                    <h1 class="fw-bold text-dark display-2 mb-3">@Model.TotalFaculty</h1>
+                    <div class="d-flex align-items-center justify-content-center mb-3">
+                        @* justify-content-center is back *@
+                        <i class="fas fa-chalkboard-teacher text-danger me-2" style="font-size: 2rem;"></i>
+                        <p class="fw-semibold text-muted mb-0" style="font-size: 1.3rem;">Total Faculty</p>
+                    </div>
+                    <a href="@Url.Action("Index", "FacultyAccounts")" class="btn btn-gradient mt-2">
+                        <i class="fas fa-eye me-1"></i> View Faculty
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

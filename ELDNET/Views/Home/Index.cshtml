@@ -2,57 +2,156 @@
     ViewData["Title"] = "Home Page";
 }
 
+<style>
+    /* General button styling */
+    .btn-gradient {
+        color: white; /* All button text is white */
+        border: none;
+        padding: 10px 20px;
+        border-radius: 50px;
+        font-weight: bold;
+        transition: all 0.3s ease; /* Keep transition for smoother initial render, even without hover effect */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        /* Remove hover effects for buttons */
+        .btn-gradient:hover {
+            transform: none; /* Remove translateY */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Keep original shadow */
+            color: white; /* Ensure text remains white */
+        }
+
+    /* Gate Pass Button - Blue */
+    .col-md-4:nth-child(1) .btn-gradient {
+        background: linear-gradient(45deg, #007bff, #0056b3); /* Blue gradient */
+    }
+
+        /* Keep original background on hover for blue button */
+        .col-md-4:nth-child(1) .btn-gradient:hover {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+        }
+
+    /* Reservation Room Button - Green */
+    .col-md-4:nth-child(2) .btn-gradient {
+        background: linear-gradient(45deg, #28a745, #1e7e34); /* Green gradient */
+    }
+
+        /* Keep original background on hover for green button */
+        .col-md-4:nth-child(2) .btn-gradient:hover {
+            background: linear-gradient(45deg, #28a745, #1e7e34);
+        }
+
+    /* Locker Request Button - Yellow */
+    .col-md-4:nth-child(3) .btn-gradient {
+        background: linear-gradient(45deg, #ffc107, #d39e00); /* Yellow/Orange gradient */
+    }
+
+        /* Keep original background on hover for yellow button */
+        .col-md-4:nth-child(3) .btn-gradient:hover {
+            background: linear-gradient(45deg, #ffc107, #d39e00);
+        }
+
+    /* Overlay styles */
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 123, 255, 0.6); /* Default blue for Gate Pass overlay */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .overlay-green {
+        background: rgba(40, 167, 69, 0.6); /* Green for Reservation overlay */
+    }
+
+    .overlay-yellow {
+        background: rgba(255, 193, 7, 0.6); /* Yellow for Locker overlay */
+    }
+
+    .overlay-text {
+        color: white;
+        z-index: 1;
+        font-size: 1.8rem;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Other existing styles for the cards and layout */
+    .container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+
+    /* Card hover effect: Scale up slightly and change shadow */
+    .card {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Add transition for smooth effect */
+    }
+
+        .card:hover {
+            transform: scale(1.1); /* Make the card slightly larger */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2) !important; /* Enhance shadow on hover */
+        }
+
+    .card-img-top {
+        filter: brightness(0.7); /* Slightly dim the images for better text contrast */
+    }
+
+</style>
+
 <div class="container py-2">
     <div class="text-center mb-5">
         <h1 class="display-5 fw-bold text-primary">Welcome to ELDNET</h1>
         <p class="text-muted">Quick access to Gate Pass, Reservation Room, and Locker Request services.</p>
     </div>
 
-    <div class="card shadow-xl border-0" style="border-radius: 25px; background: #f8f9fa;">
-        <div class="row g-5">
+    <!-- Removed the outer card box -->
+    <div class="row g-5">
 
-            <div class="col-md-4">
-                <div class="card shadow-lg border-0 h-100" style="border-radius: 20px; overflow: hidden;">
-                    <div class="position-relative">
-                        <img src="~/images/gatepass.jpg" class="card-img-top" alt="Gate Pass"
-                             style="height: 250px; object-fit: cover;">
-                        <div class="overlay"></div>
-                        <h4 class="overlay-text text-center">Gate Pass</h4>
-                    </div>
-                    <div class="card-body text-center p-4">
-                        <p class="text-muted">Manage entry gate passes quickly and securely.</p>
-                        <a asp-controller="GatePass" asp-action="Create" class="btn btn-gradient mt-2">Go to Gate Pass</a>
-                    </div>
+        <div class="col-md-4">
+            <div class="card shadow-lg border-0 h-100" style="border-radius: 20px; overflow: hidden;">
+                <div class="position-relative">
+                    <img src="~/images/gatepass.jpg" class="card-img-top" alt="Gate Pass"
+                         style="height: 250px; object-fit: cover;">
+                    <div class="overlay"></div>
+                    <h4 class="overlay-text text-center">Gate Pass</h4>
+                </div>
+                <div class="card-body text-center p-4">
+                    <p class="text-muted">Manage entry gate passes quickly and securely.</p>
+                    <a asp-controller="GatePass" asp-action="Create" class="btn btn-gradient mt-2">Go to Gate Pass</a>
                 </div>
             </div>
+        </div>
 
-            <div class="col-md-4">
-                <div class="card shadow-lg border-0 h-100" style="border-radius: 20px; overflow: hidden;">
-                    <div class="position-relative">
-                        <img src="~/images/reservation.png" class="card-img-top" alt="Reservation Room"
-                             style="height: 250px; object-fit: cover;">
-                        <div class="overlay overlay-green"></div>
-                        <h4 class="overlay-text text-center">Reservation Room</h4>
-                    </div>
-                    <div class="card-body text-center p-4">
-                        <p class="text-muted">Book rooms for events, meetings, and activities.</p>
-                        <a asp-controller="ReservationRoom" asp-action="Create" class="btn btn-gradient mt-2">Go to Reservation</a>
-                    </div>
+        <div class="col-md-4">
+            <div class="card shadow-lg border-0 h-100" style="border-radius: 20px; overflow: hidden;">
+                <div class="position-relative">
+                    <img src="~/images/reservation.png" class="card-img-top" alt="Reservation Room"
+                         style="height: 250px; object-fit: cover;">
+                    <div class="overlay overlay-green"></div>
+                    <h4 class="overlay-text text-center">Reservation Room</h4>
+                </div>
+                <div class="card-body text-center p-4">
+                    <p class="text-muted">Book rooms for events, meetings, and activities.</p>
+                    <a asp-controller="ReservationRoom" asp-action="Create" class="btn btn-gradient mt-2">Go to Reservation</a>
                 </div>
             </div>
+        </div>
 
-            <div class="col-md-4">
-                <div class="card shadow-lg border-0 h-100" style="border-radius: 20px; overflow: hidden;">
-                    <div class="position-relative">
-                        <img src="~/images/locker.png" class="card-img-top" alt="Locker Request"
-                             style="height: 250px; object-fit: cover;">
-                        <div class="overlay overlay-yellow"></div>
-                        <h4 class="overlay-text text-center">Locker Request</h4>
-                    </div>
-                    <div class="card-body text-center p-4">
-                        <p class="text-muted">Apply for and manage student locker requests.</p>
-                        <a asp-controller="LockerRequest" asp-action="Create" class="btn btn-gradient mt-2">Go to Locker</a>
-                    </div>
+        <div class="col-md-4">
+            <div class="card shadow-lg border-0 h-100" style="border-radius: 20px; overflow: hidden;">
+                <div class="position-relative">
+                    <img src="~/images/locker.png" class="card-img-top" alt="Locker Request"
+                         style="height: 250px; object-fit: cover;">
+                    <div class="overlay overlay-yellow"></div>
+                    <h4 class="overlay-text text-center">Locker Request</h4>
+                </div>
+                <div class="card-body text-center p-4">
+                    <p class="text-muted">Apply for and manage student locker requests.</p>
+                    <a asp-controller="LockerRequest" asp-action="Create" class="btn btn-gradient mt-2">Go to Locker</a>
                 </div>
             </div>
         </div>

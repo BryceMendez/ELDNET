@@ -1,0 +1,208 @@
+﻿/* reservationdetails.css */
+
+/* Header Adjustments - More Compact */
+.container.py-3 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+}
+
+.reservation-modern-card {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background-color: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e9ecef;
+}
+
+.card-header-modern-reservation-compact {
+    background: linear-gradient(135deg, #28a745, #1d7e3a); /* Green gradient */
+    color: #fff;
+    padding: 1.2rem 1.5rem !important; /* Increased padding for larger header */
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+    text-align: center;
+}
+
+    .card-header-modern-reservation-compact h2 {
+        font-size: 2rem; /* Made header bigger */
+        margin-bottom: 0.5rem !important; /* Adjusted margin */
+        font-weight: 700; /* Bolder font weight */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card-header-modern-reservation-compact p {
+        font-size: 0.95rem; /* Slightly larger paragraph */
+        margin-bottom: 0 !important;
+        opacity: 0.9;
+    }
+
+
+/* Detail List Spacing Improvements */
+.reservation-detail-list-modern-improved dt,
+.reservation-detail-list-modern-improved dd {
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+    margin-bottom: 0;
+}
+
+.reservation-detail-list-modern-improved dt {
+    font-weight: 600;
+    color: #495057;
+    flex-basis: 35%;
+    max-width: 35%;
+}
+
+.reservation-detail-list-modern-improved dd {
+    color: #6c757d;
+    flex-basis: 65%;
+    max-width: 65%;
+}
+
+/* Approver Card Refined Format */
+.reservation-approver-card-new {
+    border-radius: 12px;
+    transition: box-shadow 0.2s ease-in-out; /* Only shadow transition */
+    background-color: #ffffff;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25), 0 0 0 2px rgba(40, 167, 69, 0.15); /* Darker, more prominent shadow, green accent */
+    border: 1px solid #e0e0e0; /* Add a light border */
+}
+
+    .reservation-approver-card-new:hover {
+        /* No transform on hover */
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3), 0 0 0 3px rgba(40, 167, 69, 0.25); /* Even darker hover shadow, green accent */
+    }
+
+    .reservation-approver-card-new .card-body {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+.reservation-approver-status-icon {
+    margin-bottom: 0.5rem; /* Space between icon and label */
+}
+
+    .reservation-approver-status-icon i {
+        font-size: 2.5rem; /* Larger icon for status */
+        line-height: 1; /* Ensure no extra space below icon */
+    }
+
+.reservation-approver-status-label {
+    margin-bottom: 1.2rem; /* Space below label before name */
+}
+
+/* Reusing badge styles (green focused) */
+.badge-modern.reservation-badge-pending {
+    background-color: #ffc107;
+    color: #343a40;
+    padding: 0.4em 0.7em;
+    border-radius: 0.35rem;
+    font-weight: 500;
+}
+
+.badge-modern.reservation-badge-approved {
+    background-color: #28a745; /* Green */
+    color: #ffffff;
+    padding: 0.4em 0.7em;
+    border-radius: 0.35rem;
+    font-weight: 500;
+}
+
+.badge-modern.reservation-badge-denied {
+    background-color: #dc3545;
+    color: #ffffff;
+    padding: 0.4em 0.7em;
+    border-radius: 0.35rem;
+    font-weight: 500;
+}
+
+.reservation-approver-card-new .reservation-approver-name {
+    color: #343a40;
+    font-weight: 600;
+    font-size: 1.3rem; /* Made name slightly bigger */
+    margin-bottom: 0.8rem; /* Closer to buttons */
+}
+
+.reservation-approver-divider {
+    width: 80%; /* Width of the separator line */
+    border-top: 2px solid #e9ecef; /* Thicker, more visible line */
+    margin-top: 0.5rem; /* Closer to name */
+    margin-bottom: 1rem; /* Closer to buttons */
+}
+
+/* Approver Buttons - Stay in place and bigger */
+.reservation-approver-buttons-form {
+    margin-top: 0.8rem; /* Closer to the line and name */
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.reservation-approver-btn {
+    padding: 0.6rem 1.2rem; /* Bigger padding for larger buttons */
+    font-size: 0.95rem; /* Slightly larger font */
+    border-radius: 0.3rem;
+    min-width: 100px; /* Give buttons a minimum width to prevent collapse */
+    height: 40px; /* Fixed height for consistency */
+    display: flex; /* Use flexbox for button content centering */
+    align-items: center; /* Center icon/text vertically */
+    justify-content: center; /* Center icon/text horizontally */
+    transition: all 0.2s ease;
+}
+
+    .reservation-approver-btn:hover {
+        /* No transform on hover */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+
+/* General detail list refinements */
+.reservation-detail-section-title {
+    color: #343a40;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+    .reservation-detail-section-title i {
+        font-size: 1.4rem;
+        color: #28a745; /* Green icon */
+    }
+
+.file-link {
+    color: #28a745; /* Green link */
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+    .file-link:hover {
+        color: #1e7e34; /* Darker green on hover */
+        text-decoration: underline;
+    }
+
+    .file-link i {
+        margin-right: 0.5rem;
+    }
+
+/* Final status text styling */
+.reservation-final-status-text {
+    font-size: 1.15rem; /* Slightly larger */
+    color: #495057;
+    font-weight: 500;
+}
+
+.reservation-final-status-pending {
+    color: #ffc107;
+    font-weight: bold;
+}
+
+.reservation-final-status-approved {
+    color: #28a745; /* Green */
+    font-weight: bold;
+}

@@ -1,0 +1,79 @@
+﻿/* ==========================================================
+   RESERVATION ROOM PAGE STYLES (green-themed modern look)
+   ========================================================== */
+
+.reservation-list-page {
+    background: transparent;
+    padding: 25px;
+    margin-top: 30px;
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+    .reservation-list-page h2 {
+        color: #198754;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+
+    .reservation-list-page .btn-success {
+        background-color: #198754;
+        border-color: #198754;
+        border-radius: 50px;
+        padding: 8px 20px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+    }
+
+        .reservation-list-page .btn-success:hover {
+            background-color: #157347;
+            transform: scale(1.03);
+        }
+
+    .reservation-list-page .btn-outline-success:hover {
+        background-color: #198754;
+        color: #fff;
+        transform: scale(1.02);
+    }
+
+    .reservation-list-page table {
+        font-size: 0.9rem; /* Slightly smaller font */
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .reservation-list-page thead {
+        background-color: #d1f7df;
+        color: #0f5132;
+        font-weight: 600;
+    }
+
+    .reservation-list-page tbody tr:hover {
+        background-color: #eaf9ef !important;
+        transition: 0.25s ease-in-out;
+    }
+
+    .reservation-list-page .badge {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+        border-radius: 8px;
+    }
+
+    .reservation-list-page .alert-success {
+        background-color: #e8f9ef;
+        border: 1px solid #bce3ca;
+        color: #0f5132;
+        border-radius: 10px;
+    }
+
+/* Smooth fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

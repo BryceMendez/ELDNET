@@ -4,11 +4,61 @@
     ViewData["Title"] = "Faculty Accounts";
 }
 
+<style>
+    /* Search/filter horizontal layout */
+    .search-filter-card {
+        padding: 0.75rem 1rem;
+        background-color: #f8f9fa;
+        border-radius: 0.75rem;
+        box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+        margin-bottom: 1rem;
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+
+        .search-filter-card .form-control {
+            flex-grow: 1;
+            min-width: 200px;
+            border-radius: 0.5rem;
+            border: 1px solid #ced4da;
+            height: 38px;
+        }
+
+        .search-filter-card .btn {
+            flex-shrink: 0;
+            height: 38px;
+            border-radius: 0.5rem;
+            background-color: #0d6efd;
+            color: #fff;
+            border: none;
+            transition: background-color 0.3s;
+        }
+
+            .search-filter-card .btn:hover {
+                background-color: #0b5ed7;
+                color: #fff;
+            }
+
+    /* Table header dark gray with white text */
+    #facultyTable thead {
+        background-color: #808080;
+    }
+
+        #facultyTable thead th {
+            color: #fff !important;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+</style>
+
 <div class="page-wrapper bg-white">
 
     <!-- Page Header -->
     <div class="text-center mb-3 mt-4">
-        <h2 class="display-6 fw-bold text-gradient-blue">
+        <h2 class="display-6 fw-bold text-gradient-blue" style="font-size: 3rem;">
             <i class="bi bi-person-badge-fill me-3"></i> Faculty Accounts
         </h2>
         <p class="lead text-muted mt-2">
@@ -25,31 +75,38 @@
         </div>
     }
 
-    <!-- Faculty Accounts Table Box (Very Round Corners) -->
-    <div class="card border-0 shadow-lg overflow-hidden mt-n2 rounded-5" style="border-radius: 20px;">
-        <!-- Card Header -->
-        <div class="card-header bg-white text-dark border-0 py-3 px-4 d-flex justify-content-between align-items-center rounded-top-5"
-             style="border-top-left-radius: 30px; border-top-right-radius: 30px;">
+    <!-- Faculty Accounts Table Box -->
+    <div class="card border-0 shadow-lg overflow-hidden mt-n2 rounded-5">
+        <div class="card-header bg-white text-dark border-0 py-3 px-4 d-flex justify-content-between align-items-center rounded-top-5">
             <h5 class="mb-0 fw-semibold text-dark">
                 <i class="bi bi-people-fill me-2"></i> Registered Faculty
             </h5>
-            <span class="fw-semibold fs-6 text-dark">
+            <span class="fw-semibold fs-6 text-dark" id="totalFaculty">
                 Total Faculty: @(Model?.Count() ?? 0)
             </span>
         </div>
 
+        <!-- Search Bar -->
+        <div class="px-4 pt-3">
+            <div class="search-filter-card">
+                <input type="text" id="facultyNameSearch" class="form-control" placeholder="Search by name..." />
+                <button id="facultySearchBtn" class="btn d-flex align-items-center gap-1">
+                    <i class="bi bi-search"></i> Search
+                </button>
+            </div>
+        </div>
+
         <!-- Card Body -->
-        <div class="card-body pt-0 px-4 pb-4 rounded-bottom-5"
-             style="border-bottom-left-radius: 30px; border-bottom-right-radius: 30px;">
+        <div class="card-body pt-0 px-4 pb-4 rounded-bottom-5">
             <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="bg-light border-bottom">
+                <table class="table table-hover align-middle mb-0" id="facultyTable">
+                    <thead>
                         <tr>
-                            <th class="ps-4 text-secondary text-uppercase small">#</th>
-                            <th class="text-secondary text-uppercase small">Faculty ID</th>
-                            <th class="text-secondary text-uppercase small">Full Name</th>
-                            <th class="text-secondary text-uppercase small">Email</th>
-                            <th class="text-center text-secondary text-uppercase small">Actions</th>
+                            <th class="ps-4">#</th>
+                            <th>Faculty ID</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,7 +115,7 @@
                             int counter = 1;
                             foreach (var faculty in Model)
                             {
-                                <tr>
+                                <tr data-name="@faculty.FullName.ToLower()">
                                     <td class="ps-4 text-muted">@counter</td>
                                     <td>
                                         <span class="badge bg-light text-primary fw-semibold px-3 py-2 rounded-pill border border-primary">
@@ -69,7 +126,6 @@
                                     <td class="text-muted">@faculty.Email</td>
                                     <td class="text-center">
                                         <div class="btn-group" role="group">
-                                            <!-- View Button -->
                                             <a asp-action="Details" asp-route-id="@faculty.Id"
                                                class="btn btn-primary rounded-pill px-3 me-2 shadow-sm">
                                                 <i class="bi bi-eye-fill me-1"></i> View
@@ -85,34 +141,25 @@
                                         </div>
 
                                         <!-- Delete Confirmation Modal -->
-                                        <div class="modal fade" id="deleteModal@(faculty.Id)" tabindex="-1"
-                                             aria-labelledby="deleteModalLabel@(faculty.Id)" aria-hidden="true">
+                                        <div class="modal fade" id="deleteModal@(faculty.Id)" tabindex="-1" aria-labelledby="deleteModalLabel@(faculty.Id)" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content border-0 rounded-5 shadow-lg" style="border-radius: 30px;">
-                                                    <!-- Modal Header -->
-                                                    <div class="modal-header bg-gradient-danger border-0 rounded-top-5"
-                                                         style="border-top-left-radius: 30px; border-top-right-radius: 30px;">
-                                                        <h5 class="modal-title fw-semibold text-white" id="deleteModalLabel@(faculty.Id)">
+                                                <div class="modal-content border-0 rounded-5 shadow-lg">
+                                                    <div class="modal-header bg-gradient-danger border-0 rounded-top-5">
+                                                        <h5 class="modal-title text-white fw-semibold" id="deleteModalLabel@(faculty.Id)">
                                                             <i class="bi bi-exclamation-triangle-fill me-2"></i> Confirm Deletion
                                                         </h5>
-                                                        <button type="button" class="btn-close btn-close-white"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
-
-                                                    <!-- Modal Body -->
                                                     <div class="modal-body p-4">
-                                                        <p class="mb-3">Are you sure you want to delete this faculty member?</p>
+                                                        <p>Are you sure you want to delete this faculty account?</p>
                                                         <h6 class="fw-bold text-danger">
                                                             @faculty.FullName
                                                             <span class="text-muted">(ID: @faculty.FacultyId)</span>
                                                         </h6>
                                                         <p class="text-muted small mt-3 mb-0">This action cannot be undone.</p>
                                                     </div>
-
-                                                    <!-- Modal Footer -->
                                                     <div class="modal-footer border-top-0 pt-0 justify-content-center">
-                                                        <button type="button" class="btn btn-outline-secondary rounded-pill px-4"
-                                                                data-bs-dismiss="modal">
+                                                        <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">
                                                             Cancel
                                                         </button>
                                                         <form asp-action="Delete" asp-route-id="@faculty.Id" method="post" class="d-inline">
@@ -122,6 +169,7 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                     </td>
                                 </tr>
                                 counter++;
@@ -143,3 +191,26 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            function filterFaculty() {
+                const searchText = $('#facultyNameSearch').val().toLowerCase();
+                let total = 0;
+                $('#facultyTable tbody tr').each(function () {
+                    const row = $(this);
+                    const name = row.data('name');
+                    if (name.includes(searchText)) {
+                        row.show();
+                        total++;
+                    } else row.hide();
+                });
+                $('#totalFaculty').text("Total Faculty: " + total);
+            }
+
+            $('#facultyNameSearch').on('keyup', filterFaculty);
+            $('#facultySearchBtn').on('click', filterFaculty);
+        });
+    </script>
+}

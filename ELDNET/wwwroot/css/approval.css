@@ -1,0 +1,33 @@
+﻿/* =======================================
+   APPROVAL PAGE BUTTON STYLES
+   ======================================= */
+
+/* Solid color button with smooth white transition */
+.btn-solid-transition {
+    background-color: #0d6efd; /* Primary blue */
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    transition: all 0.3s ease-in-out;
+}
+
+    .btn-solid-transition:hover {
+        background-color: #fff;
+        color: #0d6efd;
+        border: 2px solid #0d6efd;
+        transform: scale(1.05);
+    }
+
+    /* Optional: make buttons consistent in size */
+    .btn-solid-transition i {
+        vertical-align: middle;
+    }
+
+/* Slight shadow for better focus */
+.btn-solid-transition {
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+    .btn-solid-transition:hover {
+        box-shadow: 0 4px 10px rgba(13, 110, 253, 0.4);
+    }

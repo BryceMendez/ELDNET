@@ -7,38 +7,29 @@
 <div class="container py-4 animate__animated animate__fadeIn">
     <div class="custom-card shadow-lg border-0">
         <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #03AC13);">
-            @* Changed to a distinct purple gradient! *@
             <h2 class="mb-2 fw-bold"><i class="bi bi-calendar-check me-2"></i>Reservation Details</h2>
             <p class="mb-0 text-white-50">Comprehensive information for this room reservation.</p>
         </div>
         <div class="card-body p-5">
             <div class="row g-5">
-
                 <!-- General Information Section -->
                 <div class="col-lg-6 border-end-lg pe-lg-5">
                     <h5 class="text-indigo mb-4 pb-2 border-bottom border-indigo-subtle">
-                        @* Using text-indigo for section header *@
                         <i class="bi bi-info-circle me-2"></i>General Information
                     </h5>
                     <dl class="row detail-list-modern">
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.OrganizationName)</dt>
                         <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.OrganizationName)</dd>
-
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ActivityTitle)</dt>
                         <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.ActivityTitle)</dd>
-
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ActivityDate)</dt>
                         <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.ActivityDate)</dd>
-
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Speaker)</dt>
                         <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Speaker)</dd>
-
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Venue)</dt>
                         <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Venue)</dd>
-
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PurposeObjective)</dt>
                         <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.PurposeObjective)</dd>
-
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.NatureOfActivity)</dt>
                         <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.NatureOfActivity)</dd>
                     </dl>
@@ -47,34 +38,25 @@
                 <!-- Reservation Specifics Section -->
                 <div class="col-lg-6 ps-lg-5">
                     <h5 class="text-secondary-emphasis mb-4 pb-2 border-bottom border-secondary-subtle">
-                        @* Using text-secondary-emphasis for section header *@
                         <i class="bi bi-clock-history me-2"></i>Reservation Specifics
                     </h5>
                     <dl class="row detail-list-modern">
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DateNeeded)</dt>
                         <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.DateNeeded)</dd>
-
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.TimeFrom)</dt>
                         <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.TimeFrom)</dd>
-
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.TimeTo)</dt>
                         <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.TimeTo)</dd>
-
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Participants)</dt>
                         <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Participants)</dd>
-
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.EquipmentFacilities)</dt>
                         <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.EquipmentFacilities)</dd>
-
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.SourceOfFunds)</dt>
                         <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.SourceOfFunds)</dd>
-
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.RoomNumber)</dt>
                         <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.RoomNumber)</dd>
-
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ReservedBy)</dt>
                         <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.ReservedBy)</dd>
-
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Date)</dt>
                         <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Date)</dd>
                     </dl>
@@ -82,8 +64,10 @@
 
                 <!-- Action Buttons -->
                 <div class="col-12 text-center pt-5 border-top">
-                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-gradient btn-lg me-3 animate__animated animate__pulse animate__infinite" style="min-width: 150px; background: linear-gradient(45deg, #03AC13);">
-                        @* Explicitly setting btn-gradient background here too *@
+                    <a href="@(Model.Status == "Approved" ? "javascript:void(0)" : Url.Action("Edit", new { id = Model.Id }))"
+                       class="btn-gradient btn-lg me-3 animate__animated animate__pulse animate__infinite edit-btn"
+                       data-status="@Model.Status"
+                       style="min-width: 150px; background: linear-gradient(45deg, #03AC13);">
                         <i class="bi bi-pencil-square me-2"></i>Edit
                     </a>
                     <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
@@ -94,3 +78,63 @@
         </div>
     </div>
 </div>
+
+<!-- Centered Notification -->
+<div id="centerNotification" class="center-notification shadow-lg animate__animated animate__fadeIn" style="display:none;">
+    <div class="notification-content text-center p-4 rounded">
+        <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 2rem;"></i>
+        <h5 class="mt-2 fw-bold">Cannot Edit Reservation</h5>
+        <p class="mb-0">This reservation is already <span class="fw-semibold">Approved</span> and cannot be edited.</p>
+        <button id="closeNotification" class="btn btn-outline-secondary mt-3 px-4">OK</button>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .center-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1050;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 1rem;
+            padding: 1rem 2rem;
+            min-width: 320px;
+            max-width: 500px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+            .center-notification .notification-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+        .edit-btn {
+            cursor: pointer;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const editBtn = document.querySelector(".edit-btn");
+            const notification = document.getElementById("centerNotification");
+            const closeBtn = document.getElementById("closeNotification");
+
+            editBtn.addEventListener("click", function (e) {
+                const status = editBtn.getAttribute("data-status");
+                if (status === "Approved") {
+                    e.preventDefault();
+                    notification.style.display = "block";
+                }
+            });
+
+            closeBtn.addEventListener("click", function () {
+                notification.style.display = "none";
+            });
+        });
+    </script>
+}

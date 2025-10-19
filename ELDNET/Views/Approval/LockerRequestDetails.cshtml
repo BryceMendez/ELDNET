@@ -7,17 +7,18 @@
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
-    @* Ensure this links to your main CSS file that now contains the appended styles *@
-    <link href="~/css/site.css" rel="stylesheet" /> @* <--- IMPORTANT: Replace with the actual path to your main CSS file *@
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/lockerdetails.css" rel="stylesheet" /> @* New CSS file for specific overrides *@
 </head>
 
-<div class="container py-5 animate__animated animate__fadeIn">
-    <div class="reservation-modern-card">
-        @* Using the new modern card class for consistency *@
-        <div class="card-header-modern-reservation">
-            @* Using the green-themed header for reservation style *@
-            <h2 class="mb-2"><i class="bi bi-box-seam me-3"></i>Locker Request Details</h2>
-            <p class="text-white-75">Comprehensive information for this locker request.</p>
+<div class="container py-3 animate__animated animate__fadeIn">
+    @* Changed to py-3 for compact padding *@
+    <div class="modern-card">
+        @* Using modern-card class for consistency *@
+        <div class="card-header-modern-compact">
+            @* Using the compact header class *@
+            <h2 class="mb-1"><i class="bi bi-box-seam me-3"></i>Locker Request Details</h2> @* Adjusted header size via CSS *@
+            <p class="text-white-75 mb-0">Comprehensive information for this locker request.</p>
         </div>
 
         <div class="card-body p-lg-5 p-4">
@@ -25,12 +26,12 @@
 
                 <!-- Requestor Information Section -->
                 <div class="col-lg-6">
-                    <h5 class="reservation-detail-section-title">
-                        @* Using the new detail section title class *@
+                    <h5 class="detail-section-title">
+                        @* Using the consistent detail section title class *@
                         <i class="bi bi-person-circle"></i>Requestor Information
                     </h5>
-                    <dl class="row reservation-detail-list-modern">
-                        @* Using the new definition list class *@
+                    <dl class="row detail-list-modern-improved">
+                        @* Using the consistent definition list class *@
                         <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Name)</dt>
                         <dd class="col-sm-7">@Html.DisplayFor(model => model.Name)</dd>
 
@@ -48,12 +49,12 @@
                 <!-- Locker & Document Information Section -->
                 <div class="col-lg-6 divider-line">
                     @* Retaining divider-line class *@
-                    <h5 class="reservation-detail-section-title">
-                        @* Using the new detail section title class *@
+                    <h5 class="detail-section-title">
+                        @* Using the consistent detail section title class *@
                         <i class="bi bi-key"></i>Locker Information
                     </h5>
-                    <dl class="row reservation-detail-list-modern">
-                        @* Using the new definition list class *@
+                    <dl class="row detail-list-modern-improved">
+                        @* Using the consistent definition list class *@
                         <dt class="col-sm-5">@Html.DisplayNameFor(model => model.LockerNumber)</dt>
                         <dd class="col-sm-7">@Html.DisplayFor(model => model.LockerNumber)</dd>
 
@@ -61,12 +62,12 @@
                         <dd class="col-sm-7">@(Model.AcceptTerms ? "Yes" : "No")</dd>
                     </dl>
 
-                    <h5 class="reservation-detail-section-title mt-5">
-                        @* Using the new detail section title class *@
+                    <h5 class="detail-section-title mt-5">
+                        @* Using the consistent detail section title class *@
                         <i class="bi bi-file-earmark-text"></i>Uploaded Files
                     </h5>
-                    <dl class="row reservation-detail-list-modern">
-                        @* Using the new definition list class *@
+                    <dl class="row detail-list-modern-improved">
+                        @* Using the consistent definition list class *@
                         <dt class="col-sm-5">Study Load File:</dt>
                         <dd class="col-sm-7">
                             @if (!string.IsNullOrEmpty(Model.StudyLoadPath))
@@ -102,18 +103,49 @@
 
             <!-- Approval Workflow Section -->
             <div class="mt-5 pt-5 border-top text-center">
-                <h4 class="reservation-detail-section-title justify-content-center mb-5">
-                    @* Using the new detail section title class *@
+                <h4 class="detail-section-title justify-content-center mb-5">
+                    @* Using the consistent detail section title class *@
                     <i class="bi bi-diagram-3"></i>Approval Workflow
                 </h4>
 
                 <div class="row justify-content-center g-4">
-                    <!-- Single Approver for Locker Request -->
+                    <!-- Single Approver for Locker Request - Refined Card Format -->
                     <div class="col-md-6 col-lg-4">
-                        <div class="card reservation-approval-card h-100">
-                            @* Using the new approval card class *@
-                            <div class="card-body">
-                                <h5 class="mb-3">
+                        <div class="card gp-approver-card-new h-100 shadow-sm border-0">
+                            @* Re-using the gp-approver-card-new class for consistency in look *@
+                            <div class="card-body d-flex flex-column align-items-center p-4">
+                                <div class="gp-approver-status-icon mb-2">
+                                    @* Icon on top *@
+                                    @if (Model.Approver1Status == "Pending")
+                                    {
+                                        <i class="bi bi-hourglass-split text-warning"></i>
+                                    }
+                                    else if (Model.Approver1Status == "Approved")
+                                    {
+                                        <i class="bi bi-check-circle-fill text-success"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-x-circle-fill text-danger"></i>
+                                    }
+                                </div>
+                                <div class="gp-approver-status-label mb-3">
+                                    @* Label below icon *@
+                                    @if (Model.Approver1Status == "Pending")
+                                    {
+                                        <span class="badge badge-modern badge-pending">Pending</span>
+                                    }
+                                    else if (Model.Approver1Status == "Approved")
+                                    {
+                                        <span class="badge badge-modern badge-approved">Approved</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-modern badge-denied">Denied</span>
+                                    }
+                                </div>
+                                <h5 class="mb-1 gp-approver-name">
+                                    @* Adjusted margin-bottom here *@
                                     @if (!string.IsNullOrEmpty(Model.Approver1Name))
                                     {
                                         @Model.Approver1Name
@@ -123,55 +155,43 @@
                                         <span>Locker Approver</span>
                                     }
                                 </h5>
-                                <div class="approval-status mb-4">
-                                    @if (Model.Approver1Status == "Pending")
-                                    {
-                                        <i class="bi bi-hourglass-split text-warning"></i>
-                                        <span class="badge reservation-badge-modern reservation-badge-pending">Pending</span>
-     @* Using the new badge classes *@
-                                    }
-                                    else if (Model.Approver1Status == "Approved")
-                                    {
-                                        <i class="bi bi-check-circle-fill text-success"></i>
-                                        <span class="badge reservation-badge-modern reservation-badge-approved">Approved</span>
-     @* Using the new badge classes *@
-                                    }
-                                    else
-                                    {
-                                        <i class="bi bi-x-circle-fill text-danger"></i>
-                                        <span class="badge reservation-badge-modern reservation-badge-denied">Denied</span>
-     @* Using the new badge classes *@
-                                    }
-                                </div>
-                                <form asp-controller="Approval" asp-action="SetApproval" method="post" class="mt-auto">
+                                <hr class="gp-approver-divider" /> @* Visible Separator Line *@
+                                <form id="approverForm_1" asp-controller="Approval" asp-action="SetApproval" method="post" class="mt-2 gp-approver-buttons-form">
+                                    @* Adjusted margin-top here *@
                                     <input type="hidden" name="id" value="@Model.Id" />
                                     <input type="hidden" name="type" value="Locker" />
                                     <input type="hidden" name="approver" value="1" />
 
-                                    <button type="submit" name="decision" value="Approved" class="btn btn-success btn-sm me-2 reservation-btn-modern">Approve</button> @* Using new btn-modern class *@
-                                    <button type="submit" name="decision" value="Denied" class="btn btn-danger btn-sm reservation-btn-modern">Deny</button> @* Using new btn-modern class *@
+                                    <div class="d-flex justify-content-center w-100">
+                                        @* Added this div for inline buttons *@
+                                        <button type="button" onclick="event.preventDefault(); submitApproverForm(1, 'Approved');" class="btn btn-success me-2 gp-approver-btn">Approve</button>
+                                        <button type="button" onclick="event.preventDefault(); submitApproverForm(1, 'Denied');" class="btn btn-danger gp-approver-btn">Deny</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Final Confirmation Section -->
-                <div class="mt-5 pt-4 border-top">
-                    <form asp-controller="Approval" asp-action="ConfirmApproval" method="post" class="mb-4">
-                        <input type="hidden" name="id" value="@Model.Id" />
-                        <input type="hidden" name="type" value="Locker" />
-                        <button type="submit" class="btn reservation-btn-primary btn-lg reservation-btn-modern">
-                            @* Using green primary and btn-modern class *@
-                            <i class="bi bi-check2-circle me-2"></i>Confirm Final Decision
-                        </button>
-                    </form>
-                    <p class="reservation-final-status-text mt-3">Final Status: <strong class="reservation-final-status-@(Model.FinalStatus?.ToLower())">@Model.FinalStatus</strong></p> @* Using new final status text classes *@
-
-                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg reservation-btn-modern mt-4">
-                        @* Using btn-modern class *@
-                        <i class="bi bi-arrow-left me-2"></i>Back to List
-                    </a>
+                <!-- Final Confirmation Section - Redesigned -->
+                <div class="mt-5 pt-4 border-top text-center">
+                    <p class="final-status-text mb-4">Final Status: <strong class="final-status-@(Model.FinalStatus?.ToLower())">@Model.FinalStatus</strong></p> @* Final Status on top *@
+                    <div class="d-flex justify-content-center gap-3">
+                        @* Buttons side-by-side with gap *@
+                        <form asp-controller="Approval" asp-action="ConfirmApproval" method="post" class="m-0">
+                            @* Remove form margin *@
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <input type="hidden" name="type" value="Locker" />
+                            <button type="submit" class="btn btn-primary btn-lg btn-final-action">
+                                @* Added btn-final-action class *@
+                                <i class="bi bi-check2-circle me-2"></i>Confirm Final Decision
+                            </button>
+                        </form>
+                        <a asp-action="Index" class="btn btn-secondary btn-lg btn-gray-modern btn-final-action">
+                            @* Added btn-final-action class *@
+                            <i class="bi bi-arrow-left me-2"></i>Back to List
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -179,3 +199,29 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    async function submitApproverForm(approverNumber, decision) {
+        const form = document.getElementById(`approverForm_${approverNumber}`);
+        const formData = new FormData(form);
+        formData.append('decision', decision); // Add the decision to form data
+
+        try {
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: formData
+            });
+
+            if (response.ok) {
+                // If the submission is successful, reload the page to show updated status
+                window.location.reload();
+            } else {
+                console.error('Form submission failed:', response.statusText);
+                alert('An error occurred during approval. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            alert('An unexpected error occurred. Please check your network connection and try again.');
+        }
+    }
+</script>

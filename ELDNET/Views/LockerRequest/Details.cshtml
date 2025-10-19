@@ -7,23 +7,17 @@
 <div class="container py-4 animate__animated animate__fadeIn">
     <div class="custom-card shadow-lg border-0">
         <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #03AC13, #028910);">
-            @* Green gradient! *@
-            <h2 class="mb-2 fw-bold"><i class="bi bi-person-lock me-2"></i>Locker Request Details</h2> @* New icon for Locker Request *@
+            <h2 class="mb-2 fw-bold"><i class="bi bi-person-lock me-2"></i>Locker Request Details</h2>
             <p class="mb-0 text-white-50">Comprehensive information for this locker request.</p>
         </div>
         <div class="card-body p-5">
             <div class="row g-5">
-                @* Increased gap for better separation *@
-
                 <!-- Requestor Information Section -->
                 <div class="col-lg-6 border-end-lg pe-lg-5">
-                    @* Added right border for separation on large screens *@
                     <h5 class="text-green mb-4 pb-2 border-bottom border-green-subtle">
-                        @* Using text-green for section header *@
                         <i class="bi bi-person-circle me-2"></i>Requestor Information
                     </h5>
                     <dl class="row detail-list-modern">
-                        @* Using the refined detail-list-modern *@
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Name)</dt>
                         <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Name)</dd>
 
@@ -40,23 +34,18 @@
 
                 <!-- Locker & Document Information Section -->
                 <div class="col-lg-6 ps-lg-5">
-                    @* Added left padding for separation on large screens *@
                     <h5 class="text-dark-green mb-4 pb-2 border-bottom border-dark-green-subtle">
-                        @* Using text-dark-green for section header *@
                         <i class="bi bi-key me-2"></i>Locker Information
                     </h5>
                     <dl class="row detail-list-modern">
-                        @* Using the refined detail-list-modern *@
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.LockerNumber)</dt>
                         <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.LockerNumber)</dd>
                     </dl>
 
                     <h5 class="text-accent-green mt-5 mb-4 pb-2 border-bottom border-accent-green-subtle">
-                        @* Using text-accent-green for section header *@
                         <i class="bi bi-file-earmark-text me-2"></i>Uploaded Files
                     </h5>
                     <dl class="row detail-list-modern">
-                        @* Using the refined detail-list-modern *@
                         <dt class="col-sm-4">Study Load File:</dt>
                         <dd class="col-sm-8">
                             @if (!string.IsNullOrEmpty(Model.StudyLoadPath))
@@ -84,6 +73,7 @@
                                 <span class="text-muted fst-italic">No file uploaded</span>
                             }
                         </dd>
+
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.AcceptTerms):</dt>
                         <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.AcceptTerms)</dd>
                     </dl>
@@ -91,9 +81,10 @@
 
                 <!-- Action Buttons -->
                 <div class="col-12 text-center pt-5 border-top">
-                    @* Added top border and more padding for buttons *@
-                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-gradient btn-lg me-3 animate__animated animate__pulse animate__infinite" style="min-width: 150px; background: linear-gradient(45deg, #03AC13, #028910);">
-                        @* Explicitly setting btn-gradient background here too *@
+                    <a href="@(Model.Status == "Approved" ? "javascript:void(0)" : Url.Action("Edit", new { id = Model.Id }))"
+                       class="btn-gradient btn-lg me-3 animate__animated animate__pulse animate__infinite edit-btn"
+                       data-status="@Model.Status"
+                       style="min-width: 150px; background: linear-gradient(45deg, #03AC13, #028910);">
                         <i class="bi bi-pencil-square me-2"></i>Edit
                     </a>
                     <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
@@ -104,3 +95,63 @@
         </div>
     </div>
 </div>
+
+<!-- Centered Notification -->
+<div id="centerNotification" class="center-notification shadow-lg animate__animated animate__fadeIn" style="display:none;">
+    <div class="notification-content text-center p-4 rounded">
+        <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 2rem;"></i>
+        <h5 class="mt-2 fw-bold">Cannot Edit Locker Request</h5>
+        <p class="mb-0">This locker request is already <span class="fw-semibold">Approved</span> and cannot be edited.</p>
+        <button id="closeNotification" class="btn btn-outline-secondary mt-3 px-4">OK</button>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .center-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1050;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 1rem;
+            padding: 1rem 2rem;
+            min-width: 320px;
+            max-width: 500px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+            .center-notification .notification-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+        .edit-btn {
+            cursor: pointer;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const editBtn = document.querySelector(".edit-btn");
+            const notification = document.getElementById("centerNotification");
+            const closeBtn = document.getElementById("closeNotification");
+
+            editBtn.addEventListener("click", function (e) {
+                const status = editBtn.getAttribute("data-status");
+                if (status === "Approved") {
+                    e.preventDefault(); // Prevent navigation
+                    notification.style.display = "block";
+                }
+            });
+
+            closeBtn.addEventListener("click", function () {
+                notification.style.display = "none";
+            });
+        });
+    </script>
+}

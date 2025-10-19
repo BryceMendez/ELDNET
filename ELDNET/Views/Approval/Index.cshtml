@@ -2,8 +2,79 @@
 
 @{
     ViewData["Title"] = "Approvals";
-    string activeTab = ViewBag.ActiveTab as string ?? "gatepass"; // default active tab
+    string activeTab = ViewBag.ActiveTab as string ?? "gatepass";
 }
+
+<style>
+    .btn-blue {
+        background-color: #0d6efd;
+        color: #fff;
+        border: none;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+        .btn-blue:hover {
+            background-color: #0b5ed7;
+            color: #fff;
+        }
+
+    .bg-primary-gradient {
+        background: linear-gradient(45deg, #0d6efd, #0b5ed7);
+    }
+
+    .bg-success-gradient {
+        background: linear-gradient(45deg, #198754, #157347);
+    }
+
+    .bg-warning-gradient {
+        background: linear-gradient(45deg, #ffc107, #e0a800);
+    }
+
+    .bg-danger-gradient {
+        background: linear-gradient(45deg, #dc3545, #c82333);
+    }
+
+    /* Search/filter horizontal layout */
+    .search-filter-card {
+        padding: 0.75rem 1rem;
+        background-color: #f8f9fa;
+        border-radius: 0.75rem;
+        box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+        margin-bottom: 0.5rem; /* closer to top */
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+
+        .search-filter-card .form-select {
+            width: 150px;
+            flex-shrink: 0;
+        }
+
+        .search-filter-card .form-control {
+            flex-grow: 1;
+            min-width: 200px;
+        }
+
+        .search-filter-card .btn {
+            flex-shrink: 0;
+            height: 38px;
+        }
+
+    /* Table header colors */
+    .thead-gatepass {
+        background-color: #cfe2ff; /* light blue */
+    }
+
+    .thead-reservation {
+        background-color: #d1e7dd; /* light green */
+    }
+
+    .thead-locker {
+        background-color: #fff3cd; /* light yellow */
+    }
+</style>
 
 <div class="container py-4">
     <div class="text-center mb-3">
@@ -23,25 +94,23 @@
                             id="gatePass-tab" data-bs-toggle="tab" data-bs-target="#gatePassContent"
                             type="button" role="tab" aria-controls="gatePassContent"
                             aria-selected="@(activeTab == "gatepass")">
-                        <i class="bi bi-person-walking me-2"></i> Gate Pass Requests
+                        <i class="bi bi-person-walking me-2"></i> Gate Pass
                         <span class="badge bg-primary-gradient ms-2 rounded-pill">
                             @(Model.GatePasses?.Count(gp => gp.Status == "Pending") ?? 0)
                         </span>
                     </button>
                 </li>
-
                 <li class="nav-item" role="presentation">
                     <button class="nav-link @(activeTab == "reservation" ? "active" : "") tab-green"
                             id="activityRes-tab" data-bs-toggle="tab" data-bs-target="#activityResContent"
                             type="button" role="tab" aria-controls="activityResContent"
                             aria-selected="@(activeTab == "reservation")">
-                        <i class="bi bi-calendar-check-fill me-2"></i> Activity Reservations
+                        <i class="bi bi-calendar-check-fill me-2"></i> Reservations
                         <span class="badge bg-success-gradient ms-2 rounded-pill">
                             @(Model.ActivityReservations?.Count(ar => ar.Status == "Pending") ?? 0)
                         </span>
                     </button>
                 </li>
-
                 <li class="nav-item" role="presentation">
                     <button class="nav-link @(activeTab == "locker" ? "active" : "") tab-yellow"
                             id="lockerReq-tab" data-bs-toggle="tab" data-bs-target="#lockerReqContent"
@@ -59,156 +128,225 @@
         <div class="card-body p-4 p-lg-5">
             <div class="tab-content" id="approvalTabsContent">
 
-                <!-- Gate Pass Requests -->
+                <!-- Gate Pass Tab -->
                 <div class="tab-pane fade @(activeTab == "gatepass" ? "show active" : "")"
                      id="gatePassContent" role="tabpanel" aria-labelledby="gatePass-tab">
-                    @if (Model.GatePasses != null && Model.GatePasses.Any())
-                    {
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle mb-0">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Department</th>
-                                        <th>Course & Year</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                        <th class="text-center">Actions</th>
+
+                    <div class="search-filter-card">
+                        <select id="gatePassStatusFilter" class="form-select">
+                            <option value="All">All Statuses</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Denied">Denied</option>
+                        </select>
+                        <input type="text" id="gatePassNameSearch" class="form-control" placeholder="Search by name..." />
+                        <button id="gatePassSearchBtn" class="btn btn-primary d-flex align-items-center gap-1">
+                            <i class="bi bi-search"></i> Search
+                        </button>
+                    </div>
+
+                    <!-- Summaries -->
+                    <div class="mb-4 d-flex flex-wrap gap-3 justify-content-start">
+                        <span class="badge bg-info-subtle text-info fs-6 py-2 px-3 shadow-sm">Total: <span id="gatePassTotalCount">@Model.GatePasses?.Count()</span></span>
+                        <span class="badge bg-warning-subtle text-warning fs-6 py-2 px-3 shadow-sm">Pending: <span id="gatePassPendingCount">@Model.GatePasses?.Count(gp => gp.Status == "Pending")</span></span>
+                        <span class="badge bg-success-subtle text-success fs-6 py-2 px-3 shadow-sm">Approved: <span id="gatePassApprovedCount">@Model.GatePasses?.Count(gp => gp.Status == "Approved")</span></span>
+                        <span class="badge bg-danger-subtle text-danger fs-6 py-2 px-3 shadow-sm">Denied: <span id="gatePassDeniedCount">@Model.GatePasses?.Count(gp => gp.Status == "Denied")</span></span>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="gatePassTable">
+                            <thead class="thead-gatepass">
+                                <tr>
+                                    <th>Status</th>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Course & Year</th>
+                                    <th>Date</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var gp in Model.GatePasses)
+                                {
+                                    <tr data-status="@gp.Status" data-name="@gp.Name">
+                                        <td><span class="badge rounded-pill fs-6 px-3 py-2 @(gp.Status == "Approved" ? "bg-success-gradient" : gp.Status == "Denied" ? "bg-danger-gradient" : "bg-warning-gradient text-dark")">@gp.Status</span></td>
+                                        <td>@gp.Name</td>
+                                        <td>@gp.Department</td>
+                                        <td>@gp.CourseYear</td>
+                                        <td>@gp.Date.ToString("yyyy-MM-dd")</td>
+                                        <td class="text-center">
+                                            <a asp-action="Details" asp-route-id="@gp.Id" asp-route-type="GatePass" class="btn btn-blue btn-sm px-3"><i class="bi bi-eye me-1"></i> Details</a>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var gp in Model.GatePasses)
-                                    {
-                                        <tr>
-                                            <td>@gp.Name</td>
-                                            <td>@gp.Department</td>
-                                            <td>@gp.CourseYear</td>
-                                            <td>@gp.Date.ToString("yyyy-MM-dd")</td>
-                                            <td>
-                                                <span class="badge rounded-pill fs-6 px-3 py-2 @(gp.Status == "Approved" ? "bg-success-gradient" : gp.Status == "Denied" ? "bg-danger-gradient" : "bg-warning-gradient text-dark")">
-                                                    @gp.Status
-                                                </span>
-                                            </td>
-                                            <td class="text-center">
-                                                <a asp-action="Details" asp-route-id="@gp.Id" asp-route-type="GatePass"
-                                                   class="btn btn-info-outline btn-sm px-3">
-                                                    <i class="bi bi-eye me-1"></i> Details
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="alert alert-info border-0 text-center py-4">
-                            <i class="bi bi-info-circle-fill me-2"></i> No gate pass requests to display.
-                        </div>
-                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
-                <!-- Activity Reservations -->
+                <!-- Activity Reservations Tab -->
                 <div class="tab-pane fade @(activeTab == "reservation" ? "show active" : "")"
                      id="activityResContent" role="tabpanel" aria-labelledby="activityRes-tab">
-                    @if (Model.ActivityReservations != null && Model.ActivityReservations.Any())
-                    {
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle mb-0">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Organization</th>
-                                        <th>Activity Title</th>
-                                        <th>Venue</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                        <th class="text-center">Actions</th>
+
+                    <div class="search-filter-card">
+                        <select id="reservationStatusFilter" class="form-select">
+                            <option value="All">All Statuses</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Denied">Denied</option>
+                        </select>
+                        <input type="text" id="reservationNameSearch" class="form-control" placeholder="Search by organization/activity..." />
+                        <button id="reservationSearchBtn" class="btn btn-primary d-flex align-items-center gap-1">
+                            <i class="bi bi-search"></i> Search
+                        </button>
+                    </div>
+
+                    <div class="mb-4 d-flex flex-wrap gap-3 justify-content-start">
+                        <span class="badge bg-info-subtle text-info fs-6 py-2 px-3 shadow-sm">Total: <span id="reservationTotalCount">@Model.ActivityReservations?.Count()</span></span>
+                        <span class="badge bg-warning-subtle text-warning fs-6 py-2 px-3 shadow-sm">Pending: <span id="reservationPendingCount">@Model.ActivityReservations?.Count(ar => ar.Status == "Pending")</span></span>
+                        <span class="badge bg-success-subtle text-success fs-6 py-2 px-3 shadow-sm">Approved: <span id="reservationApprovedCount">@Model.ActivityReservations?.Count(ar => ar.Status == "Approved")</span></span>
+                        <span class="badge bg-danger-subtle text-danger fs-6 py-2 px-3 shadow-sm">Denied: <span id="reservationDeniedCount">@Model.ActivityReservations?.Count(ar => ar.Status == "Denied")</span></span>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="reservationTable">
+                            <thead class="thead-reservation">
+                                <tr>
+                                    <th>Status</th>
+                                    <th>Organization</th>
+                                    <th>Activity Title</th>
+                                    <th>Venue</th>
+                                    <th>Date</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var res in Model.ActivityReservations)
+                                {
+                                    <tr data-status="@res.Status" data-name="@res.OrganizationName @res.ActivityTitle">
+                                        <td><span class="badge rounded-pill fs-6 px-3 py-2 @(res.Status == "Approved" ? "bg-success-gradient" : res.Status == "Denied" ? "bg-danger-gradient" : "bg-warning-gradient text-dark")">@res.Status</span></td>
+                                        <td>@res.OrganizationName</td>
+                                        <td>@res.ActivityTitle</td>
+                                        <td>@res.Venue</td>
+                                        <td>@res.ActivityDate.ToString("yyyy-MM-dd")</td>
+                                        <td class="text-center">
+                                            <a asp-action="Details" asp-route-id="@res.Id" asp-route-type="Reservation" class="btn btn-blue btn-sm px-3"><i class="bi bi-eye me-1"></i> Details</a>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var res in Model.ActivityReservations)
-                                    {
-                                        <tr>
-                                            <td>@res.OrganizationName</td>
-                                            <td>@res.ActivityTitle</td>
-                                            <td>@res.Venue</td>
-                                            <td>@res.ActivityDate.ToString("yyyy-MM-dd")</td>
-                                            <td>
-                                                <span class="badge rounded-pill fs-6 px-3 py-2 @(res.Status == "Approved" ? "bg-success-gradient" : res.Status == "Denied" ? "bg-danger-gradient" : "bg-warning-gradient text-dark")">
-                                                    @res.Status
-                                                </span>
-                                            </td>
-                                            <td class="text-center">
-                                                <a asp-action="Details" asp-route-id="@res.Id" asp-route-type="Reservation"
-                                                   class="btn btn-info-outline btn-sm px-3">
-                                                    <i class="bi bi-eye me-1"></i> Details
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="alert alert-success border-0 text-center py-4">
-                            <i class="bi bi-info-circle-fill me-2"></i> No activity reservations to display.
-                        </div>
-                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
-                <!-- Locker Requests -->
+                <!-- Locker Requests Tab -->
                 <div class="tab-pane fade @(activeTab == "locker" ? "show active" : "")"
                      id="lockerReqContent" role="tabpanel" aria-labelledby="lockerReq-tab">
-                    @if (Model.LockerRequests != null && Model.LockerRequests.Any())
-                    {
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle mb-0">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Locker Number</th>
-                                        <th>Semester</th>
-                                        <th>Contact</th>
-                                        <th>Status</th>
-                                        <th class="text-center">Actions</th>
+
+                    <div class="search-filter-card">
+                        <select id="lockerStatusFilter" class="form-select">
+                            <option value="All">All Statuses</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Denied">Denied</option>
+                        </select>
+                        <input type="text" id="lockerNameSearch" class="form-control" placeholder="Search by name..." />
+                        <button id="lockerSearchBtn" class="btn btn-primary d-flex align-items-center gap-1">
+                            <i class="bi bi-search"></i> Search
+                        </button>
+                    </div>
+
+                    <div class="mb-4 d-flex flex-wrap gap-3 justify-content-start">
+                        <span class="badge bg-info-subtle text-info fs-6 py-2 px-3 shadow-sm">Total: <span id="lockerTotalCount">@Model.LockerRequests?.Count()</span></span>
+                        <span class="badge bg-warning-subtle text-warning fs-6 py-2 px-3 shadow-sm">Pending: <span id="lockerPendingCount">@Model.LockerRequests?.Count(lr => lr.Status == "Pending")</span></span>
+                        <span class="badge bg-success-subtle text-success fs-6 py-2 px-3 shadow-sm">Approved: <span id="lockerApprovedCount">@Model.LockerRequests?.Count(lr => lr.Status == "Approved")</span></span>
+                        <span class="badge bg-danger-subtle text-danger fs-6 py-2 px-3 shadow-sm">Denied: <span id="lockerDeniedCount">@Model.LockerRequests?.Count(lr => lr.Status == "Denied")</span></span>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="lockerTable">
+                            <thead class="thead-locker">
+                                <tr>
+                                    <th>Status</th>
+                                    <th>Name</th>
+                                    <th>Locker Number</th>
+                                    <th>Semester</th>
+                                    <th>Contact</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var locker in Model.LockerRequests)
+                                {
+                                    <tr data-status="@locker.Status" data-name="@locker.Name">
+                                        <td><span class="badge rounded-pill fs-6 px-3 py-2 @(locker.Status == "Approved" ? "bg-success-gradient" : locker.Status == "Denied" ? "bg-danger-gradient" : "bg-warning-gradient text-dark")">@locker.Status</span></td>
+                                        <td>@locker.Name</td>
+                                        <td>@locker.LockerNumber</td>
+                                        <td>@locker.Semester</td>
+                                        <td>@locker.ContactNumber</td>
+                                        <td class="text-center">
+                                            <a asp-action="Details" asp-route-id="@locker.Id" asp-route-type="Locker" class="btn btn-blue btn-sm px-3"><i class="bi bi-eye me-1"></i> Details</a>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var locker in Model.LockerRequests)
-                                    {
-                                        <tr>
-                                            <td>@locker.Name</td>
-                                            <td>@locker.LockerNumber</td>
-                                            <td>@locker.Semester</td>
-                                            <td>@locker.ContactNumber</td>
-                                            <td>
-                                                <span class="badge rounded-pill fs-6 px-3 py-2 @(locker.Status == "Approved" ? "bg-success-gradient" : locker.Status == "Denied" ? "bg-danger-gradient" : "bg-warning-gradient text-dark")">
-                                                    @locker.Status
-                                                </span>
-                                            </td>
-                                            <td class="text-center">
-                                                <a asp-action="Details" asp-route-id="@locker.Id" asp-route-type="Locker"
-                                                   class="btn btn-info-outline btn-sm px-3">
-                                                    <i class="bi bi-eye me-1"></i> Details
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="alert alert-warning border-0 text-center py-4">
-                            <i class="bi bi-info-circle-fill me-2"></i> No locker requests to display.
-                        </div>
-                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            function filterTable(tableId, nameSearchId, statusFilterId) {
+                const nameInput = $(`#${nameSearchId}`);
+                const statusSelect = $(`#${statusFilterId}`);
+                const table = $(`#${tableId}`);
+                const rows = table.find('tbody tr');
+
+                function applyFilter() {
+                    const searchText = nameInput.val().toLowerCase();
+                    const selectedStatus = statusSelect.val();
+
+                    let total = 0, pending = 0, approved = 0, denied = 0;
+
+                    rows.each(function () {
+                        const row = $(this);
+                        const rowName = row.data('name').toLowerCase();
+                        const rowStatus = row.data('status');
+
+                        const nameMatch = rowName.includes(searchText);
+                        const statusMatch = selectedStatus === "All" || rowStatus === selectedStatus;
+
+                        if (nameMatch && statusMatch) {
+                            row.show();
+                            total++;
+                            if (rowStatus === "Pending") pending++;
+                            else if (rowStatus === "Approved") approved++;
+                            else if (rowStatus === "Denied") denied++;
+                        } else row.hide();
+                    });
+
+                    const parent = $(`#${tableId}`).closest('.tab-pane');
+                    parent.find('span[id$="TotalCount"]').text(total);
+                    parent.find('span[id$="PendingCount"]').text(pending);
+                    parent.find('span[id$="ApprovedCount"]').text(approved);
+                    parent.find('span[id$="DeniedCount"]').text(denied);
+                }
+
+                nameInput.on('keyup', applyFilter);
+                statusSelect.on('change', applyFilter);
+                $(`#${tableId.replace('Table','')}SearchBtn`).on('click', applyFilter);
+            }
+
+            filterTable('gatePassTable', 'gatePassNameSearch', 'gatePassStatusFilter');
+            filterTable('reservationTable', 'reservationNameSearch', 'reservationStatusFilter');
+            filterTable('lockerTable', 'lockerNameSearch', 'lockerStatusFilter');
+        });
+    </script>
+}

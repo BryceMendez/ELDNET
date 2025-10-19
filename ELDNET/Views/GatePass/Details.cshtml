@@ -7,23 +7,17 @@
 <div class="container py-4 animate__animated animate__fadeIn">
     <div class="custom-card shadow-lg border-0">
         <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #03AC13);">
-            @* Distinct Blue gradient! *@
-            <h2 class="mb-2 fw-bold"><i class="bi bi-car-front-fill me-2"></i>Gate Pass Details</h2> @* New icon for Gate Pass *@
+            <h2 class="mb-2 fw-bold"><i class="bi bi-car-front-fill me-2"></i>Gate Pass Details</h2>
             <p class="mb-0 text-white-50">Comprehensive information for this gate pass.</p>
         </div>
         <div class="card-body p-5">
             <div class="row g-5">
-                @* Increased gap for better separation *@
-
                 <!-- General Information Section -->
                 <div class="col-lg-6 border-end-lg pe-lg-5">
-                    @* Added right border for separation on large screens *@
                     <h5 class="text-blue-primary mb-4 pb-2 border-bottom border-blue-primary-subtle">
-                        @* Using text-blue-primary for section header *@
                         <i class="bi bi-person-circle me-2"></i>General Information
                     </h5>
                     <dl class="row detail-list-modern">
-                        @* Using the refined detail-list-modern *@
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Name)</dt>
                         <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Name)</dd>
 
@@ -49,13 +43,10 @@
 
                 <!-- Vehicle & File Information Section -->
                 <div class="col-lg-6 ps-lg-5">
-                    @* Added left padding for separation on large screens *@
                     <h5 class="text-blue-secondary mb-4 pb-2 border-bottom border-blue-secondary-subtle">
-                        @* Using text-blue-secondary for section header *@
                         <i class="bi bi-car me-2"></i>Vehicle Information
                     </h5>
                     <dl class="row detail-list-modern">
-                        @* Using the refined detail-list-modern *@
                         <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PlateNumber)</dt>
                         <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.PlateNumber)</dd>
 
@@ -67,11 +58,9 @@
                     </dl>
 
                     <h5 class="text-blue-tertiary mt-5 mb-4 pb-2 border-bottom border-blue-tertiary-subtle">
-                        @* Using text-blue-tertiary for section header *@
                         <i class="bi bi-file-earmark-text me-2"></i>Uploaded Files
                     </h5>
                     <dl class="row detail-list-modern">
-                        @* Using the refined detail-list-modern *@
                         <dt class="col-sm-4">Study Load File:</dt>
                         <dd class="col-sm-8">
                             @if (!string.IsNullOrEmpty(Model.StudyLoadPath))
@@ -104,9 +93,10 @@
 
                 <!-- Action Buttons -->
                 <div class="col-12 text-center pt-5 border-top">
-                    @* Added top border and more padding for buttons *@
-                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-gradient btn-lg me-3 animate__animated animate__pulse animate__infinite" style="min-width: 150px; background: linear-gradient(45deg, #03AC13);">
-                        @* Explicitly setting btn-gradient background here too *@
+                    <a href="@(Model.Status == "Approved" ? "javascript:void(0)" : Url.Action("Edit", new { id = Model.Id }))"
+                       class="btn-gradient btn-lg me-3 animate__animated animate__pulse animate__infinite edit-btn"
+                       data-status="@Model.Status"
+                       style="min-width: 150px; background: linear-gradient(45deg, #03AC13);">
                         <i class="bi bi-pencil-square me-2"></i>Edit
                     </a>
                     <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
@@ -117,3 +107,63 @@
         </div>
     </div>
 </div>
+
+<!-- Centered Notification -->
+<div id="centerNotification" class="center-notification shadow-lg animate__animated animate__fadeIn" style="display:none;">
+    <div class="notification-content text-center p-4 rounded">
+        <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 2rem;"></i>
+        <h5 class="mt-2 fw-bold">Cannot Edit Gate Pass</h5>
+        <p class="mb-0">This gate pass is already <span class="fw-semibold">Approved</span> and cannot be edited.</p>
+        <button id="closeNotification" class="btn btn-outline-secondary mt-3 px-4">OK</button>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .center-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1050;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 1rem;
+            padding: 1rem 2rem;
+            min-width: 320px;
+            max-width: 500px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+            .center-notification .notification-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+        .edit-btn {
+            cursor: pointer;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const editBtn = document.querySelector(".edit-btn");
+            const notification = document.getElementById("centerNotification");
+            const closeBtn = document.getElementById("closeNotification");
+
+            editBtn.addEventListener("click", function (e) {
+                const status = editBtn.getAttribute("data-status");
+                if (status === "Approved") {
+                    e.preventDefault(); // Prevent navigation
+                    notification.style.display = "block";
+                }
+            });
+
+            closeBtn.addEventListener("click", function () {
+                notification.style.display = "none";
+            });
+        });
+    </script>
+}

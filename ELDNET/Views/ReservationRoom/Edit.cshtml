@@ -13,45 +13,51 @@
         <div class="card-body p-5">
             <form asp-action="Edit">
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
-                <input type="hidden" asp-for="Id" /> @* Ensure ID is passed for update *@
+                <input type="hidden" asp-for="Id" />
 
                 <div class="row g-5">
-                    @* Increased gap for better separation *@
                     <!-- General Information Section -->
                     <div class="col-lg-6 border-end-lg pe-lg-5">
                         <h5 class="text-blue-primary mb-4 pb-2 border-bottom border-blue-primary-subtle">
                             <i class="bi bi-info-circle-fill me-2"></i>General Information
                         </h5>
+
                         <div class="form-floating mb-3">
                             <input asp-for="OrganizationName" class="form-control" placeholder="Organization Name" />
                             <label asp-for="OrganizationName"></label>
                             <span asp-validation-for="OrganizationName" class="text-danger"></span>
                         </div>
+
                         <div class="form-floating mb-3">
                             <input asp-for="ActivityTitle" class="form-control" placeholder="Activity Title" />
                             <label asp-for="ActivityTitle"></label>
                             <span asp-validation-for="ActivityTitle" class="text-danger"></span>
                         </div>
+
                         <div class="form-floating mb-3">
                             <input asp-for="ActivityDate" class="form-control" type="date" placeholder="Activity Date" />
                             <label asp-for="ActivityDate"></label>
                             <span asp-validation-for="ActivityDate" class="text-danger"></span>
                         </div>
+
                         <div class="form-floating mb-3">
                             <input asp-for="Speaker" class="form-control" placeholder="Speaker" />
                             <label asp-for="Speaker"></label>
                             <span asp-validation-for="Speaker" class="text-danger"></span>
                         </div>
+
                         <div class="form-floating mb-3">
                             <input asp-for="Venue" class="form-control" placeholder="Venue" />
                             <label asp-for="Venue"></label>
                             <span asp-validation-for="Venue" class="text-danger"></span>
                         </div>
+
                         <div class="form-floating mb-3">
                             <textarea asp-for="PurposeObjective" class="form-control" placeholder="Purpose/Objective" style="height: 100px"></textarea>
                             <label asp-for="PurposeObjective"></label>
                             <span asp-validation-for="PurposeObjective" class="text-danger"></span>
                         </div>
+
                         <div class="form-floating mb-3">
                             <input asp-for="Date" class="form-control" type="date" placeholder="Date" />
                             <label asp-for="Date"></label>
@@ -64,46 +70,55 @@
                         <h5 class="text-blue-secondary mb-4 pb-2 border-bottom border-blue-secondary-subtle">
                             <i class="bi bi-calendar-check-fill me-2"></i>Reservation Details
                         </h5>
+
                         <div class="form-floating mb-3">
                             <input asp-for="DateNeeded" class="form-control" type="date" placeholder="Date Needed" />
                             <label asp-for="DateNeeded"></label>
                             <span asp-validation-for="DateNeeded" class="text-danger"></span>
                         </div>
+
                         <div class="form-floating mb-3">
                             <input asp-for="TimeFrom" class="form-control" type="time" placeholder="Time From" />
                             <label asp-for="TimeFrom"></label>
                             <span asp-validation-for="TimeFrom" class="text-danger"></span>
                         </div>
+
                         <div class="form-floating mb-3">
                             <input asp-for="TimeTo" class="form-control" type="time" placeholder="Time To" />
                             <label asp-for="TimeTo"></label>
                             <span asp-validation-for="TimeTo" class="text-danger"></span>
                         </div>
+
                         <div class="form-floating mb-3">
                             <input asp-for="Participants" class="form-control" placeholder="Participants" />
                             <label asp-for="Participants"></label>
                             <span asp-validation-for="Participants" class="text-danger"></span>
                         </div>
+
                         <div class="form-floating mb-3">
                             <input asp-for="EquipmentFacilities" class="form-control" placeholder="Equipment/Facilities" />
                             <label asp-for="EquipmentFacilities"></label>
                             <span asp-validation-for="EquipmentFacilities" class="text-danger"></span>
                         </div>
+
                         <div class="form-floating mb-3">
                             <input asp-for="NatureOfActivity" class="form-control" placeholder="Nature of Activity" />
                             <label asp-for="NatureOfActivity"></label>
                             <span asp-validation-for="NatureOfActivity" class="text-danger"></span>
                         </div>
+
                         <div class="form-floating mb-3">
                             <input asp-for="SourceOfFunds" class="form-control" placeholder="Source of Funds" />
                             <label asp-for="SourceOfFunds"></label>
                             <span asp-validation-for="SourceOfFunds" class="text-danger"></span>
                         </div>
+
                         <div class="form-floating mb-3">
                             <input asp-for="RoomNumber" class="form-control" placeholder="Room Number" />
                             <label asp-for="RoomNumber"></label>
                             <span asp-validation-for="RoomNumber" class="text-danger"></span>
                         </div>
+
                         <div class="form-floating mb-3">
                             <input asp-for="ReservedBy" class="form-control" placeholder="Reserved By" />
                             <label asp-for="ReservedBy"></label>
@@ -114,10 +129,10 @@
 
                 <!-- Action Buttons -->
                 <div class="col-12 text-center pt-5 border-top mt-5">
-                    <button type="submit" class="btn-gradient-blue btn-lg me-3 animate__animated animate__pulse animate__infinite" style="min-width: 150px;">
+                    <button type="submit" class="btn btn-primary btn-lg me-3" style="width: 160px;">
                         <i class="bi bi-cloud-arrow-up-fill me-2"></i>Update
                     </button>
-                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
+                    <a asp-action="Index" class="btn btn-secondary btn-lg" style="width: 160px;">
                         <i class="bi bi-arrow-left me-2"></i>Back to List
                     </a>
                 </div>
@@ -125,3 +140,12 @@
         </div>
     </div>
 </div>
+
+@section Styles {
+    <style>
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+        }
+    </style>
+}

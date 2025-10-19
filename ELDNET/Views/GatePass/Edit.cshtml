@@ -14,7 +14,6 @@
             <form method="post" asp-action="Edit" enctype="multipart/form-data">
                 <input asp-for="Id" hidden />
                 <div class="row g-5">
-                    @* Increased gap for better separation *@
 
                     <!-- General Information Section -->
                     <div class="col-lg-6 border-end-lg pe-lg-5">
@@ -111,11 +110,11 @@
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="col-12 text-center pt-5 border-top">
-                        <button type="submit" class="btn-gradient-blue btn-lg me-3 animate__animated animate__pulse animate__infinite" style="min-width: 150px;">
+                    <div class="col-12 text-center pt-5 border-top mt-5">
+                        <button type="submit" class="btn btn-primary btn-lg me-3" style="min-width: 140px;">
                             <i class="bi bi-cloud-arrow-up-fill me-2"></i>Update
                         </button>
-                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 140px;">
                             <i class="bi bi-arrow-left me-2"></i>Back to List
                         </a>
                     </div>

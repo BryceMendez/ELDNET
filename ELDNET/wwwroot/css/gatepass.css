@@ -1,0 +1,180 @@
+﻿/* =======================================
+   ADMIN DASHBOARD LIGHT THEME STYLES
+   ======================================= */
+
+.admindash-gatepass-card,
+.admindash-reservation-card,
+.admindash-locker-card {
+    border-radius: 20px;
+    color: #000;
+    padding: 25px 20px;
+    transition: transform 0.25s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+    .admindash-gatepass-card:hover,
+    .admindash-reservation-card:hover,
+    .admindash-locker-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+/* Common text styles */
+.admindash-card-number {
+    color: #000;
+    font-weight: 800;
+    font-size: 2.6rem;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.admindash-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.admindash-card-title {
+    color: #000;
+    font-weight: 600;
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.admindash-card-icon {
+    font-size: 2.3rem;
+}
+
+/* --- Gatepass (Purple Theme) --- */
+.admindash-gatepass-card {
+    background-color: #f4e6ff; /* light purple background */
+    border-top: 5px solid #9b59b6; /* purple border */
+}
+
+.admindash-gatepass-icon {
+    color: #9b59b6; /* purple icon */
+}
+
+.admindash-gatepass-btn {
+    background-color: #9b59b6; /* purple button */
+    color: #fff;
+    border-radius: 12px;
+    width: 100%;
+    font-weight: 700;
+    border: none;
+    padding: 12px;
+    transition: background-color 0.3s ease;
+}
+
+    .admindash-gatepass-btn:hover {
+        background-color: #8e44ad; /* darker purple on hover */
+    }
+
+/* --- Room Reservation (Green Theme) --- */
+.admindash-reservation-card {
+    background-color: #e9f7ef;
+    border-top: 5px solid #198754;
+}
+
+.admindash-reservation-icon {
+    color: #198754;
+}
+
+.admindash-reservation-btn {
+    background-color: #198754;
+    color: #fff;
+    border-radius: 12px;
+    width: 100%;
+    font-weight: 700;
+    border: none;
+    padding: 12px;
+}
+
+    .admindash-reservation-btn:hover {
+        background-color: #157347;
+    }
+
+/* --- Locker Request (Yellow Theme) --- */
+.admindash-locker-card {
+    background-color: #fff8e1;
+    border-top: 5px solid #ffc107;
+}
+
+.admindash-locker-icon {
+    color: #ffc107;
+}
+
+.admindash-locker-btn {
+    background-color: #ffc107;
+    color: #000;
+    border-radius: 12px;
+    width: 100%;
+    font-weight: 700;
+    border: none;
+    padding: 12px;
+}
+
+    .admindash-locker-btn:hover {
+        background-color: #e0a800;
+    }
+
+/* ==========================
+   STUDENT & FACULTY (Blue)
+   ========================== */
+.admindash-account-card {
+    background-color: #ffffff;
+    border: 2px solid #0d6efd;
+    border-radius: 20px;
+    color: #000;
+    padding: 25px;
+    text-align: center;
+    transition: transform 0.25s ease, box-shadow 0.3s ease;
+}
+
+    .admindash-account-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(13, 110, 253, 0.3);
+    }
+
+.admindash-account-icon {
+    color: #0d6efd;
+    font-size: 2.3rem;
+}
+
+.admindash-account-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.admindash-account-number {
+    color: #000;
+    font-size: 2.3rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.admindash-account-title {
+    color: #000;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.admindash-account-btn {
+    background-color: #ffffff;
+    color: #fff;
+    font-weight: 700;
+    border-radius: 12px;
+    width: 100%;
+    border: none;
+    padding: 12px;
+}
+
+    .admindash-account-btn:hover {
+        background-color: #0b5ed7;
+    }

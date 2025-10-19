@@ -7,15 +7,17 @@
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
-    @* Ensure this links to your main CSS file that now contains the appended styles *@
-    <link href="~/css/site.css" rel="stylesheet" /> @* <--- IMPORTANT: Replace with the actual path to your main CSS file *@
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/reservationdetails.css" rel="stylesheet" /> @* Link to the new CSS file *@
 </head>
 
-<div class="container py-5 animate__animated animate__fadeIn">
+<div class="container py-3 animate__animated animate__fadeIn">
+    @* Adjusted padding-top/bottom *@
     <div class="reservation-modern-card">
-        <div class="card-header-modern-reservation">
-            <h2 class="mb-2"><i class="bi bi-calendar-check me-3"></i>Activity Reservation Details</h2>
-            <p class="text-white-75">Comprehensive information for this activity room reservation.</p>
+        <div class="card-header-modern-reservation-compact">
+            @* Changed class for compact header *@
+            <h2 class="mb-1"><i class="bi bi-calendar-check me-3"></i>Activity Reservation Details</h2> @* Adjusted margin *@
+            <p class="text-white-75 mb-0">Comprehensive information for this activity room reservation.</p> @* Adjusted margin *@
         </div>
 
         <div class="card-body p-lg-5 p-4">
@@ -26,7 +28,8 @@
                     <h5 class="reservation-detail-section-title">
                         <i class="bi bi-info-circle"></i>Activity Information
                     </h5>
-                    <dl class="row reservation-detail-list-modern">
+                    <dl class="row reservation-detail-list-modern-improved">
+                        @* Changed class for improved list *@
                         <dt class="col-sm-5">@Html.DisplayNameFor(model => model.OrganizationName)</dt>
                         <dd class="col-sm-7">@Html.DisplayFor(model => model.OrganizationName)</dd>
 
@@ -55,7 +58,8 @@
                     <h5 class="reservation-detail-section-title">
                         <i class="bi bi-clock"></i>Reservation Details
                     </h5>
-                    <dl class="row reservation-detail-list-modern">
+                    <dl class="row reservation-detail-list-modern-improved">
+                        @* Changed class for improved list *@
                         <dt class="col-sm-5">@Html.DisplayNameFor(model => model.DateNeeded)</dt>
                         <dd class="col-sm-7">@Model.DateNeeded.ToString("MMMM dd, yyyy")</dd>
 
@@ -78,7 +82,8 @@
                     <h5 class="reservation-detail-section-title mt-5">
                         <i class="bi bi-person-badge"></i>Requester Info
                     </h5>
-                    <dl class="row reservation-detail-list-modern">
+                    <dl class="row reservation-detail-list-modern-improved">
+                        @* Changed class for improved list *@
                         <dt class="col-sm-5">@Html.DisplayNameFor(model => model.ReservedBy)</dt>
                         <dd class="col-sm-7">@Html.DisplayFor(model => model.ReservedBy)</dd>
 
@@ -98,7 +103,7 @@
                 </h4>
 
                 <div class="row justify-content-center g-4">
-                    <!-- Approver Loop -->
+                    <!-- Approver Loop - Refined Card Format -->
                     @foreach (var approver in new[]
                                         {
                                         new { Name = Model.Approver1Name, Status = Model.Approver1Status, Number = 1 },
@@ -109,9 +114,42 @@
                                         })
                     {
                         <div class="col-md-6 col-lg-4">
-                            <div class="card reservation-approval-card h-100">
-                                <div class="card-body">
-                                    <h5 class="mb-3">
+                            <div class="card reservation-approver-card-new h-100 shadow-sm border-0">
+                                @* Changed class for new card style, added shadow/border *@
+                                <div class="card-body d-flex flex-column align-items-center p-4">
+                                    @* Added flex for centering *@
+                                    <div class="reservation-approver-status-icon mb-2">
+                                        @* Icon on top *@
+                                        @if (approver.Status == "Pending")
+                                        {
+                                            <i class="bi bi-hourglass-split text-warning"></i>
+                                        }
+                                        else if (approver.Status == "Approved")
+                                        {
+                                            <i class="bi bi-check-circle-fill text-success"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-x-circle-fill text-danger"></i>
+                                        }
+                                    </div>
+                                    <div class="reservation-approver-status-label mb-3">
+                                        @* Label below icon *@
+                                        @if (approver.Status == "Pending")
+                                        {
+                                            <span class="badge badge-modern reservation-badge-pending">Pending</span>
+                                        }
+                                        else if (approver.Status == "Approved")
+                                        {
+                                            <span class="badge badge-modern reservation-badge-approved">Approved</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-modern reservation-badge-denied">Denied</span>
+                                        }
+                                    </div>
+                                    <h5 class="mb-1 reservation-approver-name">
+                                        @* Adjusted margin-bottom here *@
                                         @if (!string.IsNullOrEmpty(approver.Name))
                                         {
                                             @approver.Name
@@ -121,30 +159,18 @@
                                             <span>Approver @approver.Number</span>
                                         }
                                     </h5>
-                                    <div class="approval-status mb-4">
-                                        @if (approver.Status == "Pending")
-                                        {
-                                            <i class="bi bi-hourglass-split text-warning"></i>
-                                            <span class="reservation-badge-modern reservation-badge-pending">Pending</span>
-                                        }
-                                        else if (approver.Status == "Approved")
-                                        {
-                                            <i class="bi bi-check-circle-fill text-success"></i>
-                                            <span class="reservation-badge-modern reservation-badge-approved">Approved</span>
-                                        }
-                                        else
-                                        {
-                                            <i class="bi bi-x-circle-fill text-danger"></i>
-                                            <span class="reservation-badge-modern reservation-badge-denied">Denied</span>
-                                        }
-                                    </div>
-                                    <form asp-controller="Approval" asp-action="SetApproval" method="post" class="mt-auto">
+                                    <hr class="reservation-approver-divider" /> @* Visible Separator Line *@
+                                    <form id="approverForm_@approver.Number" asp-controller="Approval" asp-action="SetApproval" method="post" class="mt-2 reservation-approver-buttons-form">
+                                        @* Adjusted margin-top here, added class and id *@
                                         <input type="hidden" name="id" value="@Model.Id" />
                                         <input type="hidden" name="type" value="Reservation" />
                                         <input type="hidden" name="approver" value="@approver.Number" />
 
-                                        <button type="submit" name="decision" value="Approved" class="btn btn-success btn-sm me-2 reservation-btn-modern">Approve</button>
-                                        <button type="submit" name="decision" value="Denied" class="btn btn-danger btn-sm reservation-btn-modern">Deny</button>
+                                        <div class="d-flex justify-content-center w-100">
+                                            @* Added this div for inline buttons *@
+                                            <button type="button" onclick="event.preventDefault(); submitApproverForm(@approver.Number, 'Approved');" class="btn btn-success me-2 reservation-approver-btn">Approve</button> @* Changed to type="button" and added JS *@
+                                            <button type="button" onclick="event.preventDefault(); submitApproverForm(@approver.Number, 'Denied');" class="btn btn-danger reservation-approver-btn">Deny</button> @* Changed to type="button" and added JS *@
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -152,20 +178,25 @@
                     }
                 </div>
 
-                <!-- Final Confirmation Section -->
-                <div class="mt-5 pt-4 border-top">
-                    <form asp-controller="Approval" asp-action="ConfirmApproval" method="post" class="mb-4">
-                        <input type="hidden" name="id" value="@Model.Id" />
-                        <input type="hidden" name="type" value="Reservation" />
-                        <button type="submit" class="btn btn-primary btn-lg reservation-btn-modern">
-                            <i class="bi bi-check2-circle me-2"></i>Confirm Final Decision
-                        </button>
-                    </form>
-                    <p class="reservation-final-status-text mt-3">Final Status: <strong class="reservation-final-status-@(Model.FinalStatus?.ToLower())">@Model.FinalStatus</strong></p>
-
-                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg reservation-btn-modern mt-4">
-                        <i class="bi bi-arrow-left me-2"></i>Back to List
-                    </a>
+                <!-- Final Confirmation Section - Redesigned -->
+                <div class="mt-5 pt-4 border-top text-center">
+                    <p class="reservation-final-status-text mb-4">Final Status: <strong class="reservation-final-status-@(Model.FinalStatus?.ToLower())">@Model.FinalStatus</strong></p> @* Final Status on top *@
+                    <div class="d-flex justify-content-center gap-3">
+                        @* Buttons side-by-side with gap *@
+                        <form asp-controller="Approval" asp-action="ConfirmApproval" method="post" class="m-0">
+                            @* Remove form margin *@
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <input type="hidden" name="type" value="Reservation" />
+                            <button type="submit" class="btn btn-primary btn-lg reservation-btn-final-action">
+                                @* Added btn-final-action class *@
+                                <i class="bi bi-check2-circle me-2"></i>Confirm Final Decision
+                            </button>
+                        </form>
+                        <a asp-action="Index" class="btn btn-secondary btn-lg reservation-btn-gray-modern reservation-btn-final-action">
+                            @* Added btn-final-action class *@
+                            <i class="bi bi-arrow-left me-2"></i>Back to List
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -173,3 +204,29 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    async function submitApproverForm(approverNumber, decision) {
+        const form = document.getElementById(`approverForm_${approverNumber}`);
+        const formData = new FormData(form);
+        formData.append('decision', decision); // Add the decision to form data
+
+        try {
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: formData
+            });
+
+            if (response.ok) {
+                // If the submission is successful, reload the page to show updated status
+                window.location.reload();
+            } else {
+                console.error('Form submission failed:', response.statusText);
+                alert('An error occurred during approval. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            alert('An unexpected error occurred. Please check your network connection and try again.');
+        }
+    }
+</script>

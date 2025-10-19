@@ -2,128 +2,154 @@
 
 @{
     ViewData["Title"] = "Gate Pass List";
-    var userRole = Context.Session.GetString("UserRole"); // Get user role from session
+    var userRole = Context.Session.GetString("UserRole");
 }
 
-<div class="container p-3">
-    <div class="row pt-4">
-        <div class="col-6">
-            <h2 class="text-primary">Gate Pass List</h2>
+<div class="gatepass-list-page mt-4">
+    <div class="row align-items-center mb-4">
+        <div class="col-md-6">
+            <h2 class="fw-bold text-primary">
+                <i class="bi bi-card-checklist me-2"></i>Gate Pass List
+            </h2>
         </div>
-        <div class="col-6 text-end">
-            @* CONDITIONAL CREATE BUTTON FOR STUDENTS AND FACULTY *@
-            @if (userRole == "Student" || userRole == "Faculty") // Modified condition
+        <div class="col-md-6 text-end">
+            @if (userRole == "Student" || userRole == "Faculty")
             {
-                <a asp-controller="GatePass" asp-action="Create" class="btn btn-primary">
-                    <i class="bi bi-plus-circle"></i> &nbsp; Create New Gate Pass
+                <a asp-controller="GatePass" asp-action="Create" class="btn btn-primary rounded-pill px-4 py-2 shadow-sm">
+                    <i class="bi bi-plus-circle me-2"></i> Create New Gate Pass
                 </a>
             }
         </div>
     </div>
-    <br />
 
     @if (Model != null && Model.Any())
     {
-        <table class="table table-bordered table-striped">
-            <thead class="table-light">
-                <tr>
-                    <th>School Year</th>
-                    <th>Name</th>
-                    <th>Address</th>
-                    <th>Date</th>
-                    <th>Staff Type</th>
-                    <th>Department</th>
-                    <th>Course & Year</th>
-                    <th>Plate No.</th>
-                    <th>Maker</th>
-                    <th>Color</th>
-                    <th>Study Load</th>
-                    <th>Registration Form</th>
-                    <th>Status</th>
-                    @* CONDITIONAL ACTIONS COLUMN HEADER *@
-                    @if (userRole == "Student" || userRole == "Faculty") // Modified condition
-                    {
-                        <th class="text-center">Actions</th>
-                    }
-                    else if (userRole == "Admin")
-                    {
-                        <th class="text-center">Details</th>
-                    }
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var obj in Model)
-                {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-primary text-dark">
                     <tr>
-                        <td>@obj.SchoolYear</td>
-                        <td>@obj.Name</td>
-                        <td>@obj.Address</td>
-                        <td>@obj.Date.ToString("yyyy-MM-dd")</td>
-                        <td>@obj.Role</td>
-                        <td>@obj.Department</td>
-                        <td>@obj.CourseYear</td>
-                        <td>@obj.PlateNumber</td>
-                        <td>@obj.Maker</td>
-                        <td>@obj.Color</td>
-
-                        <!-- Study Load -->
-                        <td>
-                            @if (!string.IsNullOrEmpty(obj.StudyLoadPath))
-                            {
-                                <a href="@obj.StudyLoadPath" target="_blank" class="btn btn-sm btn-link">View</a>
-                            }
-                            else
-                            {
-                                <span class="text-muted">No File</span>
-                            }
-                        </td>
-
-                        <!-- Registration Form -->
-                        <td>
-                            @if (!string.IsNullOrEmpty(obj.RegistrationPath))
-                            {
-                                <a href="@obj.RegistrationPath" target="_blank" class="btn btn-sm btn-link">View</a>
-                            }
-                            else
-                            {
-                                <span class="text-muted">No File</span>
-                            }
-                        </td>
-
-                        <td>@obj.Status</td>
-
-                        @* CONDITIONAL ACTIONS FOR EACH ROW *@
-                        @if (userRole == "Student" || userRole == "Faculty") // Modified condition
-                        {
-                            <td>
-                                <div class="w-20 btn-group" role="group">
-                                    <a asp-action="Edit" asp-route-id="@obj.Id">&nbsp;Edit&nbsp; </a>|
-                                    <a asp-action="Details" asp-route-id="@obj.Id">&nbsp;Details&nbsp;</a>|
-                                    <a asp-action="Delete" asp-route-id="@obj.Id">&nbsp;Delete</a>
-                                </div>
-                            </td>
-                        }
-                        else if (userRole == "Admin")
-                        {
-                            <td>
-                                <div class="w-75 btn-group" role="group">
-                                    <a asp-action="Details" asp-route-id="@obj.Id" class="btn btn-info btn-sm mx-1">View Details</a>
-                                </div>
-                            </td>
-                        }
+                        <th>Status</th>
+                        <th>School Year</th>
+                        <th>Date</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Staff Type</th>
+                        <th>Plate No.</th>
+                        <th class="text-center">Actions</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var obj in Model)
+                    {
+                        string statusColor = obj.Status switch
+                        {
+                            "Approved" => "bg-success",
+                            "Denied" => "bg-danger",
+                            "Pending" => "bg-warning text-dark",
+                            _ => "bg-secondary"
+                        };
+
+                        <tr>
+                            <td><span class="badge @statusColor px-3 py-2">@obj.Status</span></td>
+                            <td>@obj.SchoolYear</td>
+                            <td>@obj.Date.ToString("yyyy-MM-dd")</td>
+                            <td>@obj.Name</td>
+                            <td>@obj.Department</td>
+                            <td>@obj.Role</td>
+                            <td>@obj.PlateNumber</td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group" aria-label="Action Buttons">
+
+                                    <!-- Edit button -->
+                                    <a href="@((obj.Status == "Approved") ? "javascript:void(0)" : Url.Action("Edit", new { id = obj.Id }))"
+                                       class="btn btn-sm btn-warning text-white mx-1 shadow-sm edit-btn"
+                                       data-status="@obj.Status">
+                                        <i class="bi bi-pencil-square"></i> Edit
+                                    </a>
+
+                                    <a asp-action="Details" asp-route-id="@obj.Id" class="btn btn-sm btn-info text-white mx-1 shadow-sm">
+                                        <i class="bi bi-eye-fill"></i> Details
+                                    </a>
+
+                                    <a asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-sm btn-danger mx-1 shadow-sm">
+                                        <i class="bi bi-trash3-fill"></i> Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     }
     else
     {
-        <div class="alert alert-info text-center">
-            No Gate Pass Records Found.
+        <div class="alert alert-primary text-center shadow-sm">
+            <i class="bi bi-info-circle"></i> No Gate Pass Records Found.
         </div>
     }
 </div>
 
+<!-- Centered Notification -->
+<div id="centerNotification" class="center-notification shadow-lg animate__animated animate__fadeIn" style="display:none;">
+    <div class="notification-content text-center p-4 rounded">
+        <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 2rem;"></i>
+        <h5 class="mt-2 fw-bold">Cannot Edit Gate Pass</h5>
+        <p class="mb-0">This gate pass is already <span class="fw-semibold">Approved</span> and cannot be edited.</p>
+        <button id="closeNotification" class="btn btn-outline-secondary mt-3 px-4">OK</button>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/gatepass.css" />
+    <style>
+        /* Centered notification style */
+        .center-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1050;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 1rem;
+            padding: 1rem 2rem;
+            min-width: 320px;
+            max-width: 500px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+            .center-notification .notification-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+        .edit-btn {
+            cursor: pointer;
+        }
+    </style>
+}
+
 @section Scripts {
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const editButtons = document.querySelectorAll(".edit-btn");
+            const notification = document.getElementById("centerNotification");
+            const closeBtn = document.getElementById("closeNotification");
+
+            editButtons.forEach(btn => {
+                btn.addEventListener("click", function (e) {
+                    const status = btn.getAttribute("data-status");
+                    if (status === "Approved") {
+                        e.preventDefault(); // Prevent navigation
+                        notification.style.display = "block";
+                    }
+                });
+            });
+
+            closeBtn.addEventListener("click", function () {
+                notification.style.display = "none";
+            });
+        });
+    </script>
 }

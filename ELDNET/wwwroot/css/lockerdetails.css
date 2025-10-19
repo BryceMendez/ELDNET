@@ -1,0 +1,119 @@
+﻿/* wwwroot/css/lockerdetails.css */
+
+/* Specific styles and overrides for Locker Request Details page */
+
+/* General Card Structure - Reuses .modern-card from general styles if defined in site.css */
+
+/* Header for Locker Request - Green Theme */
+.card-header-modern-compact { /* Overrides the blue gradient from gatepassdetails.css */
+    background: linear-gradient(135deg, #4CAF50, #2E7D32); /* Green gradient */
+    color: #fff;
+    padding: 1.2rem 1.5rem !important;
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+    text-align: center;
+}
+
+    .card-header-modern-compact h2 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem !important;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card-header-modern-compact p {
+        font-size: 0.95rem;
+        margin-bottom: 0 !important;
+        opacity: 0.9;
+    }
+
+/* Detail List Spacing - Reuses .detail-list-modern-improved */
+/* Detail Section Title - Green Icon */
+.detail-section-title i { /* Overrides the blue icon color */
+    color: #4CAF50; /* Green icon */
+}
+
+/* Approver Card - Styling to match the Locker theme */
+.gp-approver-card-new { /* Reuses base card style for consistency */
+    border-radius: 12px;
+    transition: box-shadow 0.2s ease-in-out;
+    background-color: #ffffff;
+    /* Adjusted shadow for a subtle green hint */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2), 0 0 0 2px rgba(76, 175, 80, 0.15);
+    border: 1px solid #e0e0e0;
+}
+
+    .gp-approver-card-new:hover {
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25), 0 0 0 3px rgba(76, 175, 80, 0.25);
+    }
+
+/* Status Badges - The badge-modern classes should ideally be defined in site.css for reuse */
+/* If not, they would need to be defined here or in gatepassdetails.css */
+
+/* Specific button colors for Locker Request to match theme */
+.gp-approver-btn.btn-success {
+    background-color: #4CAF50; /* Green */
+    border-color: #4CAF50;
+}
+
+    .gp-approver-btn.btn-success:hover {
+        background-color: #43A047;
+        border-color: #43A047;
+    }
+
+.gp-approver-btn.btn-danger {
+    background-color: #F44336; /* Red */
+    border-color: #F44336;
+}
+
+    .gp-approver-btn.btn-danger:hover {
+        background-color: #E53935;
+        border-color: #E53935;
+    }
+
+/* Final Status Text - Color based on status */
+.final-status-pending {
+    color: #FFC107; /* Warning yellow */
+    font-weight: bold;
+}
+
+.final-status-approved {
+    color: #4CAF50; /* Green for approved */
+    font-weight: bold;
+}
+
+.final-status-denied {
+    color: #F44336; /* Red for denied */
+    font-weight: bold;
+}
+
+/* Final Action Buttons */
+.btn-primary.btn-lg.btn-final-action {
+    background-color: #4CAF50; /* Green primary button */
+    border-color: #4CAF50;
+    color: #fff;
+}
+
+    .btn-primary.btn-lg.btn-final-action:hover {
+        background-color: #43A047;
+        border-color: #43A047;
+        box-shadow: 0 2px 5px rgba(76, 175, 80, 0.3);
+    }
+
+.btn-gray-modern.btn-final-action { /* Reuse gray secondary button from gatepassdetails.css */
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #fff;
+}
+
+    .btn-gray-modern.btn-final-action:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+        color: #fff;
+        box-shadow: 0 2px 5px rgba(108, 117, 125, 0.3);
+    }
+
+/* Divider line for sections */
+/* Reuses .divider-line styles from gatepassdetails.css */

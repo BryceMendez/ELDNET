@@ -1,0 +1,222 @@
+﻿/* =======================================
+   ADMIN DASHBOARD LIGHT THEME STYLES
+   ======================================= */
+
+.admindash-gatepass-card,
+.admindash-reservation-card,
+.admindash-locker-card {
+    border-radius: 20px;
+    color: #000;
+    padding: 25px 20px;
+    transition: transform 0.25s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+    .admindash-gatepass-card:hover,
+    .admindash-reservation-card:hover,
+    .admindash-locker-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+/* Common text styles */
+.admindash-card-number {
+    color: #000;
+    font-weight: 800;
+    font-size: 2.6rem;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.admindash-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.admindash-card-title {
+    color: #000;
+    font-weight: 600;
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.admindash-card-icon {
+    font-size: 2.3rem;
+}
+
+/* --- Gatepass (Blue Theme) --- */
+.admindash-gatepass-card {
+    background-color: #e0f2f7; /* Light blue background */
+    border-top: 5px solid #007bff; /* Blue border */
+}
+
+.admindash-gatepass-icon {
+    color: #007bff; /* Blue icon */
+}
+
+.admindash-gatepass-btn {
+    background-color: #007bff; /* Blue button */
+    color: #fff;
+    border-radius: 12px;
+    width: 100%;
+    font-weight: 700;
+    border: none;
+    padding: 12px;
+}
+
+    .admindash-gatepass-btn:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+
+/* --- Room Reservation (Green Theme) --- */
+.admindash-reservation-card {
+    background-color: #e9f7ef;
+    border-top: 5px solid #198754;
+}
+
+.admindash-reservation-icon {
+    color: #198754;
+}
+
+.admindash-reservation-btn {
+    background-color: #198754;
+    color: #fff;
+    border-radius: 12px;
+    width: 100%;
+    font-weight: 700;
+    border: none;
+    padding: 12px;
+}
+
+    .admindash-reservation-btn:hover {
+        background-color: #157347;
+    }
+
+/* --- Locker Request (Yellow Theme) --- */
+.admindash-locker-card {
+    background-color: #fff8e1;
+    border-top: 5px solid #ffc107;
+}
+
+.admindash-locker-icon {
+    color: #ffc107;
+}
+
+.admindash-locker-btn {
+    background-color: #ffc107;
+    color: #fff;
+    border-radius: 12px;
+    width: 100%;
+    font-weight: 700;
+    border: none;
+    padding: 12px;
+}
+
+    .admindash-locker-btn:hover {
+        background-color: #e0a800;
+    }
+
+/* ==========================
+   STUDENT & FACULTY Accounts
+   ========================== */
+.admindash-account-card,
+.admindash-faculty-card { /* Combined for common styles if desired */
+    border-radius: 20px;
+    color: #000;
+    padding: 25px;
+    text-align: center;
+    transition: transform 0.25s ease, box-shadow 0.3s ease;
+    height: 100%; /* Ensure cards are same height */
+    border: 2px solid; /* Added for consistency with students */
+}
+
+    .admindash-account-card:hover,
+    .admindash-faculty-card:hover {
+        transform: translateY(-5px);
+    }
+
+.admindash-account-icon {
+    font-size: 2.3rem;
+}
+
+.admindash-account-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.admindash-account-number {
+    color: #000;
+    font-size: 2.3rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.admindash-account-title {
+    color: #000;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* --- Students (Original Blue) --- */
+.admindash-account-card { /* Specific styles for student card */
+    background-color: #f8f9fa; /* Light gray background */
+    border-color: #6c757d; /* Gray border */
+}
+
+    .admindash-account-card:hover {
+        box-shadow: 0 8px 20px rgba(108, 117, 125, 0.3);
+    }
+
+.admindash-students-icon {
+    color: #6c757d;
+}
+
+.admindash-students-btn {
+    background-color: #6c757d;
+    color: #fff;
+    font-weight: 700;
+    border-radius: 12px;
+    width: 100%;
+    border: none;
+    padding: 12px;
+}
+
+    .admindash-students-btn:hover {
+        background-color: #5a6268;
+    }
+
+
+/* --- Faculty (Gray Theme) --- */
+.admindash-faculty-card {
+    background-color: #f8f9fa; /* Light gray background */
+    border-color: #6c757d; /* Gray border */
+}
+
+    .admindash-faculty-card:hover {
+        box-shadow: 0 8px 20px rgba(108, 117, 125, 0.3); /* Gray shadow on hover */
+    }
+
+.admindash-faculty-icon {
+    color: #6c757d; /* Gray icon */
+}
+
+.admindash-faculty-btn {
+    background-color: #6c757d; /* Gray button */
+    color: #fff;
+    font-weight: 700;
+    border-radius: 12px;
+    width: 100%;
+    border: none;
+    padding: 12px;
+}
+
+    .admindash-faculty-btn:hover {
+        background-color: #5a6268; /* Darker gray on hover */
+    }

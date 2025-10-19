@@ -4,73 +4,186 @@
     ViewData["Title"] = "Reservation Room List";
 }
 
-<div class="container p-3">
-    <div class="row pt-4">
-        <div class="col-6">
-            <h2 class="text-primary">Reservation Room List</h2>
+<div class="container reservation-list-page p-4 mt-4">
+    <div class="row align-items-center mb-4">
+        <div class="col-md-6">
+            <h2 class="fw-bold text-success">
+                <i class="bi bi-door-open me-2"></i>Reservation Room List
+            </h2>
         </div>
-        <div class="col-6 text-end">
-            <a asp-controller="ReservationRoom" asp-action="Create" class="btn btn-primary">+ Create New Reservation</a>
+        <div class="col-md-6 text-end">
+            <a asp-controller="ReservationRoom" asp-action="Create" class="btn btn-success rounded-pill px-4 py-2 shadow-sm">
+                <i class="bi bi-plus-circle me-2"></i> Create New Reservation
+            </a>
         </div>
     </div>
-    <br />
 
     @if (Model != null && Model.Any())
     {
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Organization</th>
-                    <th>Activity Title</th>
-                    <th>Date</th>
-                    <th>Speaker</th>
-                    <th>Venue</th>
-                    <th>Purpose & Objective</th>
-                    <th>Date Needed</th>
-                    <th>Time From</th>
-                    <th>Time To</th>
-                    <th>Participants</th>
-                    <th>Equipment / Facilities</th>
-                    <th>Nature of Activity</th>
-                    <th>Source of Funds</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle reservation-table">
+                <!-- Custom header class applied here -->
+                <thead class="table-header-custom">
                     <tr>
-                        <td>@item.OrganizationName</td>
-                        <td>@item.ActivityTitle</td>
-                        <td>@item.Date</td>
-                        <td>@item.Speaker</td>
-                        <td>@item.Venue</td>
-                        <td>@item.PurposeObjective</td>
-                        <td>@item.DateNeeded</td>
-                        <td>@item.TimeFrom</td>
-                        <td>@item.TimeTo</td>
-                        <td>@item.Participants</td>
-                        <td>@item.EquipmentFacilities</td>
-                        <td>@item.NatureOfActivity</td>
-                        <td>@item.SourceOfFunds</td>
-                        <td>@item.Status</td>
-                        <td>
-                            <div class="w-20 btn-group" role="group">
-                                <a asp-action="Edit" asp-route-id="@item.Id">&nbsp;Edit&nbsp; </a>|
-                                <a asp-action="Details" asp-route-id="@item.Id">&nbsp;Details&nbsp;</a>|
-                                <a asp-action="Delete" asp-route-id="@item.Id">&nbsp;Delete</a>
-                            </div>
-                        </td>
+                        <th>Status</th>
+                        <th>Organization</th>
+                        <th>Activity Title</th>
+                        <th>Speaker</th>
+                        <th>Date Submitted</th>
+                        <th>Date Needed</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th class="text-center">Actions</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        // Logic to apply custom badge classes based on status
+                        // This uses the badge-modern classes directly from gatepassdetails.css
+                        string statusBadgeClass = item.Status switch
+                        {
+                            "Approved" => "badge-modern badge-approved", // Green from gatepassdetails.css
+                            "Pending" => "badge-modern badge-pending",  // This class will now be explicitly overridden below
+                            "Denied" => "badge-modern badge-denied",    // Red from gatepassdetails.css
+                            _ => "badge bg-secondary text-white" // Fallback for other statuses
+                        };
+
+                        <tr>
+                            <td><span class="badge @statusBadgeClass px-3 py-2">@item.Status</span></td>
+                            <td>@item.OrganizationName</td>
+                            <td>@item.ActivityTitle</td>
+                            <td>@item.Speaker</td>
+                            <td>@item.Date.ToString("yyyy-MM-dd")</td>
+                            <td>@item.DateNeeded.ToString("yyyy-MM-dd")</td>
+                            <td>@DateTime.Today.Add(item.TimeFrom).ToString("hh:mm tt")</td>
+                            <td>@DateTime.Today.Add(item.TimeTo).ToString("hh:mm tt")</td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group" aria-label="Action Buttons">
+                                    <a href="@((item.Status == "Approved") ? "javascript:void(0)" : Url.Action("Edit", new { id = item.Id }))"
+                                       class="btn btn-sm btn-warning text-white mx-1 shadow-sm edit-btn"
+                                       data-status="@item.Status">
+                                        <i class="bi bi-pencil-square"></i> Edit
+                                    </a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info text-white mx-1 shadow-sm">
+                                        <i class="bi bi-eye-fill"></i> Details
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger mx-1 shadow-sm">
+                                        <i class="bi bi-trash3-fill"></i> Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     }
     else
     {
-        <div class="alert alert-info text-center">
-            No Reservation Room Records Found.
+        <div class="alert alert-success text-center shadow-sm">
+            <i class="bi bi-info-circle"></i> No Reservation Room Records Found.
         </div>
     }
 </div>
+
+<!-- Centered Notification -->
+<div id="centerNotification" class="center-notification shadow-lg animate__animated animate__fadeIn" style="display:none;">
+    <div class="notification-content text-center p-4 rounded">
+        <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 2rem;"></i>
+        <h5 class="mt-2 fw-bold">Cannot Edit Reservation</h5>
+        <p class="mb-0">This reservation is already <span class="fw-semibold">Approved</span> and cannot be edited.</p>
+        <button id="closeNotification" class="btn btn-outline-secondary mt-3 px-4">OK</button>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/reservation.css" />
+    <link rel="stylesheet" href="~/css/gatepassdetails.css" /> <!-- This should provide default yellow for pending -->
+
+    <style>
+        /* Custom styling for table header */
+        .table-header-custom {
+            background-color: lightgreen; /* Light green background */
+            color: black; /* Black font color */
+        }
+
+            /* Ensure all th elements inside the custom header have black text */
+            .table-header-custom th {
+                color: black;
+            }
+
+        /*
+                    Explicitly force Pending to yellow. This rule is in the <style> block
+                    of the specific view, giving it extremely high specificity to
+                    override any external stylesheets.
+                        */ 
+
+        .badge-modern.badge-pending {
+            background-color: #ffc107 !important; /* Yellow from gatepassdetails.css */
+            color: #343a40 !important; /* Dark text for contrast */
+            border-radius: 30px !important;
+        }
+
+        .badge-modern.badge-approved {
+            background-color: #28a745 !important; /* Yellow from gatepassdetails.css */
+            color: #343a40 !important; /* Dark text for contrast */
+            border-radius: 30px !important;
+        }
+
+        .badge-modern.badge-denied {
+            background-color: #dc3545 !important; /* Yellow from gatepassdetails.css */
+            color: #343a40 !important; /* Dark text for contrast */
+            border-radius: 30px !important;
+        }
+
+        /* Existing styles for the centered notification */
+        .center-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1050;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 1rem;
+            padding: 1rem 2rem;
+            min-width: 320px;
+            max-width: 500px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+            .center-notification .notification-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+        .edit-btn {
+            cursor: pointer;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const editButtons = document.querySelectorAll(".edit-btn");
+            const notification = document.getElementById("centerNotification");
+            const closeBtn = document.getElementById("closeNotification");
+
+            editButtons.forEach(btn => {
+                btn.addEventListener("click", function (e) {
+                    const status = btn.getAttribute("data-status");
+                    if (status === "Approved") {
+                        e.preventDefault(); // Prevent navigation for approved items
+                        notification.style.display = "block"; // Show the notification
+                    }
+                });
+            });
+
+            closeBtn.addEventListener("click", function () {
+                notification.style.display = "none"; // Hide the notification
+            });
+        });
+    </script>
+}

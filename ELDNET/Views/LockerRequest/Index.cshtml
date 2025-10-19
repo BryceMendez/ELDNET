@@ -4,85 +4,147 @@
     ViewData["Title"] = "Locker Request List";
 }
 
-<div class="container p-3">
-    <div class="row pt-4">
-        <div class="col-6">
-            <h2 class="text-primary">Locker Request List</h2>
+<div class="locker-list-page mt-4">
+    <div class="row align-items-center mb-4">
+        <div class="col-md-6">
+            <h2 class="fw-bold text-warning">
+                <i class="bi bi-lock me-2"></i>Locker Request List
+            </h2>
         </div>
-        <div class="col-6 text-end">
-            <a asp-controller="LockerRequest" asp-action="Create" class="btn btn-primary">
-                + New Locker Request
+        <div class="col-md-6 text-end">
+            <a asp-controller="LockerRequest" asp-action="Create" class="btn btn-warning rounded-pill px-4 py-2 shadow-sm">
+                <i class="bi bi-plus-circle me-2"></i> New Locker Request
             </a>
         </div>
     </div>
-    <br />
 
     @if (Model != null && Model.Any())
     {
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>ID Number</th>
-                    <th>Locker Number</th>
-                    <th>Semester</th>
-                    <th>Contact Number</th>
-                    <th>Study Load</th>
-                    <th>Registration Form</th>
-                    <th>Accepted Terms</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-warning text-dark">
                     <tr>
-                        <td>@item.Name</td>
-                        <td>@item.IdNumber</td>
-                        <td>@item.LockerNumber</td>
-                        <td>@item.Semester</td>
-                        <td>@item.ContactNumber</td>
-                        <td>
-                            @if (!string.IsNullOrEmpty(item.StudyLoadPath))
-                            {
-                                <a href="@item.StudyLoadPath" target="_blank">View</a>
-                            }
-                            else
-                            {
-                                <span class="text-muted">No File</span>
-                            }
-                        </td>
-                        <td>
-                            @if (!string.IsNullOrEmpty(item.RegistrationPath))
-                            {
-                                <a href="@item.RegistrationPath" target="_blank">View</a>
-                            }
-                            else
-                            {
-                                <span class="text-muted">No File</span>
-                            }
-                        </td>
-                        <td>@(item.AcceptTerms ? "Yes" : "No")</td>
-                        <td>@item.Status</td>
-                        <td>
-                            <div class="w-20 btn-group" role="group">
-                                <a asp-action="Edit" asp-route-id="@item.Id">&nbsp;Edit&nbsp; </a>|
-                                <a asp-action="Details" asp-route-id="@item.Id">&nbsp;Details&nbsp;</a>|
-                                <a asp-action="Delete" asp-route-id="@item.Id">&nbsp;Delete</a>
-                            </div>
-                        </td>
+                        <th>Status</th>
+                        <th>Name</th>
+                        <th>ID Number</th>
+                        <th>Locker Number</th>
+                        <th>Semester</th>
+                        <th>Contact Number</th>
+                        <th>Accepted Terms</th>
+                        <th class="text-center">Actions</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        string statusColor = item.Status switch
+                        {
+                            "Approved" => "bg-success",
+                            "Denied" => "bg-danger",
+                            "Pending" => "bg-warning text-dark",
+                            _ => "bg-secondary"
+                        };
+
+                        <tr>
+                            <td><span class="badge @statusColor px-3 py-2">@item.Status</span></td>
+                            <td>@item.Name</td>
+                            <td>@item.IdNumber</td>
+                            <td>@item.LockerNumber</td>
+                            <td>@item.Semester</td>
+                            <td>@item.ContactNumber</td>
+                            <td>@(item.AcceptTerms ? "Yes" : "No")</td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group" aria-label="Action Buttons">
+
+                                    <!-- Edit button -->
+                                    <a href="@((item.Status == "Approved") ? "javascript:void(0)" : Url.Action("Edit", new { id = item.Id }))"
+                                       class="btn btn-sm btn-warning text-white mx-1 shadow-sm edit-btn"
+                                       data-status="@item.Status">
+                                        <i class="bi bi-pencil-square"></i> Edit
+                                    </a>
+
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info text-white mx-1 shadow-sm">
+                                        <i class="bi bi-eye-fill"></i> Details
+                                    </a>
+
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger mx-1 shadow-sm">
+                                        <i class="bi bi-trash3-fill"></i> Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     }
     else
     {
-        <div class="alert alert-info text-center">
-            No Locker Request Records Found.
+        <div class="alert alert-warning text-center shadow-sm">
+            <i class="bi bi-info-circle"></i> No Locker Request Records Found.
         </div>
     }
 </div>
 
+<!-- Centered Notification -->
+<div id="centerNotification" class="center-notification shadow-lg animate__animated animate__fadeIn" style="display:none;">
+    <div class="notification-content text-center p-4 rounded">
+        <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 2rem;"></i>
+        <h5 class="mt-2 fw-bold">Cannot Edit Request</h5>
+        <p class="mb-0">This locker request is already <span class="fw-semibold">Approved</span> and cannot be edited.</p>
+        <button id="closeNotification" class="btn btn-outline-secondary mt-3 px-4">OK</button>
+    </div>
+</div>
 
+@section Styles {
+    <style>
+        /* Centered notification style */
+        .center-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1050;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 1rem;
+            padding: 1rem 2rem;
+            min-width: 320px;
+            max-width: 500px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+            .center-notification .notification-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+        .edit-btn {
+            cursor: pointer;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const editButtons = document.querySelectorAll(".edit-btn");
+            const notification = document.getElementById("centerNotification");
+            const closeBtn = document.getElementById("closeNotification");
+
+            editButtons.forEach(btn => {
+                btn.addEventListener("click", function (e) {
+                    const status = btn.getAttribute("data-status");
+                    if (status === "Approved") {
+                        e.preventDefault(); // Prevent navigation
+                        notification.style.display = "block";
+                    }
+                });
+            });
+
+            closeBtn.addEventListener("click", function () {
+                notification.style.display = "none";
+            });
+        });
+    </script>
+}

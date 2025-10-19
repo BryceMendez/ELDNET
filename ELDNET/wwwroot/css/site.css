@@ -22,9 +22,29 @@ body {
 main {
     flex: 1;
 }
-footer {
-    margin-top: auto;
+/* In ~/css/site.css */
+
+/* Target the footer specifically to override Bootstrap's py-3 */
+footer { /* Use just 'footer' for a global effect on all footers in this layout */
+    /* Remove/reduce Bootstrap's py-3 padding */
+    padding-top: 5px !important; /* Adjust as needed, e.g., 5px, 8px, 0.5rem */
+    padding-bottom: 5px !important; /* Adjust as needed */
+    /* Further reduce font size if desired */
+    font-size: 0.75rem; /* Makes text smaller */
+    line-height: 1.2; /* Reduces space between lines of text */
 }
+
+    /* Ensure the container inside the footer doesn't add extra vertical padding */
+    footer .container {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    /* Optional: If you want to explicitly ensure no extra margin anywhere */
+    footer.mt-auto { /* Targeting the specific class for clarity, though it's already on the HTML */
+        margin-top: auto !important; /* Ensures sticky behavior, if not already handled by Bootstrap classes */
+        margin-bottom: 0 !important; /* No extra margin below the footer */
+    }
 h2, h3, h4, h5, h6 {
     margin: 0;
     font-weight: 700;

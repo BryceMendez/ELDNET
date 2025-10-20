@@ -2,6 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using ELDNET.Data;
 using ELDNET.Models;
+using System.Collections.Generic; // Add this for List<T>
+using System.Linq; // Add this for LINQ methods like Where, CountAsync
+using System; // Add this for DateTime (though less critical with this approach)
 
 namespace ELDNET.Controllers
 {
@@ -30,13 +33,23 @@ namespace ELDNET.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            // Fetch Pending Counts (as you currently have them)
-            var pendingGatePass = await _context.GatePasses
+            // Fetch Pending Counts (requests with Status == "Pending")
+            var pendingGatePasses = await _context.GatePasses
                 .CountAsync(g => g.Status == "Pending");
-            var pendingLocker = await _context.LockerRequests
+            var pendingLockerRequests = await _context.LockerRequests
                 .CountAsync(l => l.Status == "Pending");
-            var pendingReservation = await _context.ReservationRooms
+            var pendingRoomReservations = await _context.ReservationRooms
                 .CountAsync(r => r.Status == "Pending");
+
+            // Fetch Changed Counts (requests with Status == "Changed")
+            // This directly leverages the "Changed" status you already have in your logic.
+            var changedGatePasses = await _context.GatePasses
+                .CountAsync(g => g.Status == "Changed");
+            var changedLockerRequests = await _context.LockerRequests
+                .CountAsync(l => l.Status == "Changed");
+            var changedRoomReservations = await _context.ReservationRooms
+                .CountAsync(r => r.Status == "Changed");
+
 
             // Fetch Total Counts
             var totalGatePasses = await _context.GatePasses.CountAsync();
@@ -49,9 +62,14 @@ namespace ELDNET.Controllers
 
             var dashboardViewModel = new AdminDashboardViewModel
             {
-                PendingGatePasses = pendingGatePass,
-                PendingLockerRequests = pendingLocker,
-                PendingRoomReservations = pendingReservation,
+                PendingGatePasses = pendingGatePasses,
+                PendingLockerRequests = pendingLockerRequests,
+                PendingRoomReservations = pendingRoomReservations,
+
+                // Assign Changed Counts based on the "Changed" status
+                ChangedGatePasses = changedGatePasses,
+                ChangedLockerRequests = changedLockerRequests,
+                ChangedRoomReservations = changedRoomReservations,
 
                 // Assign Total Counts
                 TotalGatePasses = totalGatePasses,
@@ -62,22 +80,10 @@ namespace ELDNET.Controllers
                 TotalFaculty = totalFaculty
             };
 
-            return View(dashboardViewModel);
+            // FIX: Wrap the single dashboardViewModel in a List to match the view's @model IEnumerable<T>
+            var modelList = new List<AdminDashboardViewModel> { dashboardViewModel };
+
+            return View(modelList);
         }
-    }
-
-    public class AdminDashboardViewModel
-    {
-        public int PendingGatePasses { get; set; }
-        public int PendingLockerRequests { get; set; }
-        public int PendingRoomReservations { get; set; }
-
-        // New properties for total counts
-        public int TotalGatePasses { get; set; }
-        public int TotalLockerRequests { get; set; }
-        public int TotalRoomReservations { get; set; }
-
-        public int TotalStudents { get; set; }
-        public int TotalFaculty { get; set; }
     }
 }

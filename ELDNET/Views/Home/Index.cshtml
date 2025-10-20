@@ -114,14 +114,14 @@
         <div class="col-md-4">
             <div class="card shadow-lg border-0 h-100" style="border-radius: 20px; overflow: hidden;">
                 <div class="position-relative">
-                    <img src="~/images/gatepass.jpg" class="card-img-top" alt="Gate Pass"
+                    <img src="~/images/reservation.png" class="card-img-top" alt="Gate Pass"
                          style="height: 250px; object-fit: cover;">
                     <div class="overlay"></div>
                     <h4 class="overlay-text text-center">Gate Pass</h4>
                 </div>
                 <div class="card-body text-center p-4">
-                    <p class="text-muted">Manage entry gate passes quickly and securely.</p>
-                    <a asp-controller="GatePass" asp-action="Create" class="btn btn-gradient mt-2">Go to Gate Pass</a>
+                    <p class="text-muted">Request gate passes and view request status.</p>
+                    <a asp-controller="GatePass" asp-action="Index" class="btn btn-gradient mt-2">Go to Gate Pass</a>
                 </div>
             </div>
         </div>
@@ -129,14 +129,14 @@
         <div class="col-md-4">
             <div class="card shadow-lg border-0 h-100" style="border-radius: 20px; overflow: hidden;">
                 <div class="position-relative">
-                    <img src="~/images/reservation.png" class="card-img-top" alt="Reservation Room"
+                    <img src="~/images/roomadmin.png" class="card-img-top" alt="Reservation Room"
                          style="height: 250px; object-fit: cover;">
                     <div class="overlay overlay-green"></div>
                     <h4 class="overlay-text text-center">Reservation Room</h4>
                 </div>
                 <div class="card-body text-center p-4">
-                    <p class="text-muted">Book rooms for events, meetings, and activities.</p>
-                    <a asp-controller="ReservationRoom" asp-action="Create" class="btn btn-gradient mt-2">Go to Reservation</a>
+                    <p class="text-muted">Reserve rooms and check reservation status.</p>
+                    <a asp-controller="ReservationRoom" asp-action="Index" class="btn btn-gradient mt-2">Go to Reservation</a>
                 </div>
             </div>
         </div>
@@ -144,14 +144,14 @@
         <div class="col-md-4">
             <div class="card shadow-lg border-0 h-100" style="border-radius: 20px; overflow: hidden;">
                 <div class="position-relative">
-                    <img src="~/images/locker.png" class="card-img-top" alt="Locker Request"
+                    <img src="~/images/lockeradmin.png" class="card-img-top" alt="Locker Request"
                          style="height: 250px; object-fit: cover;">
                     <div class="overlay overlay-yellow"></div>
                     <h4 class="overlay-text text-center">Locker Request</h4>
                 </div>
                 <div class="card-body text-center p-4">
-                    <p class="text-muted">Apply for and manage student locker requests.</p>
-                    <a asp-controller="LockerRequest" asp-action="Create" class="btn btn-gradient mt-2">Go to Locker</a>
+                    <p class="text-muted">Apply for locker slot and view locker request status.</p>
+                    <a asp-controller="LockerRequest" asp-action="Index" class="btn btn-gradient mt-2">Go to Locker</a>
                 </div>
             </div>
         </div>

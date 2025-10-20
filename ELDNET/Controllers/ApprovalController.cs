@@ -119,11 +119,10 @@ namespace ELDNET.Controllers
             var s1 = entity.GetType().GetProperty("Approver1Status")?.GetValue(entity)?.ToString() ?? "Pending";
             var s2 = entity.GetType().GetProperty("Approver2Status")?.GetValue(entity)?.ToString() ?? "Pending";
             var s3 = entity.GetType().GetProperty("Approver3Status")?.GetValue(entity)?.ToString() ?? "Pending";
-            var s4 = entity.GetType().GetProperty("Approver4Status")?.GetValue(entity)?.ToString() ?? "Pending"; // For ReservationRoom
-            var s5 = entity.GetType().GetProperty("Approver5Status")?.GetValue(entity)?.ToString() ?? "Pending"; // For ReservationRoom
+            var s4 = entity.GetType().GetProperty("Approver4Status")?.GetValue(entity)?.ToString() ?? "Pending";
+            var s5 = entity.GetType().GetProperty("Approver5Status")?.GetValue(entity)?.ToString() ?? "Pending";
 
             var currentStatus = entity.GetType().GetProperty("Status")?.GetValue(entity)?.ToString() ?? "Pending";
-
             var finalDecision = "Pending";
 
             bool isGatePass = entity is GatePass;
@@ -142,19 +141,17 @@ namespace ELDNET.Controllers
             }
             else if (isReservationRoom)
             {
-                if (s1 == "Denied" || s2 == "Denied" || s3 == "Denied" || s4 == "Denied" || s5 == "Denied") finalDecision = "Denied";
-                else if (s1 == "Approved" && s2 == "Approved" && s3 == "Approved" && s4 == "Approved" && s5 == "Approved") finalDecision = "Approved";
+                if (s1 == "Denied" || s2 == "Denied" || s3 == "Denied" || s4 == "Denied" || s5 == "Denied")
+                    finalDecision = "Denied";
+                else if (s1 == "Approved" && s2 == "Approved" && s3 == "Approved" && s4 == "Approved" && s5 == "Approved")
+                    finalDecision = "Approved";
             }
 
-            // You might want to re-evaluate the "Changed" status logic here if needed.
-            // For now, if an explicit decision (Approved/Denied) is reached, that takes precedence.
-            // If it remains "Pending" AND currentStatus was "Changed", you could keep "Changed" or make it "Pending" for review.
-            // Example:
-            // if (finalDecision == "Pending" && currentStatus == "Changed")
-            // {
-            //     finalDecision = "Changed"; // Keep "Changed" if still pending review by approvers.
-            // }
-
+            // ✅ Treat "Changed" as "Pending" in all counting and display logic
+            if (currentStatus == "Changed" && finalDecision == "Pending")
+            {
+                finalDecision = "Pending";
+            }
 
             var finalProp = entity.GetType().GetProperty("FinalStatus");
             if (finalProp != null && finalProp.CanWrite)

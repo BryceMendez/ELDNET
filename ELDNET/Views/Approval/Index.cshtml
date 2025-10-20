@@ -34,6 +34,11 @@
         background: linear-gradient(45deg, #dc3545, #c82333);
     }
 
+    .bg-secondary-gradient { /* New gradient for "Changed" */
+        background: linear-gradient(45deg, #6c757d, #5a6268);
+        color: #fff; /* Ensure text is white for better contrast */
+    }
+
     /* Search/filter horizontal layout */
     .search-filter-card {
         padding: 0.75rem 1rem;
@@ -96,7 +101,8 @@
                             aria-selected="@(activeTab == "gatepass")">
                         <i class="bi bi-person-walking me-2"></i> Gate Pass
                         <span class="badge bg-primary-gradient ms-2 rounded-pill">
-                            @(Model.GatePasses?.Count(gp => gp.Status == "Pending") ?? 0)
+                            @((Model.GatePasses?.Count(gp => gp.Status == "Pending") ?? 0) +
+                                                        (Model.GatePasses?.Count(gp => gp.Status == "Changed") ?? 0) )
                         </span>
                     </button>
                 </li>
@@ -107,7 +113,8 @@
                             aria-selected="@(activeTab == "reservation")">
                         <i class="bi bi-calendar-check-fill me-2"></i> Reservations
                         <span class="badge bg-success-gradient ms-2 rounded-pill">
-                            @(Model.ActivityReservations?.Count(ar => ar.Status == "Pending") ?? 0)
+                            @((Model.ActivityReservations?.Count(ar => ar.Status == "Pending") ?? 0) +
+                                                        (Model.ActivityReservations?.Count(ar => ar.Status == "Changed") ?? 0) )
                         </span>
                     </button>
                 </li>
@@ -118,7 +125,8 @@
                             aria-selected="@(activeTab == "locker")">
                         <i class="bi bi-lock-fill me-2"></i> Locker Requests
                         <span class="badge bg-warning-gradient ms-2 rounded-pill text-dark">
-                            @(Model.LockerRequests?.Count(lr => lr.Status == "Pending") ?? 0)
+                            @((Model.LockerRequests?.Count(lr => lr.Status == "Pending") ?? 0) +
+                                                        (Model.LockerRequests?.Count(lr => lr.Status == "Changed") ?? 0) )
                         </span>
                     </button>
                 </li>
@@ -138,6 +146,7 @@
                             <option value="Pending">Pending</option>
                             <option value="Approved">Approved</option>
                             <option value="Denied">Denied</option>
+                            <option value="Changed">Changed</option> @* Added Changed to dropdown *@
                         </select>
                         <input type="text" id="gatePassNameSearch" class="form-control" placeholder="Search by name..." />
                         <button id="gatePassSearchBtn" class="btn btn-primary d-flex align-items-center gap-1">
@@ -151,6 +160,7 @@
                         <span class="badge bg-warning-subtle text-warning fs-6 py-2 px-3 shadow-sm">Pending: <span id="gatePassPendingCount">@Model.GatePasses?.Count(gp => gp.Status == "Pending")</span></span>
                         <span class="badge bg-success-subtle text-success fs-6 py-2 px-3 shadow-sm">Approved: <span id="gatePassApprovedCount">@Model.GatePasses?.Count(gp => gp.Status == "Approved")</span></span>
                         <span class="badge bg-danger-subtle text-danger fs-6 py-2 px-3 shadow-sm">Denied: <span id="gatePassDeniedCount">@Model.GatePasses?.Count(gp => gp.Status == "Denied")</span></span>
+                        <span class="badge bg-secondary-subtle text-secondary fs-6 py-2 px-3 shadow-sm">Changed: <span id="gatePassChangedCount">@Model.GatePasses?.Count(gp => gp.Status == "Changed")</span></span> @* Added Changed to summary *@
                     </div>
 
                     <!-- Table -->
@@ -159,6 +169,7 @@
                             <thead class="thead-gatepass">
                                 <tr>
                                     <th>Status</th>
+                                    <th>Role</th>
                                     <th>Name</th>
                                     <th>Department</th>
                                     <th>Course & Year</th>
@@ -170,16 +181,22 @@
                                 @foreach (var gp in Model.GatePasses)
                                 {
                                     <tr data-status="@gp.Status" data-name="@gp.Name">
-                                        <td><span class="badge rounded-pill fs-6 px-3 py-2 @(gp.Status == "Approved" ? "bg-success-gradient" : gp.Status == "Denied" ? "bg-danger-gradient" : "bg-warning-gradient text-dark")">@gp.Status</span></td>
-                                        <td>@gp.Name</td>
-                                        <td>@gp.Department</td>
-                                        <td>@gp.CourseYear</td>
-                                        <td>@gp.Date.ToString("yyyy-MM-dd")</td>
-                                        <td class="text-center">
-                                            <a asp-action="Details" asp-route-id="@gp.Id" asp-route-type="GatePass" class="btn btn-blue btn-sm px-3"><i class="bi bi-eye me-1"></i> Details</a>
-                                        </td>
-                                    </tr>
-                                }
+                                        <td>
+                                            <span class="badge rounded-pill fs-6 px-3 py-2
+                                                    @(gp.Status == "Approved" ? "bg-success-gradient" :
+                                                                                                                                                  gp.Status == "Denied" ? "bg-danger-gradient" :
+                                                                                                                                                  gp.Status == "Changed" ? "bg-secondary-gradient" : "bg-warning-gradient text-dark")">@gp.Status</span>
+                                    </td>
+                                    <td>@gp.Role</td>
+                                    <td>@gp.Name</td>
+                                    <td>@gp.Department</td>
+                                    <td>@gp.CourseYear</td>
+                                    <td>@gp.Date.ToString("yyyy-MM-dd")</td>
+                                    <td class="text-center">
+                                        <a asp-action="Details" asp-route-id="@gp.Id" asp-route-type="GatePass" class="btn btn-blue btn-sm px-3"><i class="bi bi-eye me-1"></i> Details</a>
+                                    </td>
+                                </tr>
+                                                                }
                             </tbody>
                         </table>
                     </div>
@@ -195,6 +212,7 @@
                             <option value="Pending">Pending</option>
                             <option value="Approved">Approved</option>
                             <option value="Denied">Denied</option>
+                            <option value="Changed">Changed</option> @* Added Changed to dropdown *@
                         </select>
                         <input type="text" id="reservationNameSearch" class="form-control" placeholder="Search by organization/activity..." />
                         <button id="reservationSearchBtn" class="btn btn-primary d-flex align-items-center gap-1">
@@ -207,6 +225,7 @@
                         <span class="badge bg-warning-subtle text-warning fs-6 py-2 px-3 shadow-sm">Pending: <span id="reservationPendingCount">@Model.ActivityReservations?.Count(ar => ar.Status == "Pending")</span></span>
                         <span class="badge bg-success-subtle text-success fs-6 py-2 px-3 shadow-sm">Approved: <span id="reservationApprovedCount">@Model.ActivityReservations?.Count(ar => ar.Status == "Approved")</span></span>
                         <span class="badge bg-danger-subtle text-danger fs-6 py-2 px-3 shadow-sm">Denied: <span id="reservationDeniedCount">@Model.ActivityReservations?.Count(ar => ar.Status == "Denied")</span></span>
+                        <span class="badge bg-secondary-subtle text-secondary fs-6 py-2 px-3 shadow-sm">Changed: <span id="reservationChangedCount">@Model.ActivityReservations?.Count(ar => ar.Status == "Changed")</span></span> @* Added Changed to summary *@
                     </div>
 
                     <div class="table-responsive">
@@ -217,6 +236,7 @@
                                     <th>Organization</th>
                                     <th>Activity Title</th>
                                     <th>Venue</th>
+                                    <th>Speaker</th>
                                     <th>Date</th>
                                     <th class="text-center">Actions</th>
                                 </tr>
@@ -225,16 +245,22 @@
                                 @foreach (var res in Model.ActivityReservations)
                                 {
                                     <tr data-status="@res.Status" data-name="@res.OrganizationName @res.ActivityTitle">
-                                        <td><span class="badge rounded-pill fs-6 px-3 py-2 @(res.Status == "Approved" ? "bg-success-gradient" : res.Status == "Denied" ? "bg-danger-gradient" : "bg-warning-gradient text-dark")">@res.Status</span></td>
-                                        <td>@res.OrganizationName</td>
-                                        <td>@res.ActivityTitle</td>
-                                        <td>@res.Venue</td>
-                                        <td>@res.ActivityDate.ToString("yyyy-MM-dd")</td>
-                                        <td class="text-center">
-                                            <a asp-action="Details" asp-route-id="@res.Id" asp-route-type="Reservation" class="btn btn-blue btn-sm px-3"><i class="bi bi-eye me-1"></i> Details</a>
-                                        </td>
-                                    </tr>
-                                }
+                                        <td>
+                                            <span class="badge rounded-pill fs-6 px-3 py-2
+                                                    @(res.Status == "Approved" ? "bg-success-gradient" :
+                                                                                                                                                  res.Status == "Denied" ? "bg-danger-gradient" :
+                                                                                                                                                  res.Status == "Changed" ? "bg-secondary-gradient" : "bg-warning-gradient text-dark")">@res.Status</span>
+                                    </td>
+                                    <td>@res.OrganizationName</td>
+                                    <td>@res.ActivityTitle</td>
+                                    <td>@res.Venue</td>
+                                    <td>@res.Speaker</td>
+                                    <td>@res.ActivityDate.ToString("yyyy-MM-dd")</td>
+                                    <td class="text-center">
+                                        <a asp-action="Details" asp-route-id="@res.Id" asp-route-type="Reservation" class="btn btn-blue btn-sm px-3"><i class="bi bi-eye me-1"></i> Details</a>
+                                    </td>
+                                </tr>
+                                                                }
                             </tbody>
                         </table>
                     </div>
@@ -250,6 +276,7 @@
                             <option value="Pending">Pending</option>
                             <option value="Approved">Approved</option>
                             <option value="Denied">Denied</option>
+                            <option value="Changed">Changed</option> @* Added Changed to dropdown *@
                         </select>
                         <input type="text" id="lockerNameSearch" class="form-control" placeholder="Search by name..." />
                         <button id="lockerSearchBtn" class="btn btn-primary d-flex align-items-center gap-1">
@@ -262,6 +289,7 @@
                         <span class="badge bg-warning-subtle text-warning fs-6 py-2 px-3 shadow-sm">Pending: <span id="lockerPendingCount">@Model.LockerRequests?.Count(lr => lr.Status == "Pending")</span></span>
                         <span class="badge bg-success-subtle text-success fs-6 py-2 px-3 shadow-sm">Approved: <span id="lockerApprovedCount">@Model.LockerRequests?.Count(lr => lr.Status == "Approved")</span></span>
                         <span class="badge bg-danger-subtle text-danger fs-6 py-2 px-3 shadow-sm">Denied: <span id="lockerDeniedCount">@Model.LockerRequests?.Count(lr => lr.Status == "Denied")</span></span>
+                        <span class="badge bg-secondary-subtle text-secondary fs-6 py-2 px-3 shadow-sm">Changed: <span id="lockerChangedCount">@Model.LockerRequests?.Count(lr => lr.Status == "Changed")</span></span> @* Added Changed to summary *@
                     </div>
 
                     <div class="table-responsive">
@@ -273,6 +301,7 @@
                                     <th>Locker Number</th>
                                     <th>Semester</th>
                                     <th>Contact</th>
+                                    <th>Accept Terms</th>
                                     <th class="text-center">Actions</th>
                                 </tr>
                             </thead>
@@ -280,16 +309,22 @@
                                 @foreach (var locker in Model.LockerRequests)
                                 {
                                     <tr data-status="@locker.Status" data-name="@locker.Name">
-                                        <td><span class="badge rounded-pill fs-6 px-3 py-2 @(locker.Status == "Approved" ? "bg-success-gradient" : locker.Status == "Denied" ? "bg-danger-gradient" : "bg-warning-gradient text-dark")">@locker.Status</span></td>
-                                        <td>@locker.Name</td>
-                                        <td>@locker.LockerNumber</td>
-                                        <td>@locker.Semester</td>
-                                        <td>@locker.ContactNumber</td>
-                                        <td class="text-center">
-                                            <a asp-action="Details" asp-route-id="@locker.Id" asp-route-type="Locker" class="btn btn-blue btn-sm px-3"><i class="bi bi-eye me-1"></i> Details</a>
-                                        </td>
-                                    </tr>
-                                }
+                                        <td>
+                                            <span class="badge rounded-pill fs-6 px-3 py-2
+                                                    @(locker.Status == "Approved" ? "bg-success-gradient" :
+                                                                                                                                                  locker.Status == "Denied" ? "bg-danger-gradient" :
+                                                                                                                                                  locker.Status == "Changed" ? "bg-secondary-gradient" : "bg-warning-gradient text-dark")">@locker.Status</span>
+                                    </td>
+                                    <td>@locker.Name</td>
+                                    <td>@locker.LockerNumber</td>
+                                    <td>@locker.Semester</td>
+                                    <td>@locker.ContactNumber</td>
+                                    <td>@locker.AcceptTerms</td>
+                                    <td class="text-center">
+                                        <a asp-action="Details" asp-route-id="@locker.Id" asp-route-type="Locker" class="btn btn-blue btn-sm px-3"><i class="bi bi-eye me-1"></i> Details</a>
+                                    </td>
+                                </tr>
+                                                                }
                             </tbody>
                         </table>
                     </div>
@@ -313,7 +348,7 @@
                     const searchText = nameInput.val().toLowerCase();
                     const selectedStatus = statusSelect.val();
 
-                    let total = 0, pending = 0, approved = 0, denied = 0;
+                    let total = 0, pending = 0, approved = 0, denied = 0, changed = 0; // Added changed count
 
                     rows.each(function () {
                         const row = $(this);
@@ -329,6 +364,7 @@
                             if (rowStatus === "Pending") pending++;
                             else if (rowStatus === "Approved") approved++;
                             else if (rowStatus === "Denied") denied++;
+                            else if (rowStatus === "Changed") changed++; // Increment changed count
                         } else row.hide();
                     });
 
@@ -337,11 +373,15 @@
                     parent.find('span[id$="PendingCount"]').text(pending);
                     parent.find('span[id$="ApprovedCount"]').text(approved);
                     parent.find('span[id$="DeniedCount"]').text(denied);
+                    parent.find('span[id$="ChangedCount"]').text(changed); // Update changed summary
                 }
 
                 nameInput.on('keyup', applyFilter);
                 statusSelect.on('change', applyFilter);
                 $(`#${tableId.replace('Table','')}SearchBtn`).on('click', applyFilter);
+
+                // Initial filter application in case of pre-selected tab or filters
+                applyFilter();
             }
 
             filterTable('gatePassTable', 'gatePassNameSearch', 'gatePassStatusFilter');

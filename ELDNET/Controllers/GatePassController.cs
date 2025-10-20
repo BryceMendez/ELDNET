@@ -275,7 +275,6 @@ namespace ELDNET.Controllers
             return View(gatePass);
         }
 
-        // POST: EDIT
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(GatePass obj)
@@ -294,18 +293,13 @@ namespace ELDNET.Controllers
             var originalGatePass = await _db.GatePasses.AsNoTracking().FirstOrDefaultAsync(gp => gp.Id == obj.Id);
             if (originalGatePass == null) return NotFound();
 
-            // --- THIS AUTHORIZATION LOGIC IS CORRECT ---
-            if (userRole == "Student" && originalGatePass.StudentId != userId)
+            // Authorization
+            if ((userRole == "Student" && originalGatePass.StudentId != userId) ||
+                (userRole == "Faculty" && originalGatePass.FacultyId != userId))
             {
                 TempData["error"] = "You are not authorized to edit this gate pass.";
                 return RedirectToAction(nameof(Index));
             }
-            else if (userRole == "Faculty" && originalGatePass.FacultyId != userId)
-            {
-                TempData["error"] = "You are not authorized to edit this gate pass.";
-                return RedirectToAction(nameof(Index));
-            }
-            // --- END OF CORRECT AUTHORIZATION LOGIC ---
 
             if (originalGatePass.FinalStatus == "Approved" || originalGatePass.Status == "Approved")
             {
@@ -313,7 +307,7 @@ namespace ELDNET.Controllers
                 return RedirectToAction(nameof(Details), new { id = obj.Id });
             }
 
-            // --- THIS PART IS CORRECT: Preserves original IDs and updates status ---
+            // Preserve non-editable fields
             obj.StudentId = originalGatePass.StudentId;
             obj.FacultyId = originalGatePass.FacultyId;
             obj.Name = originalGatePass.Name;
@@ -321,18 +315,20 @@ namespace ELDNET.Controllers
 
             obj.Status = "Changed";
             obj.FinalStatus = "Changed";
-
             obj.Approver1Status = "Pending";
             obj.Approver2Status = "Pending";
             obj.Approver3Status = "Pending";
-
             obj.Approver1Name = originalGatePass.Approver1Name;
             obj.Approver2Name = originalGatePass.Approver2Name;
             obj.Approver3Name = originalGatePass.Approver3Name;
-            // --- END OF CORRECT PART ---
 
-            // --- CHANGE HERE: No need to Remove ModelState for StudentId/FacultyId if they are nullable ---
-            // Keeping them removed for consistency with Create, as it's harmless.
+            // ✅ Skip validation for file inputs if no new files uploaded
+            if (obj.StudyLoadFile == null)
+                ModelState.Remove(nameof(obj.StudyLoadFile));
+            if (obj.RegistrationFile == null)
+                ModelState.Remove(nameof(obj.RegistrationFile));
+
+            // Remove automatically set fields
             ModelState.Remove(nameof(obj.StudentId));
             ModelState.Remove(nameof(obj.FacultyId));
             ModelState.Remove(nameof(obj.Name));
@@ -346,34 +342,20 @@ namespace ELDNET.Controllers
             ModelState.Remove(nameof(obj.Approver2Name));
             ModelState.Remove(nameof(obj.Approver3Name));
 
-
             if (ModelState.IsValid)
             {
                 string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
                 string userSpecificId = userRole == "Student" ? originalGatePass.StudentId : originalGatePass.FacultyId;
                 string userUploadsFolder = Path.Combine(uploadsFolder, "gatepass", userSpecificId ?? "unknown");
+                Directory.CreateDirectory(userUploadsFolder);
 
-                if (!Directory.Exists(userUploadsFolder))
-                    Directory.CreateDirectory(userUploadsFolder);
-
-                // Update Study Load file if uploaded
+                // ✅ Study Load file logic (keep old if not reuploaded)
                 if (obj.StudyLoadFile != null && obj.StudyLoadFile.Length > 0)
                 {
-                    if (!string.IsNullOrEmpty(originalGatePass.StudyLoadPath))
-                    {
-                        string oldFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", originalGatePass.StudyLoadPath.TrimStart('/'));
-                        if (System.IO.File.Exists(oldFilePath))
-                        {
-                            System.IO.File.Delete(oldFilePath);
-                        }
-                    }
-
                     string uniqueFileName = $"{Guid.NewGuid()}_{obj.StudyLoadFile.FileName}";
                     string filePath = Path.Combine(userUploadsFolder, uniqueFileName);
                     using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
                         await obj.StudyLoadFile.CopyToAsync(stream);
-                    }
                     obj.StudyLoadPath = $"/uploads/gatepass/{userSpecificId}/{uniqueFileName}";
                 }
                 else
@@ -381,24 +363,13 @@ namespace ELDNET.Controllers
                     obj.StudyLoadPath = originalGatePass.StudyLoadPath;
                 }
 
-                // Update Registration Form file if uploaded
+                // ✅ Registration Form file logic (keep old if not reuploaded)
                 if (obj.RegistrationFile != null && obj.RegistrationFile.Length > 0)
                 {
-                    if (!string.IsNullOrEmpty(originalGatePass.RegistrationPath))
-                    {
-                        string oldFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", originalGatePass.RegistrationPath.TrimStart('/'));
-                        if (System.IO.File.Exists(oldFilePath))
-                        {
-                            System.IO.File.Delete(oldFilePath);
-                        }
-                    }
-
                     string uniqueFileName = $"{Guid.NewGuid()}_{obj.RegistrationFile.FileName}";
                     string filePath = Path.Combine(userUploadsFolder, uniqueFileName);
                     using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
                         await obj.RegistrationFile.CopyToAsync(stream);
-                    }
                     obj.RegistrationPath = $"/uploads/gatepass/{userSpecificId}/{uniqueFileName}";
                 }
                 else
@@ -406,33 +377,23 @@ namespace ELDNET.Controllers
                     obj.RegistrationPath = originalGatePass.RegistrationPath;
                 }
 
-                if (string.IsNullOrEmpty(obj.StudyLoadPath))
-                {
-                    ModelState.AddModelError(nameof(obj.StudyLoadFile), "Study Load file is required.");
-                }
-                if (string.IsNullOrEmpty(obj.RegistrationPath))
-                {
-                    ModelState.AddModelError(nameof(obj.RegistrationFile), "Registration Form file is required.");
-                }
-
-                if (!ModelState.IsValid)
-                {
-                    return View(obj);
-                }
-
+                // ✅ Save
                 _db.GatePasses.Update(obj);
                 await _db.SaveChangesAsync();
-                TempData["success"] = "Gate Pass updated successfully. Status changed to 'Changed' - requires re-approval.";
+
+                TempData["success"] = "Gate Pass updated successfully. Status changed to 'Changed' for re-approval.";
                 return RedirectToAction(nameof(Index));
             }
-            // If model state is invalid due to other reasons, ensure session-derived values are re-assigned
+
+            // Repopulate user info if validation fails
             obj.Name = HttpContext.Session.GetString("FullName");
-            obj.StudentId = originalGatePass.StudentId; // Keep original for display
-            obj.FacultyId = originalGatePass.FacultyId; // Keep original for display
+            obj.StudentId = originalGatePass.StudentId;
+            obj.FacultyId = originalGatePass.FacultyId;
             obj.Date = originalGatePass.Date;
 
             return View(obj);
         }
+
 
         // GET: DETAILS
         public async Task<IActionResult> Details(int? id)

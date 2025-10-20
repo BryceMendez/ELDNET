@@ -46,6 +46,7 @@
                             "Approved" => "badge-modern badge-approved", // Green from gatepassdetails.css
                             "Pending" => "badge-modern badge-pending",  // This class will now be explicitly overridden below
                             "Denied" => "badge-modern badge-denied",    // Red from gatepassdetails.css
+                            "Changed" => "badge-modern badge-changed",    // Red from gatepassdetails.css
                             _ => "badge bg-secondary text-white" // Fallback for other statuses
                         };
 
@@ -122,20 +123,28 @@
         .badge-modern.badge-pending {
             background-color: #ffc107 !important; /* Yellow from gatepassdetails.css */
             color: #343a40 !important; /* Dark text for contrast */
-            border-radius: 30px !important;
+            border-radius: 10px !important;
         }
 
         .badge-modern.badge-approved {
             background-color: #28a745 !important; /* Yellow from gatepassdetails.css */
-            color: #343a40 !important; /* Dark text for contrast */
-            border-radius: 30px !important;
+            color: #fff !important; /* Dark text for contrast */
+            border-radius: 10px !important;
         }
 
         .badge-modern.badge-denied {
             background-color: #dc3545 !important; /* Yellow from gatepassdetails.css */
             color: #343a40 !important; /* Dark text for contrast */
-            border-radius: 30px !important;
+            border-radius: 10px !important;
         }
+
+        .badge-modern.badge-changed {
+            background-color: #686868 !important; /* Yellow from gatepassdetails.css */
+            color: #fff !important; 
+            border-radius: 10px !important;
+        }
+
+
 
         /* Existing styles for the centered notification */
         .center-notification {

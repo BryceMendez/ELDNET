@@ -352,7 +352,7 @@
 
                     rows.each(function () {
                         const row = $(this);
-                        const rowName = row.data('name').toLowerCase();
+                        const rowName = row.text().toLowerCase();
                         const rowStatus = row.data('status');
 
                         const nameMatch = rowName.includes(searchText);

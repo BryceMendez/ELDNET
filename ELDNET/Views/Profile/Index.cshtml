@@ -1,0 +1,171 @@
+﻿@model ELDNET.Models.ProfileViewModel
+
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<style>
+    /* Overall card container */
+    .profile-card-container {
+        max-width: 700px;
+        margin: 50px auto;
+        padding: 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        background-color: #f8f9fa;
+        overflow: hidden;
+    }
+
+    /* Top header section */
+    .profile-header {
+        text-align: center;
+        padding: 30px 20px;
+        background-color: #e9ecef;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+        .profile-header .profile-picture {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 2px solid #6c757d;
+            background-color: #adb5bd; /* Placeholder background if no image */
+            display: inline-flex; /* To center the icon if no image */
+            align-items: center;
+            justify-content: center;
+            font-size: 60px; /* Size for placeholder icon */
+            color: #f8f9fa;
+        }
+
+        .profile-header h2 {
+            margin-bottom: 5px;
+            color: #343a40;
+        }
+
+        .profile-header .user-role {
+            color: #6c757d;
+            font-size: 1rem;
+        }
+
+    /* Individual information sections */
+    .info-section {
+        background-color: #ffffff;
+        padding: 25px 30px;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    /* Ensure the last section's corners are rounded if only one section */
+    .profile-card-container > .info-section:last-of-type {
+        border-bottom: none;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+
+    .info-section-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        color: #495057;
+        font-size: 1.15rem;
+        font-weight: 600;
+    }
+
+        .info-section-header i {
+            margin-right: 10px;
+            color: #007bff;
+        }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Two columns */
+        gap: 15px 30px; /* Vertical and horizontal gap */
+    }
+
+    .info-item {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .info-item .label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+            font-weight: 500;
+        }
+
+        .info-item .value {
+            font-size: 0.95rem;
+            color: #343a40;
+            word-break: break-word;
+        }
+
+            .info-item .value.not-provided {
+                color: #adb5bd;
+                font-style: italic;
+            }
+
+    .profile-buttons {
+        padding: 20px 30px 30px;
+        text-align: center;
+        background-color: #ffffff; /* Match last section background */
+        border-top: 1px solid #e9ecef; /* Separator from content above */
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+
+        .profile-buttons .btn {
+            margin: 0 10px;
+            min-width: 150px;
+            padding: 10px 15px;
+            font-size: 0.95rem;
+        }
+
+    {
+        grid-template-columns: 1fr; /* Single column on small screens */
+    }
+
+    .profile-buttons .btn {
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
+    }
+</style>
+
+<div class="profile-card-container">
+    <div class="profile-header">
+        <img src="@Model.ProfilePictureUrl" class="profile-picture" alt="Profile Picture">
+
+        <h2>@Model.FullName</h2>
+        <p class="user-role">@Model.Role</p>
+    </div>
+
+    <div class="info-section">
+        <div class="info-section-header">
+            <i class="fas fa-user-alt"></i> Personal Information
+        </div>
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="label">ID</span>
+                <span class="value">
+                    @* Conditional display of ID based on Role *@@(Model.Role == "Student" || Model.Role == "Faculty" ? Model.UniqueId : Model.Id.ToString())
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="label">Email</span>
+                <span class="value">@Model.Email</span>
+            </div>
+        </div>
+    </div>
+    <div class="profile-buttons">
+        <a asp-action="Edit" class="btn btn-primary">
+            <i class="fas fa-edit"></i> Edit Profile
+        </a>
+        <a class="nav-link text-black px-2" asp-controller="Home" asp-action="Index">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+</div>

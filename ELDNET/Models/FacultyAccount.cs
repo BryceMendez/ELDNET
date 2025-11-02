@@ -17,5 +17,7 @@ namespace ELDNET.Models
 
         [Required]
         public string? PasswordHash { get; set; }
+
+        public string? ProfilePictureUrl { get; set; }
     }
 }

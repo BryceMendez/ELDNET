@@ -19,126 +19,95 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
-    <!-- 👇 Add this line to allow per-page custom CSS -->
     @await RenderSectionAsync("Styles", required: false)
 </head>
 
 <body class="bg-light d-flex flex-column min-vh-100">
 
-    <!-- Navbar (hidden only if ViewData["HideNav"] is true) -->
     @if (!(ViewData["HideNav"] as bool? ?? false))
     {
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm py-2" style="font-size: 0.9rem;">
-                <div class="container-fluid">
-                    <a class="navbar-brand fw-bold text-white d-flex align-items-center"
-                       asp-area="" asp-controller="AdminHome" asp-action="Index"
-                       style="font-size: 1.2rem; padding-left: 0.8rem;">
-                        <i class="bi bi-building me-3" style="font-size: 1.5rem;"></i>
-                        ELDNET
-                    </a>
+            <header>
+                <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm py-2" style="font-size: 0.9rem;">
+                    <div class="container-fluid">
+                        <a class="navbar-brand fw-bold text-white d-flex align-items-center"
+                           asp-area="" asp-controller="AdminHome" asp-action="Index"
+                           style="font-size: 1.2rem; padding-left: 0.8rem;">
+                            <i class="bi bi-building me-3" style="font-size: 1.5rem;"></i>
+                            ELDNET
+                        </a>
 
-                    <!-- Toggler (mobile menu) -->
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarNav" aria-controls="navbarNav"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarNav" aria-controls="navbarNav"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
 
-                    <!-- Nav Links -->
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav ms-auto">
-                            @if (Context.Session.GetString("UserRole") == "Admin")
-                            {
-                                <!-- Admin Navigation -->
-                                <li class="nav-item me-4">
-                                    <a class="nav-link text-white px-2" asp-controller="AdminHome" asp-action="Index">
-                                        <i class="bi bi-house-door" style="font-size: 0.8rem;"></i> Home
-                                    </a>
-                                </li>
-                                <li class="nav-item me-4">
-                                    <a class="nav-link text-white px-2" asp-controller="StudentAccounts" asp-action="Index">
-                                        <i class="bi bi-people" style="font-size: 0.8rem;"></i> Student Accounts
-                                    </a>
-                                </li>
-                                <li class="nav-item me-4">
-                                    <a class="nav-link text-white px-2" asp-controller="FacultyAccounts" asp-action="Index">
-                                        <i class="bi bi-person-badge" style="font-size: 0.8rem;"></i> Faculty Accounts
-                                    </a>
-                                </li>
-                                <li class="nav-item me-4">
-                                    <a class="nav-link text-white px-2" asp-controller="Approval" asp-action="Index">
-                                        <i class="bi bi-check-circle" style="font-size: 0.8rem;"></i> Approval
-                                    </a>
-                                </li>
-                            }
-                            else if (Context.Session.GetString("UserRole") == "Student")
-                            {
-                                <!-- Student Navigation -->
-                                <li class="nav-item me-4">
-                                    <a class="nav-link text-white px-2" asp-controller="Home" asp-action="Index">
-                                        <i class="bi bi-house-door" style="font-size: 0.8rem;"></i> Home
-                                    </a>
-                                </li>
-                                <li class="nav-item me-4">
-                                    <a class="nav-link text-white px-2" asp-controller="GatePass" asp-action="Index">
-                                        <i class="bi bi-door-open" style="font-size: 0.8rem;"></i> Gate Pass
-                                    </a>
-                                </li>
-                                <li class="nav-item me-4">
-                                    <a class="nav-link text-white px-2" asp-controller="ReservationRoom" asp-action="Index">
-                                        <i class="bi bi-calendar-event" style="font-size: 0.8rem;"></i> Reservation Room
-                                    </a>
-                                </li>
-                                <li class="nav-item me-4">
-                                    <a class="nav-link text-white px-2" asp-controller="LockerRequest" asp-action="Index">
-                                        <i class="bi bi-lock" style="font-size: 0.8rem;"></i> Locker Request
-                                    </a>
-                                </li>
-
-                                @if (Context.Session.GetString("FullName") != null)
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav ms-auto">
+                                @if (User.IsInRole("Admin")) // Use User.IsInRole() for claims-based roles
                                 {
-                                    <li class="nav-item me-4">
-                                        <span class="nav-link text-white px-2">
-                                            <i class="bi bi-person-circle" style="font-size: 0.8rem;"></i> @Context.Session.GetString("FullName")
-                                        </span>
-                                    </li>
+                                        <!-- Admin Navigation -->
+                                        <li class="nav-item me-4">
+                                            <a class="nav-link text-white px-2" asp-controller="AdminHome" asp-action="Index">
+                                                <i class="bi bi-house-door" style="font-size: 0.8rem;"></i> Home
+                                            </a>
+                                        </li>
+                                        <li class="nav-item me-4">
+                                            <a class="nav-link text-white px-2" asp-controller="StudentAccounts" asp-action="Index">
+                                                <i class="bi bi-people" style="font-size: 0.8rem;"></i> Student Accounts
+                                            </a>
+                                        </li>
+                                        <li class="nav-item me-4">
+                                            <a class="nav-link text-white px-2" asp-controller="FacultyAccounts" asp-action="Index">
+                                                <i class="bi bi-person-badge" style="font-size: 0.8rem;"></i> Faculty Accounts
+                                            </a>
+                                        </li>
+                                        <li class="nav-item me-4">
+                                            <a class="nav-link text-white px-2" asp-controller="Approval" asp-action="Index">
+                                                <i class="bi bi-check-circle" style="font-size: 0.8rem;"></i> Approval
+                                            </a>
+                                        </li>
                                 }
-                            }
-                            else if (Context.Session.GetString("UserRole") == "Faculty")
-                            {
-                                <!-- Faculty Navigation -->
-                                <li class="nav-item me-4">
-                                    <a class="nav-link text-white px-2" asp-controller="Home" asp-action="Index">
-                                        <i class="bi bi-house-door" style="font-size: 0.8rem;"></i> Home
-                                    </a>
-                                </li>
-                                <li class="nav-item me-4">
-                                    <a class="nav-link text-white px-2" asp-controller="GatePass" asp-action="Index">
-                                        <i class="bi bi-door-open" style="font-size: 0.8rem;"></i> Gate Pass
-                                    </a>
-                                </li>
-                                <li class="nav-item me-4">
-                                    <a class="nav-link text-white px-2" asp-controller="ReservationRoom" asp-action="Index">
-                                        <i class="bi bi-calendar-event" style="font-size: 0.8rem;"></i> Reservation Room
-                                    </a>
-                                </li>
-                                <li class="nav-item me-4">
-                                    <a class="nav-link text-white px-2" asp-controller="LockerRequest" asp-action="Index">
-                                        <i class="bi bi-lock" style="font-size: 0.8rem;"></i> Locker Request
-                                    </a>
-                                </li>
-
-                                @if (Context.Session.GetString("FullName") != null)
+                                @* Use User.IsInRole() for claims-based roles ***********@
+                                else if (User.IsInRole("Student") || User.IsInRole("Faculty"))
                                 {
-                                    <li class="nav-item me-4">
-                                        <span class="nav-link text-white px-2">
-                                            <i class="bi bi-person-circle" style="font-size: 0.8rem;"></i> @Context.Session.GetString("FullName")
-                                        </span>
-                                    </li>
-                                }
-                            }
+                                        <!-- Common Navigation for Students and Faculty -->
+                                        <li class="nav-item me-4">
+                                            <a class="nav-link text-white px-2" asp-controller="Home" asp-action="Index">
+                                                <i class="bi bi-house-door" style="font-size: 0.8rem;"></i> Home
+                                            </a>
+                                        </li>
+                                        <li class="nav-item me-4">
+                                            <a class="nav-link text-white px-2" asp-controller="GatePass" asp-action="Index">
+                                                <i class="bi bi-door-open" style="font-size: 0.8rem;"></i> Gate Pass
+                                            </a>
+                                        </li>
+                                        <li class="nav-item me-4">
+                                            <a class="nav-link text-white px-2" asp-controller="ReservationRoom" asp-action="Index">
+                                                <i class="bi bi-calendar-event" style="font-size: 0.8rem;"></i> Reservation Room
+                                            </a>
+                                        </li>
+                                        <li class="nav-item me-4">
+                                            <a class="nav-link text-white px-2" asp-controller="LockerRequest" asp-action="Index">
+                                                <i class="bi bi-lock" style="font-size: 0.8rem;"></i> Locker Request
+                                            </a>
+                                        </li>
 
+                                        @* --- MODIFIED SECTION START --- *@
+                                        @* Check if user is authenticated at all for the profile link *@
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                                <li class="nav-item me-4">
+                                                    <a class="nav-link text-white px-2" asp-controller="Profile" asp-action="Index">
+                                                        <i class="bi bi-person-circle" style="font-size: 0.8rem;"></i> My Profile
+                                                        @* Optionally display full name from claims: @User.FindFirst(ClaimTypes.Name)?.Value *@
+                                                    </a>
+                                                </li>
+                                        }
+                                        @* --- MODIFIED SECTION END --- *@
+                                }
+
+                                @* Check if user is authenticated at all for the logout button *@
                             @if (Context.Session.GetString("UserId") != null)
                             {
                                 <li class="nav-item">
@@ -149,37 +118,37 @@
                                     </form>
                                 </li>
                             }
-                        </ul>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            </nav>
-        </header>
+                </nav>
+            </header>
     }
 
     <!-- Main Content -->
     @if (ViewData["FullScreen"] as bool? ?? false)
     {
-        <div class="flex-grow-1">
-            @RenderBody()
-        </div>
+            <div class="flex-grow-1">
+                @RenderBody()
+            </div>
     }
     else
     {
-        <div class="container my-4 flex-grow-1">
-            <main role="main" class="pb-4">
-                @RenderBody()
-            </main>
-        </div>
+            <div class="container my-4 flex-grow-1">
+                <main role="main" class="pb-4">
+                    @RenderBody()
+                </main>
+            </div>
     }
 
     <!-- Footer -->
     @if (!(ViewData["HideFooter"] as bool? ?? false))
     {
-        <footer class="text-dark text-center py-3 mt-auto" style="background-color: rgba(211, 211, 211, 0.7);">
-            <div class="container">
-                <small>&copy; @DateTime.Now.Year - ELDNET | All Rights Reserved</small>
-            </div>
-        </footer>
+            <footer class="text-dark text-center py-3 mt-auto" style="background-color: rgba(211, 211, 211, 0.7);">
+                <div class="container">
+                    <small>&copy; @DateTime.Now.Year - ELDNET | All Rights Reserved</small>
+                </div>
+            </footer>
     }
 
     <!-- Scripts -->

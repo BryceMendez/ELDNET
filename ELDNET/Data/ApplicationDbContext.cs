@@ -23,5 +23,6 @@ namespace ELDNET.Data
 
         public DbSet<Admin> Admins { get; set; }
 
+
     }
 }

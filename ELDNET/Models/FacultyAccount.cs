@@ -5,19 +5,18 @@ namespace ELDNET.Models
     public class FacultyAccount
     {
         public int Id { get; set; }
-
         [Required]
-        public string? FacultyId { get; set; }  // e.g., fac-1001
-
+        public string? FacultyId { get; set; }
         [Required]
         public string? FullName { get; set; }
-
         [Required, EmailAddress]
         public string? Email { get; set; }
-
         [Required]
         public string? PasswordHash { get; set; }
-
+        public string? Gender { get; set; }
+        public string? Course { get; set; }
+        public string? Section { get; set; }
+        public string? PhoneNumber { get; set; }
         public string? ProfilePictureUrl { get; set; }
     }
 }

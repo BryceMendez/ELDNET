@@ -1,59 +1,183 @@
 ﻿@model ELDNET.Models.FacultyAccount
-
 @{
-    ViewData["Title"] = "Faculty Account Details";
+    ViewData["Title"] = "Faculty Profile";
 }
 
-<div class="container py-4 animate__animated animate__fadeIn">
-    <div class="custom-card shadow-lg border-0">
-        <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #007FFF);">
-            <h2 class="mb-2 fw-bold"><i class="bi bi-person-badge-fill me-2"></i>Faculty Account Details</h2>
-            <p class="mb-0 text-white-50">Comprehensive information about this faculty account.</p>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<link rel="stylesheet" href="~/css/FacultyAccounts/Details.css" />
+
+<div class="page-wrapper animate__animated animate__fadeIn">
+    <div class="top-nav">
+        <a asp-action="Index" class="btn-back">
+            <i class="bi bi-arrow-left-circle-fill fs-5"></i>
+            Back to Faculty Directory
+        </a>
+        <div class="text-muted fw-medium small">
+            <i class="bi bi-clock-history me-1"></i>
+            Account Status: <span class="text-success">Verified</span>
+        </div>
+    </div>
+
+    <header class="profile-hero">
+        <div class="hero-avatar-wrapper">
+            <img src="@(string.IsNullOrEmpty(Model.ProfilePictureUrl) ? "/images/defaultprofile.jpg" : Model.ProfilePictureUrl)"
+                 class="hero-avatar" alt="Faculty Photo">
         </div>
 
-        <div class="card-body p-5">
-            <div class="row g-5">
-                <!-- Faculty Information Section -->
-                <div class="col-lg-6 border-end-lg pe-lg-5">
-                    <h5 class="text-primary mb-4 pb-2 border-bottom border-primary-subtle">
-                        <i class="bi bi-person-lines-fill me-2"></i>Faculty Information
-                    </h5>
-                    <dl class="row detail-list-modern">
-                        <dt class="col-sm-4">Faculty ID</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Model.FacultyId</dd>
+        <div class="hero-info">
+            <h1>@(string.IsNullOrWhiteSpace(Model.FullName) ? "Faculty Name Not Set" : Model.FullName)</h1>
+            <p class="text-muted mb-0 fw-medium">
+                <i class="bi bi-briefcase-fill text-primary me-2"></i>
+                @if (string.IsNullOrWhiteSpace(Model.Course))
+                {
+                    <span class="text-not-set">Department not set</span>
+                }
+                else
+                {
+                    <span>@Model.Course Faculty</span>
+                }
+            </p>
+            <div class="mt-3 d-flex gap-2">
+                <span class="badge-soft badge-faculty">ID: @(string.IsNullOrWhiteSpace(Model.FacultyId) ? "N/A" : Model.FacultyId)</span>
+                <span class="badge-soft bg-light text-dark border">Academic Year 2024-2025</span>
+            </div>
+        </div>
+    </header>
 
-                        <dt class="col-sm-4">Full Name</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Model.FullName</dd>
+    <div class="info-grid">
+        <div class="content-card">
+            <h5 class="card-title">
+                <i class="bi bi-person-badge-fill"></i>
+                Professional Credentials
+            </h5>
 
-                        <dt class="col-sm-4">Email</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Model.Email</dd>
-                    </dl>
+            <div class="detail-item">
+                <div class="detail-label">Faculty ID</div>
+                <div class="detail-value text-primary">
+                    @if (string.IsNullOrWhiteSpace(Model.FacultyId))
+                    {
+                        <span class="text-not-set">not set</span>
+                    }
+                    else
+                    {
+                        @Model.FacultyId
+                    }
                 </div>
+            </div>
 
-                <!-- Account Information Section -->
-                <div class="col-lg-6 ps-lg-5">
-                    <h5 class="text-success mb-4 pb-2 border-bottom border-success-subtle">
-                        <i class="bi bi-key-fill me-2"></i>Account Information
-                    </h5>
-                    <dl class="row detail-list-modern">
-                        <dt class="col-sm-4">Account ID</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Model.Id</dd>
-
-                        <dt class="col-sm-4">Status</dt>
-                        <dd class="col-sm-8">
-                            <span class="badge bg-success px-3 py-2 rounded-pill">Active</span>
-                            @* Optional: Replace with dynamic status later *@
-                        </dd>
-                    </dl>
+            <div class="detail-item">
+                <div class="detail-label">Official Email</div>
+                <div class="detail-value">
+                    @if (string.IsNullOrWhiteSpace(Model.Email))
+                    {
+                        <span class="text-not-set">not set</span>
+                    }
+                    else
+                    {
+                        @Model.Email
+                    }
                 </div>
+            </div>
 
-                <!-- Action Buttons -->
-                <div class="col-12 text-center pt-5 border-top">
-                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg rounded-pill px-4" style="min-width: 160px;">
-                        <i class="bi bi-arrow-left me-2"></i>Back to List
-                    </a>
+            <div class="detail-item">
+                <div class="detail-label">Mobile Number</div>
+                <div class="detail-value">
+                    @if (string.IsNullOrWhiteSpace(Model.PhoneNumber))
+                    {
+                        <span class="text-not-set">not set</span>
+                    }
+                    else
+                    {
+                        @Model.PhoneNumber
+                    }
                 </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Gender</div>
+                <div class="detail-value">
+                    @if (string.IsNullOrWhiteSpace(Model.Gender))
+                    {
+                        <span class="text-not-set">not set</span>
+                    }
+                    else
+                    {
+                        @Model.Gender
+                    }
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Department</div>
+                <div class="detail-value">
+                    @if (string.IsNullOrWhiteSpace(Model.Course))
+                    {
+                        <span class="text-not-set">not set</span>
+                    }
+                    else
+                    {
+                        @Model.Course
+                    }
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-label">Handling Section</div>
+                <div class="detail-value">
+                    @if (string.IsNullOrWhiteSpace(Model.Section))
+                    {
+                        <span class="text-not-set">not set</span>
+                    }
+                    else
+                    {
+                        @Model.Section
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-col">
+            <div class="stat-widget">
+                <div class="small opacity-75 mb-1">System User UID</div>
+                <div class="h3 fw-bold mb-3"><span class="id-tag">#@Model.Id</span></div>
+                <div class="d-flex align-items-center gap-2 small">
+                    <i class="bi bi-shield-check-fill"></i>
+                    <span>Faculty Role Verified</span>
+                </div>
+            </div>
+
+            <div class="content-card admin-note-card">
+                <h5 class="card-title" style="font-size: 1rem;">
+                    <i class="bi bi-info-circle-fill"></i>
+                    HR Administration Note
+                </h5>
+                <p class="small text-muted mb-0 leading-relaxed">
+                    This faculty profile is synced with the Human Resources Information System (HRIS).
+                    Updates to employment status or department must be requested through the Dean's office.
+                </p>
+                <hr class="my-4" style="opacity: 0.08;">
+                <button class="btn btn-sm btn-light w-100 fw-bold py-2 border">
+                    <i class="bi bi-printer-fill me-2"></i> Print Record
+                </button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelectorAll('.detail-item').forEach((item, index) => {
+        item.style.animation = `fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards ${index * 0.08}s`;
+        item.style.opacity = '0';
+    });
+
+    const styleSheet = document.createElement('style');
+    styleSheet.innerHTML = `
+        @@keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    `;
+    document.head.appendChild(styleSheet);
+</script>

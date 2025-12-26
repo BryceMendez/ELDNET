@@ -1,138 +1,224 @@
 ﻿@model ELDNET.Models.LockerRequest
 
+@functions {
+    public string GetStatusColorClass(string status)
+    {
+        return status switch
+        {
+            "Approved" => "text-success",
+            "Denied" => "text-danger",
+            _ => "text-dark"
+        };
+    }
+
+    public string GetStatusIcon(string status)
+    {
+        return status switch
+        {
+            "Approved" => "<i class='bi bi-check-circle-fill text-success fs-2'></i>",
+            "Denied" => "<i class='bi bi-x-circle-fill text-danger fs-2'></i>",
+            _ => "<i class='bi bi-hourglass-split text-warning fs-2'></i>"
+        };
+    }
+
+    public string GetStatusBadge(string status)
+    {
+        return status switch
+        {
+            "Approved" => "<span class='badge bg-success w-100 py-2 rounded-pill'>Approved</span>",
+            "Denied" => "<span class='badge bg-danger w-100 py-2 rounded-pill'>Denied</span>",
+            _ => "<span class='badge bg-warning text-dark w-100 py-2 rounded-pill'>Pending Review</span>"
+        };
+    }
+}
+
 @{
     ViewData["Title"] = "Locker Request Details";
 }
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/LockerRequest/Details.css" asp-append-version="true" />
+}
+
 <div class="container py-4 animate__animated animate__fadeIn">
-    <div class="custom-card shadow-lg border-0">
-        <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #03AC13, #028910);">
-            <h2 class="mb-2 fw-bold"><i class="bi bi-person-lock me-2"></i>Locker Request Details</h2>
-            <p class="mb-0 text-white-50">Comprehensive information for this locker request.</p>
+    <div class="custom-card shadow-lg border-0 bg-white rounded-4 overflow-hidden">
+
+        <div class="card-header text-dark text-center py-4" style="background: linear-gradient(45deg, #FFBF00, #FFA500);">
+            <div class="d-flex justify-content-between align-items-center px-lg-4 px-2">
+                <div class="text-start">
+                    <h2 class="mb-0 fw-bold"><i class="bi bi-person-lock me-2"></i>Locker Request Details</h2>
+                    <p class="mb-0 text-dark-50 small">Reference ID: #@Model.Id | Applied on: @Model.Date.ToString("MMMM dd, yyyy")</p>
+                </div>
+                <div class="status-badge-container">
+                    <span class="badge rounded-pill px-4 py-2 bg-white text-dark shadow-sm">
+                        Current Status: <strong class="@GetStatusColorClass(Model.Status)">@Model.Status.ToUpper()</strong>
+                    </span>
+                </div>
+            </div>
         </div>
-        <div class="card-body p-5">
-            <div class="row g-5">
-                <!-- Requestor Information Section -->
-                <div class="col-lg-6 border-end-lg pe-lg-5">
-                    <h5 class="text-green mb-4 pb-2 border-bottom border-green-subtle">
-                        <i class="bi bi-person-circle me-2"></i>Requestor Information
-                    </h5>
-                    <dl class="row detail-list-modern">
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Name)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Name)</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.IdNumber)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.IdNumber)</dd>
+        <div class="card-body p-lg-5 p-4">
+            <div class="row g-4 align-items-stretch">
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ContactNumber)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.ContactNumber)</dd>
+                <div class="col-lg-6">
+                    <h5 class="section-title text-secondary pb-2 border-bottom mb-3"><i class="bi bi-person-badge me-2"></i>Requestor Information</h5>
+                    <div class="info-grid p-4 rounded-3 bg-light border h-100">
+                        <dl class="row mb-0">
+                            <dt class="col-sm-5 text-muted">Full Name</dt>
+                            <dd class="col-sm-7 fw-bold">@Model.Name</dd>
 
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Semester)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Semester)</dd>
-                    </dl>
+                            <dt class="col-sm-5 text-muted">ID Number</dt>
+                            <dd class="col-sm-7 fw-bold text-primary">@Model.IdNumber</dd>
+
+                            <dt class="col-sm-5 text-muted">Contact No.</dt>
+                            <dd class="col-sm-7">@Model.ContactNumber</dd>
+
+                            <dt class="col-sm-5 text-muted">Semester</dt>
+                            <dd class="col-sm-7">@Model.Semester</dd>
+
+                            <dt class="col-sm-5 text-muted">Identification</dt>
+                            <dd class="col-sm-7">
+                                @if (!string.IsNullOrEmpty(Model.StudentId))
+                                {
+                                    <span class="me-2">Student ID: @Model.StudentId</span>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.FacultyId))
+                                {
+                                    <span>Faculty ID: @Model.FacultyId</span>
+                                }
+                            </dd>
+                        </dl>
+                    </div>
                 </div>
 
-                <!-- Locker & Document Information Section -->
-                <div class="col-lg-6 ps-lg-5">
-                    <h5 class="text-dark-green mb-4 pb-2 border-bottom border-dark-green-subtle">
-                        <i class="bi bi-key me-2"></i>Locker Information
-                    </h5>
-                    <dl class="row detail-list-modern">
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.LockerNumber)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.LockerNumber)</dd>
-                    </dl>
-
-                    <h5 class="text-accent-green mt-5 mb-4 pb-2 border-bottom border-accent-green-subtle">
-                        <i class="bi bi-file-earmark-text me-2"></i>Uploaded Files
-                    </h5>
-                    <dl class="row detail-list-modern">
-                        <dt class="col-sm-4">Study Load File:</dt>
-                        <dd class="col-sm-8">
-                            @if (!string.IsNullOrEmpty(Model.StudyLoadPath))
-                            {
-                                <a href="@Url.Content(Model.StudyLoadPath)" target="_blank" class="text-accent-green fw-bold text-decoration-none">
-                                    <i class="bi bi-file-earmark-arrow-down me-1"></i> View Study Load
-                                </a>
-                            }
-                            else
-                            {
-                                <span class="text-muted fst-italic">No file uploaded</span>
-                            }
-                        </dd>
-
-                        <dt class="col-sm-4">Registration Form:</dt>
-                        <dd class="col-sm-8">
-                            @if (!string.IsNullOrEmpty(Model.RegistrationPath))
-                            {
-                                <a href="@Url.Content(Model.RegistrationPath)" target="_blank" class="text-accent-green fw-bold text-decoration-none">
-                                    <i class="bi bi-file-earmark-arrow-down me-1"></i> View Registration Form
-                                </a>
-                            }
-                            else
-                            {
-                                <span class="text-muted fst-italic">No file uploaded</span>
-                            }
-                        </dd>
-
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.AcceptTerms):</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.AcceptTerms)</dd>
-                    </dl>
+                <div class="col-lg-6">
+                    <h5 class="section-title text-secondary pb-2 border-bottom mb-3"><i class="bi bi-key-fill me-2"></i>Locker Details</h5>
+                    <div class="info-grid p-4 rounded-3 bg-light border h-100 d-flex flex-column justify-content-center text-center">
+                        <span class="text-muted d-block small text-uppercase fw-bold mb-2">Requested Locker Slot</span>
+                        <h1 class="display-4 fw-bold text-warning mb-2">@Model.LockerNumber</h1>
+                        <p class="text-muted small mb-0">
+                            Terms Accepted:
+                            <i class="bi @(Model.AcceptTerms ? "bi-check-circle-fill text-success" : "bi-x-circle-fill text-danger")"></i>
+                        </p>
+                    </div>
                 </div>
+            </div>
 
-                <!-- Action Buttons -->
-                <div class="col-12 text-center pt-5 border-top">
-                    <a href="@(Model.Status == "Approved" ? "javascript:void(0)" : Url.Action("Edit", new { id = Model.Id }))"
-                       class="btn-gradient btn-lg me-3 animate__animated animate__pulse animate__infinite edit-btn"
-                       data-status="@Model.Status"
-                       style="min-width: 150px; background: linear-gradient(45deg, #03AC13, #028910);">
-                        <i class="bi bi-pencil-square me-2"></i>Edit
-                    </a>
-                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
-                        <i class="bi bi-arrow-left me-2"></i>Back to List
-                    </a>
+            <div class="col-12 mt-5 pt-2">
+                <h5 class="section-title text-secondary pb-2 border-bottom mb-3">
+                    <i class="bi bi-file-earmark-pdf me-2"></i>Attachments
+                </h5>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        @if (!string.IsNullOrEmpty(Model.StudyLoadPath))
+                        {
+                            <a href="@Url.Content(Model.StudyLoadPath)" target="_blank" class="attachment-link-card">
+                                <div class="attachment-icon-wrapper">
+                                    <i class="bi bi-file-earmark-text-fill"></i>
+                                </div>
+                                <div class="attachment-info">
+                                    <span class="attachment-label">Study Load</span>
+                                    <span class="attachment-action text-success">View Document <i class="bi bi-box-arrow-up-right ms-1"></i></span>
+                                </div>
+                            </a>
+                        }
+                        else
+                        {
+                            <div class="attachment-link-card missing">
+                                <div class="attachment-icon-wrapper">
+                                    <i class="bi bi-file-earmark-x"></i>
+                                </div>
+                                <div class="attachment-info">
+                                    <span class="attachment-label">Study Load</span>
+                                    <span class="attachment-action text-danger">Missing File</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="col-md-6">
+                        @if (!string.IsNullOrEmpty(Model.RegistrationPath))
+                        {
+                            <a href="@Url.Content(Model.RegistrationPath)" target="_blank" class="attachment-link-card">
+                                <div class="attachment-icon-wrapper">
+                                    <i class="bi bi-card-checklist"></i>
+                                </div>
+                                <div class="attachment-info">
+                                    <span class="attachment-label">Registration Form</span>
+                                    <span class="attachment-action text-success">View Document <i class="bi bi-box-arrow-up-right ms-1"></i></span>
+                                </div>
+                            </a>
+                        }
+                        else
+                        {
+                            <div class="attachment-link-card missing">
+                                <div class="attachment-icon-wrapper">
+                                    <i class="bi bi-file-earmark-x"></i>
+                                </div>
+                                <div class="attachment-info">
+                                    <span class="attachment-label">Registration Form</span>
+                                    <span class="attachment-action text-danger">Missing File</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </div>
+            </div>
+
+            <div class="col-12 mt-5">
+                <h4 class="text-center mb-4 fw-bold"><i class="bi bi-diagram-3-fill me-2"></i>Approval Workflow Tracker</h4>
+                <div class="row justify-content-center">
+                    <div class="col-md-5">
+                        <div class="card h-100 border shadow-sm text-center p-4 rounded-4">
+                            <div class="mb-2">@Html.Raw(GetStatusIcon(Model.Approver1Status))</div>
+                            <h6 class="fw-bold mb-1">@Model.Approver1Name</h6>
+                            <p class="text-muted small mb-3">Office of Student Development (OSD)</p>
+                            @Html.Raw(GetStatusBadge(Model.Approver1Status))
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mt-5">
+                <div class="p-4 rounded-4 @(Model.FinalStatus == "Approved" ? "bg-success-subtle border-success" : (Model.FinalStatus == "Denied" ? "bg-danger-subtle border-danger" : "bg-light border")) border text-center">
+                    <p class="mb-1 text-muted text-uppercase fw-bold small">Final Evaluation Result</p>
+                    <h2 class="fw-bold @(Model.FinalStatus == "Approved" ? "text-success" : (Model.FinalStatus == "Denied" ? "text-danger" : "text-dark"))">
+                        @Model.FinalStatus
+                    </h2>
+
+                    @if (Model.FinalStatus == "Denied" && !string.IsNullOrEmpty(Model.DenialReasonLocker))
+                    {
+                        <div class="mt-3 pt-3 border-top border-danger-subtle">
+                            <h6 class="text-danger fw-bold"><i class="bi bi-exclamation-octagon-fill me-2"></i>Reason for Denial:</h6>
+                            <p class="mb-0 text-dark">@Model.DenialReasonLocker</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-12 text-center pt-5 mt-4 border-top">
+                <a href="@(Model.Status == "Approved" ? "javascript:void(0)" : Url.Action("Edit", new { id = Model.Id }))"
+                   class="btn btn-success btn-lg px-5 me-2 shadow edit-btn"
+                   data-status="@Model.Status">
+                    <i class="bi bi-pencil-square me-2"></i>Edit Request
+                </a>
+                <a asp-action="Index" class="btn btn-outline-secondary btn-lg px-5 shadow-sm">
+                    <i class="bi bi-arrow-left me-2"></i>Back to List
+                </a>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Centered Notification -->
-<div id="centerNotification" class="center-notification shadow-lg animate__animated animate__fadeIn" style="display:none;">
-    <div class="notification-content text-center p-4 rounded">
-        <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 2rem;"></i>
-        <h5 class="mt-2 fw-bold">Cannot Edit Locker Request</h5>
-        <p class="mb-0">This locker request is already <span class="fw-semibold">Approved</span> and cannot be edited.</p>
-        <button id="closeNotification" class="btn btn-outline-secondary mt-3 px-4">OK</button>
+<div id="centerNotification" class="center-notification shadow-lg animate__animated animate__zoomIn" style="display:none;">
+    <div class="notification-content text-center p-4 rounded-4 bg-white border">
+        <i class="bi bi-shield-lock-fill text-warning" style="font-size: 3rem;"></i>
+        <h4 class="mt-2 fw-bold">Editing Disabled</h4>
+        <p class="mb-0">This locker request is already <span class="badge bg-success">Approved</span>.</p>
+        <p class="text-muted small">You cannot modify records that have been approved by the OSD Director.</p>
+        <button id="closeNotification" class="btn btn-warning text-dark fw-bold mt-3 px-5 rounded-pill shadow-sm">Close</button>
     </div>
 </div>
-
-@section Styles {
-    <style>
-        .center-notification {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1050;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 1rem;
-            padding: 1rem 2rem;
-            min-width: 320px;
-            max-width: 500px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-        }
-
-            .center-notification .notification-content {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-
-        .edit-btn {
-            cursor: pointer;
-        }
-    </style>
-}
 
 @section Scripts {
     <script>
@@ -140,18 +226,15 @@
             const editBtn = document.querySelector(".edit-btn");
             const notification = document.getElementById("centerNotification");
             const closeBtn = document.getElementById("closeNotification");
-
-            editBtn.addEventListener("click", function (e) {
-                const status = editBtn.getAttribute("data-status");
-                if (status === "Approved") {
-                    e.preventDefault(); // Prevent navigation
-                    notification.style.display = "block";
-                }
-            });
-
-            closeBtn.addEventListener("click", function () {
-                notification.style.display = "none";
-            });
+            if (editBtn) {
+                editBtn.addEventListener("click", function (e) {
+                    if (editBtn.getAttribute("data-status") === "Approved") {
+                        e.preventDefault();
+                        notification.style.display = "block";
+                    }
+                });
+            }
+            if (closeBtn) closeBtn.addEventListener("click", () => notification.style.display = "none");
         });
     </script>
 }

@@ -1,0 +1,42 @@
+﻿.edit-card {
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.edit-header-blue {
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+}
+
+.text-blue-primary {
+    color: #0d6efd;
+}
+
+.border-blue-primary-subtle {
+    border-color: #cfe2ff !important;
+}
+
+.text-blue-secondary {
+    color: #6c757d;
+}
+
+.border-blue-secondary-subtle {
+    border-color: #e2e3e5 !important;
+}
+
+.text-blue-tertiary {
+    color: #0dcaf0;
+}
+
+.border-blue-tertiary-subtle {
+    border-color: #cff4fc !important;
+}
+
+.btn-custom-width {
+    min-width: 140px;
+}
+
+@media (min-width: 992px) {
+    .border-end-lg {
+        border-right: 1px solid #dee2e6 !important;
+    }
+}

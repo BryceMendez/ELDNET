@@ -3,313 +3,128 @@
     ViewData["Title"] = "Admin Dashboard";
 }
 
-<style>
-    /* Card Base */
-    .custom-card {
-        border: none;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-        height: 380px;
-        transition: transform 0.3s ease-in-out;
-        position: relative;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<link rel="stylesheet" href="~/css/AdminHome.css" asp-append-version="true">
 
-        .custom-card:hover {
-            transform: scale(1.03);
-        }
+<div class="dashboard-container">
+    @foreach (var dashboardItem in Model)
+    {
+        <div class="page-header-centered">
+            <h1 class="page-title">Admin <span class="text-gradient">Dashboard</span></h1>
+            <p class="page-description">
+                Monitor real-time requests and manage institutional access.
+            </p>
+        </div>
 
-    /* Top Image Section */
-    .card-top {
-        height: 65%;
-        position: relative;
-        overflow: hidden;
-    }
+        <div class="d-flex align-items-center mb-3">
+            <div class="p-1 px-2 bg-white rounded-2 shadow-sm me-2">
+                <i class="bi bi-grid-fill text-primary small"></i>
+            </div>
+            <h5 class="section-title mb-0">Service Requests</h5>
+        </div>
 
-        .card-top img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: brightness(0.85);
-        }
-
-    /* Transparent Gradient Overlay */
-    .gradient-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        text-align: center;
-        padding: 1rem;
-    }
-
-    .gradient-blue {
-        background: linear-gradient(to bottom, rgba(0, 123, 255, 0.75), rgba(0, 123, 255, 0.35));
-    }
-
-    .gradient-green {
-        background: linear-gradient(to bottom, rgba(40, 167, 69, 0.75), rgba(40, 167, 69, 0.35));
-    }
-
-    .gradient-yellow {
-        background: linear-gradient(to bottom, rgba(255, 193, 7, 0.8), rgba(255, 193, 7, 0.35));
-    }
-
-    /* Large Number + Title */
-    .overlay-number {
-        font-size: 4.8rem;
-        font-weight: 800;
-        line-height: 1;
-        margin-bottom: 0.3rem;
-        color: white;
-    }
-
-    .overlay-title {
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: white;
-    }
-
-    /* White Section */
-    .card-body {
-        height: 35%;
-        background-color: white;
-        border-top: 2px solid #e0e0e0;
-        text-align: center;
-        padding: 1rem;
-    }
-
-        .card-body p {
-            font-size: 0.95rem;
-            color: #555;
-            margin-bottom: 0.75rem;
-        }
-
-    /* Buttons */
-    .btn {
-        border-radius: 30px;
-        padding: 0.45rem 1.2rem;
-        font-weight: 600;
-        font-size: 0.9rem;
-        color: white;
-        border: none;
-    }
-
-    .btn-blue {
-        background: linear-gradient(45deg, #007bff, #0056b3);
-    }
-
-    .btn-green {
-        background: linear-gradient(45deg, #28a745, #1e7e34);
-    }
-
-    .btn-yellow {
-        background: linear-gradient(45deg, #ffc107, #d39e00);
-    }
-
-    /* Badge for Pending/Changed Requests */
-    .badge {
-        font-size: 0.9rem;
-        padding: 0.5em 0.8em;
-        border-radius: 12px;
-        z-index: 5;
-    }
-
-    /* Optional: Pulsing Animation for Attention */
-    .badge-pulse {
-        animation: pulse 1.5s infinite;
-    }
-
-</style>
-
-@foreach (var dashboardItem in Model)
-{
-    <!-- Header -->
-    <div class="text-center mb-5" style="margin-top: 25px;">
-        <h2 class="fw-bold text-primary" style="font-size: 3rem;">
-            <i class="bi bi-speedometer2 me-3"></i> Admin Dashboard
-        </h2>
-        <p class="text-muted mt-2 mb-0" style="font-size: 1.1rem;">
-            Overview of key metrics and quick access to management tools.
-        </p>
-    </div>
-
-    <!-- Manage Requests Section -->
-    <section class="mb-5">
-        <h3 class="fw-bold text-secondary mb-4 text-start">
-            <i class="fas fa-clock me-2 text-primary"></i> Manage Requests
-        </h3>
-
-        <div class="row g-5">
-
-            <!-- Gate Pass -->
-            <div class="col-md-4">
-                <div class="custom-card position-relative">
-                    @if (dashboardItem.PendingGatePasses > 0 || dashboardItem.ChangedGatePasses > 0)
-                    {
-                        <div class="position-absolute top-0 end-0 m-3 badge bg-danger badge-pulse">
-                            @if (dashboardItem.PendingGatePasses > 0)
-                            {
-                                @dashboardItem.PendingGatePasses
-                    
-                                <span> New</span>
-                            }
-                            @if (dashboardItem.PendingGatePasses > 0 && dashboardItem.ChangedGatePasses > 0)
-                            {
-                                <span>, </span>
-                            }
-                            @if (dashboardItem.ChangedGatePasses > 0)
-                            {
-                                @dashboardItem.ChangedGatePasses
-                    
-                                <span> Changed</span>
-                            }
-                        </div>
-                    }
-
-                    <div class="card-top">
+        <div class="row g-4 mb-5">
+            <div class="col-lg-4 col-md-6">
+                <div class="request-card hover-blue">
+                    <div class="card-img-container">
+                        @if (dashboardItem.PendingGatePasses > 0 || dashboardItem.ChangedGatePasses > 0)
+                        {
+                            <div class="notification-pill">
+                                @(dashboardItem.PendingGatePasses + dashboardItem.ChangedGatePasses) New
+                            </div>
+                        }
                         <img src="~/images/reservation.png" alt="Gate Pass">
-                        <div class="gradient-overlay gradient-blue">
-                            <div class="overlay-number">@dashboardItem.TotalGatePasses</div>
-                            <div class="overlay-title">Total Gate Pass Requests</div>
-                        </div>
                     </div>
-
-                    <div class="card-body">
-                        <p>Approve, view and manage all submitted gate pass requests.</p>
-                        <a href="@Url.Action("Index", "Approval", new { tab = "gatepass" })"
-                           class="btn btn-blue">Manage Gate Passes</a>
+                    <div class="card-content">
+                        <div class="metric-label-container">
+                            <div class="metric-title">Gate Pass</div>
+                        </div>
+                        <div class="metric-value">@dashboardItem.TotalGatePasses</div>
+                        <p class="request-description">Track entry/exit logs and security clearance.</p>
+                        <a href="@Url.Action("Index", "Approval", new { tab = "gatepass" })" class="btn-action btn-blue">Manage Requests</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Room Reservation -->
-            <div class="col-md-4">
-                <div class="custom-card position-relative">
-                    @if (dashboardItem.PendingRoomReservations > 0 || dashboardItem.ChangedRoomReservations > 0)
-                    {
-                        <div class="position-absolute top-0 end-0 m-3 badge bg-danger badge-pulse">
-                            @if (dashboardItem.PendingRoomReservations > 0)
-                            {
-                                @dashboardItem.PendingRoomReservations
-                    
-                                <span> New</span>
-                            }
-                            @if (dashboardItem.PendingRoomReservations > 0 && dashboardItem.ChangedRoomReservations > 0)
-                            {
-                                <span>, </span>
-                            }
-                            @if (dashboardItem.ChangedRoomReservations > 0)
-                            {
-                                @dashboardItem.ChangedRoomReservations
-                    
-                                <span> Changed</span>
-                            }
-                        </div>
-                    }
-
-                    <div class="card-top">
+            <div class="col-lg-4 col-md-6">
+                <div class="request-card hover-green">
+                    <div class="card-img-container">
+                        @if (dashboardItem.PendingRoomReservations > 0 || dashboardItem.ChangedRoomReservations > 0)
+                        {
+                            <div class="notification-pill">
+                                @(dashboardItem.PendingRoomReservations + dashboardItem.ChangedRoomReservations) New
+                            </div>
+                        }
                         <img src="~/images/roomadmin.png" alt="Room Reservation">
-                        <div class="gradient-overlay gradient-green">
-                            <div class="overlay-number">@dashboardItem.TotalRoomReservations</div>
-                            <div class="overlay-title">Total Room Reservation Requests</div>
-                        </div>
                     </div>
-
-                    <div class="card-body">
-                        <p>Approve, view and manage all room booking requests efficiently.</p>
-                        <a href="@Url.Action("Index", "Approval", new { tab = "reservation" })"
-                           class="btn btn-green">Manage Reservations</a>
+                    <div class="card-content">
+                        <div class="metric-label-container">
+                            <div class="metric-title">Room Reservation</div>
+                        </div>
+                        <div class="metric-value">@dashboardItem.TotalRoomReservations</div>
+                        <p class="request-description">Manage facility schedules and classroom usage.</p>
+                        <a href="@Url.Action("Index", "Approval", new { tab = "reservation" })" class="btn-action btn-green">Manage Reservations</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Locker Request -->
-            <div class="col-md-4">
-                <div class="custom-card position-relative">
-                    @if (dashboardItem.PendingLockerRequests > 0 || dashboardItem.ChangedLockerRequests > 0)
-                    {
-                        <div class="position-absolute top-0 end-0 m-3 badge bg-danger badge-pulse">
-                            @if (dashboardItem.PendingLockerRequests > 0)
-                            {
-                                @dashboardItem.PendingLockerRequests
-                    
-                                <span> New</span>
-                            }
-                            @if (dashboardItem.PendingLockerRequests > 0 && dashboardItem.ChangedLockerRequests > 0)
-                            {
-                                <span>, </span>
-                            }
-                            @if (dashboardItem.ChangedLockerRequests > 0)
-                            {
-                                @dashboardItem.ChangedLockerRequests
-                    
-                                <span> Changed</span>
-                            }
-                        </div>
-                    }
-
-                    <div class="card-top">
+            <div class="col-lg-4 col-md-6">
+                <div class="request-card hover-amber">
+                    <div class="card-img-container">
+                        @if (dashboardItem.PendingLockerRequests > 0 || dashboardItem.ChangedLockerRequests > 0)
+                        {
+                            <div class="notification-pill">
+                                @(dashboardItem.PendingLockerRequests + dashboardItem.ChangedLockerRequests) New
+                            </div>
+                        }
                         <img src="~/images/lockeradmin.png" alt="Locker Request">
-                        <div class="gradient-overlay gradient-yellow">
-                            <div class="overlay-number">@dashboardItem.TotalLockerRequests</div>
-                            <div class="overlay-title">Total Locker Requests</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="metric-label-container">
+                            <div class="metric-title">Locker Request</div>
                         </div>
-                    </div>
-
-                    <div class="card-body">
-                        <p>Approve, view and manage student locker requests seamlessly.</p>
-                        <a href="@Url.Action("Index", "Approval", new { tab = "locker" })"
-                           class="btn btn-yellow">Manage Lockers</a>
+                        <div class="metric-value">@dashboardItem.TotalLockerRequests</div>
+                        <p class="request-description">Review applications and assign storage units.</p>
+                        <a href="@Url.Action("Index", "Approval", new { tab = "locker" })" class="btn-action btn-amber">Manage Lockers</a>
                     </div>
                 </div>
             </div>
-
         </div>
-    </section>
 
-    <!-- Manage Accounts Section -->
-    <section>
-        <h3 class="fw-bold text-secondary mb-4 text-start">
-            <i class="fas fa-users me-2 text-primary"></i> Manage Accounts
-        </h3>
-
-        <div class="row g-4 text-center">
-
-            <!-- Students -->
-            <div class="col-lg-6 col-md-12">
-                <div class="card shadow-lg border-0 h-100" style="border-radius: 20px; overflow: hidden;">
-                    <div class="card-body p-4">
-                        <h1 class="fw-bold" style="font-size:2.5rem;color:#007bff;">@dashboardItem.TotalStudents</h1>
-                        <p class="text-muted">Total Registered Students</p>
-                        <a href="@Url.Action("Index", "StudentAccounts")"
-                           class="btn btn-primary mt-2 rounded-pill px-4">
-                            <i class="fas fa-eye me-1"></i> Manage Students
-                        </a>
-                    </div>
-                </div>
+        <div class="d-flex align-items-center mb-3">
+            <div class="p-1 px-2 bg-white rounded-2 shadow-sm me-2">
+                <i class="bi bi-people-fill text-primary small"></i>
             </div>
-
-            <!-- Faculty -->
-            <div class="col-lg-6 col-md-12">
-                <div class="card shadow-lg border-0 h-100" style="border-radius: 20px; overflow: hidden;">
-                    <div class="card-body p-4">
-                        <h1 class="fw-bold" style="font-size:2.5rem;color:#28a745;">@dashboardItem.TotalFaculty</h1>
-                        <p class="text-muted">Total Faculty Accounts</p>
-                        <a href="@Url.Action("Index", "FacultyAccounts")"
-                           class="btn btn-success mt-2 rounded-pill px-4">
-                            <i class="fas fa-eye me-1"></i> Manage Faculty
-                        </a>
-                    </div>
-                </div>
-            </div>
-
+            <h5 class="section-title mb-0">Account Management</h5>
         </div>
-    </section>
-}
+
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="account-tile">
+                    <div class="icon-circle bg-soft-blue">
+                        <i class="bi bi-mortarboard-fill"></i>
+                    </div>
+                    <div class="account-info">
+                        <h4>@dashboardItem.TotalStudents</h4>
+                        <p class="text-muted fw-medium mb-0">Registered Students</p>
+                    </div>
+                    <a href="@Url.Action("Index", "StudentAccounts")" class="btn-manage">Manage Students</a>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="account-tile">
+                    <div class="icon-circle bg-soft-green">
+                        <i class="bi bi-person-workspace"></i>
+                    </div>
+                    <div class="account-info">
+                        <h4>@dashboardItem.TotalFaculty</h4>
+                        <p class="text-muted fw-medium mb-0">Faculty Accounts</p>
+                    </div>
+                    <a href="@Url.Action("Index", "FacultyAccounts")" class="btn-manage">Manage Faculty</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -4,6 +4,10 @@
     ViewData["Title"] = "Delete Gate Pass";
 }
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/GatePass/Delete.css" asp-append-version="true" />
+}
+
 <div class="container py-4 animate__animated animate__fadeIn">
     <div class="custom-card shadow-lg border-0 confirmation-card">
         <div class="card-header text-white text-center py-4 delete-header">
@@ -19,7 +23,6 @@
             </div>
 
             <div class="row g-5">
-                <!-- Personal & Academic Information Section -->
                 <div class="col-lg-6 border-end-lg pe-lg-5">
                     <h5 class="text-danger-dark mb-4 pb-2 border-bottom border-danger-subtle">
                         <i class="bi bi-person-circle me-2"></i>General Information
@@ -48,7 +51,6 @@
                     </dl>
                 </div>
 
-                <!-- Vehicle & File Information Section -->
                 <div class="col-lg-6 ps-lg-5">
                     <h5 class="text-danger-secondary mb-4 pb-2 border-bottom border-danger-subtle">
                         <i class="bi bi-car me-2"></i>Vehicle Information
@@ -98,7 +100,6 @@
                     </dl>
                 </div>
 
-                <!-- Action Buttons -->
                 <div class="col-12 text-center pt-5 border-top">
                     <form asp-action="Delete">
                         <input type="hidden" asp-for="Id" />

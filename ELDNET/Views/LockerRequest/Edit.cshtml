@@ -4,6 +4,10 @@
     ViewData["Title"] = "Edit Locker Request";
 }
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/LockerRequest/Edit.css" />
+}
+
 <div class="container py-4 animate__animated animate__fadeIn">
     <div class="custom-card shadow-lg border-0 edit-card">
         <div class="card-header text-white text-center py-4 edit-header-blue">
@@ -18,7 +22,6 @@
                 <input type="hidden" asp-for="RegistrationPath" />
 
                 <div class="row g-5">
-                    <!-- Requestor Information Section -->
                     <div class="col-lg-6 border-end-lg pe-lg-5">
                         <h5 class="text-blue-primary mb-4 pb-2 border-bottom border-blue-primary-subtle">
                             <i class="bi bi-person-fill me-2"></i>Requestor Information
@@ -45,7 +48,6 @@
                         </div>
                     </div>
 
-                    <!-- Locker & Document Information Section -->
                     <div class="col-lg-6 ps-lg-5">
                         <h5 class="text-blue-secondary mb-4 pb-2 border-bottom border-blue-secondary-subtle">
                             <i class="bi bi-key-fill me-2"></i>Locker & Document Information
@@ -85,12 +87,11 @@
                     </div>
                 </div>
 
-                <!-- Action Buttons -->
                 <div class="col-12 text-center pt-5 border-top mt-5">
-                    <button type="submit" class="btn btn-primary btn-lg me-3" style="min-width: 140px;">
+                    <button type="submit" class="btn btn-primary btn-lg me-3 btn-min-width">
                         <i class="bi bi-cloud-arrow-up-fill me-2"></i>Update
                     </button>
-                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 140px;">
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg btn-min-width">
                         <i class="bi bi-arrow-left me-2"></i>Back to List
                     </a>
                 </div>

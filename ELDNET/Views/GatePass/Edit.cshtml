@@ -4,6 +4,10 @@
     ViewData["Title"] = "Edit Gate Pass";
 }
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/GatePass/Edit.css" asp-append-version="true" />
+}
+
 <div class="container py-4 animate__animated animate__fadeIn">
     <div class="custom-card shadow-lg border-0 edit-card">
         <div class="card-header text-white text-center py-4 edit-header-blue">
@@ -13,9 +17,20 @@
         <div class="card-body p-5">
             <form method="post" asp-action="Edit" enctype="multipart/form-data">
                 <input asp-for="Id" hidden />
-                <div class="row g-5">
+                <input asp-for="StudentId" hidden />
+                <input asp-for="FacultyId" hidden />
+                <input asp-for="Status" hidden />
+                <input asp-for="StudyLoadPath" hidden />
+                <input asp-for="RegistrationPath" hidden />
+                <input asp-for="Approver1Name" hidden />
+                <input asp-for="Approver1Status" hidden />
+                <input asp-for="Approver2Name" hidden />
+                <input asp-for="Approver2Status" hidden />
+                <input asp-for="Approver3Name" hidden />
+                <input asp-for="Approver3Status" hidden />
+                <input asp-for="FinalStatus" hidden />
 
-                    <!-- General Information Section -->
+                <div class="row g-5">
                     <div class="col-lg-6 border-end-lg pe-lg-5">
                         <h5 class="text-blue-primary mb-4 pb-2 border-bottom border-blue-primary-subtle">
                             <i class="bi bi-person-circle me-2"></i>General Information
@@ -57,11 +72,19 @@
                         </div>
                     </div>
 
-                    <!-- Vehicle & File Information Section -->
                     <div class="col-lg-6 ps-lg-5">
                         <h5 class="text-blue-secondary mb-4 pb-2 border-bottom border-blue-secondary-subtle">
                             <i class="bi bi-car-front-fill me-2"></i>Vehicle Information
                         </h5>
+                        <div class="form-floating mb-3">
+                            <select asp-for="VehicleType" class="form-select">
+                                <option value="">-- Select Type --</option>
+                                <option value="Car">Car</option>
+                                <option value="Motorcycle">Motorcycle</option>
+                            </select>
+                            <label asp-for="VehicleType">Vehicle Type</label>
+                            <span asp-validation-for="VehicleType" class="text-danger"></span>
+                        </div>
                         <div class="form-floating mb-3">
                             <input asp-for="PlateNumber" class="form-control" placeholder="Plate Number" />
                             <label asp-for="PlateNumber">Plate Number</label>
@@ -77,6 +100,11 @@
                             <label asp-for="Color">Color</label>
                             <span asp-validation-for="Color" class="text-danger"></span>
                         </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="RegistrationExpiryDate" type="date" class="form-control" />
+                            <label asp-for="RegistrationExpiryDate">Registration Expiry Date</label>
+                            <span asp-validation-for="RegistrationExpiryDate" class="text-danger"></span>
+                        </div>
 
                         <h5 class="text-blue-tertiary mt-5 mb-4 pb-2 border-bottom border-blue-tertiary-subtle">
                             <i class="bi bi-file-earmark-arrow-up-fill me-2"></i>Uploaded Files
@@ -89,10 +117,6 @@
                             {
                                 <p class="mt-2 mb-0"><a href="@Url.Content(Model.StudyLoadPath)" target="_blank" class="text-blue-tertiary fw-bold text-decoration-none"><i class="bi bi-file-earmark-arrow-down me-1"></i> View Current Study Load</a></p>
                             }
-                            else
-                            {
-                                <p class="mt-2 mb-0 text-muted fst-italic">No current file uploaded.</p>
-                            }
                         </div>
                         <div class="mb-3">
                             <label asp-for="RegistrationFile" class="form-label text-muted">Registration Form File (Optional)</label>
@@ -102,19 +126,14 @@
                             {
                                 <p class="mt-2 mb-0"><a href="@Url.Content(Model.RegistrationPath)" target="_blank" class="text-blue-tertiary fw-bold text-decoration-none"><i class="bi bi-file-earmark-arrow-down me-1"></i> View Current Registration Form</a></p>
                             }
-                            else
-                            {
-                                <p class="mt-2 mb-0 text-muted fst-italic">No current file uploaded.</p>
-                            }
                         </div>
                     </div>
 
-                    <!-- Action Buttons -->
                     <div class="col-12 text-center pt-5 border-top mt-5">
-                        <button type="submit" class="btn btn-primary btn-lg me-3" style="min-width: 140px;">
+                        <button type="submit" class="btn btn-primary btn-lg me-3 btn-custom-width">
                             <i class="bi bi-cloud-arrow-up-fill me-2"></i>Update
                         </button>
-                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 140px;">
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg btn-custom-width">
                             <i class="bi bi-arrow-left me-2"></i>Back to List
                         </a>
                     </div>

@@ -1,88 +1,308 @@
 ﻿@{
     ViewData["HideNav"] = true;
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Welcome";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    /* Move the sign-in box higher */
-    .login-form-panel {
-        position: relative;
-        top: -40px; /* adjust this value if you want it higher or lower */
-    }
-</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link rel="stylesheet" href="~/css/login.css" asp-append-version="true">
 
-<div class="login-page-container">
-    <div class="login-header-nav">
-        <div class="login-brand-logo">ELDNET</div>
+<nav class="login-header-nav">
+    <div class="login-brand-logo">ELDNET</div>
+    <div class="nav-buttons">
+        <a href="#home-section">Home</a>
+        <a href="#services-section">Services</a>
+        <a href="#about-section">About Us</a>
     </div>
+</nav>
 
-    <div class="login-clouds"></div>
+<section id="home-section" class="panel">
+    <div class="form-card-container">
+        <div id="login-box" class="form-box">
+            <h2 class="fw-bold mb-1 text-center">Sign In</h2>
+            <p class="text-muted text-center mb-4 small">Welcome back to the UC Request Website</p>
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger py-2 small text-center">@TempData["Error"]</div>
+            }
+            @if (TempData["Message"] != null)
+            {
+                <div class="alert alert-success py-2 small text-center">@TempData["Message"]</div>
+            }
 
-    <div class="login-main-content">
-        <div class="login-form-panel custom-card">
-            <h2 class="login-panel-heading">Sign In</h2>
-            <h9 class="login-subtitle">Sign In to access Gate Pass, Reservation Room, Locker Request form</h9>
-
-            <form asp-controller="Account" asp-action="Login" method="post" class="login-input-form">
-                @if (TempData["Error"] != null)
-                {
-                    <div class="alert alert-danger text-center mb-3">
-                        @TempData["Error"]
-                    </div>
-                }
-
-                <div class="login-input-group mb-4">
-                    <span class="login-input-icon"><i class="fas fa-envelope"></i></span>
-                    <input type="text" class="form-control" id="Username" name="username" placeholder="Email Address" required />
+            <form asp-controller="Account" asp-action="Login" method="post">
+                <div class="login-input-group">
+                    <span class="login-input-icon"><i class="fas fa-user"></i></span>
+                    <input type="text" class="form-control" name="username" placeholder="Institutional Email" required />
                 </div>
-
-                <div class="login-input-group mb-3">
-                    <span class="login-input-icon"><i class="fas fa-key"></i></span>
-                    <input type="password" class="form-control" id="Password" name="password" placeholder="Password" required />
+                <div class="login-input-group">
+                    <span class="login-input-icon"><i class="fas fa-lock"></i></span>
+                    <input type="password" class="form-control password-field" name="password" placeholder="Password" required />
                     <span class="login-password-toggle"><i class="fas fa-eye-slash"></i></span>
                 </div>
 
-                <div class="login-form-options d-flex justify-content-between align-items-center mb-4">
-                    <div class="form-check login-remember-me">
-                        <input type="checkbox" class="form-check-input" id="RememberMe" name="rememberMe" />
-                        <label class="form-check-label" for="RememberMe">Remember Me</label>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="form-check mb-0">
+                        <input class="form-check-input" type="checkbox" name="rememberMe" id="rememberMe" style="cursor: pointer;">
+                        <label class="form-check-label small text-muted" for="rememberMe" style="cursor: pointer;">Remember Me</label>
                     </div>
-                    <a href="#" class="login-forgot-password">Forgot Password?</a>
+                    <a href="#" class="small fw-bold text-decoration-none" style="color: #1e3c72;">Forgot Password?</a>
                 </div>
 
-                <button type="submit" class="btn btn-gradient w-100"
-                        style="padding: 12px 0; font-size: 1rem; font-weight: 600; border-radius: 12px;">
-                    Sign In
-                </button>
+                <button type="submit" class="btn btn-submit">Sign In</button>
+                <div class="text-center mt-4">
+                    <p class="small text-muted">New here? <a href="javascript:void(0)" onclick="toggleForms()" class="fw-bold text-decoration-none" style="color: #1e3c72;">Create an Account</a></p>
+                </div>
+            </form>
+        </div>
 
-                <div class="login-signup-text text-center mt-4">
-                    Don't have an account? <a asp-controller="Account" asp-action="SignUp">Sign up</a>
+        <div id="signup-box" class="form-box d-none">
+            <h2 class="fw-bold mb-1 text-center">Sign Up</h2>
+            <p class="text-muted text-center mb-4 small">Create your account to access UC services.</p>
+
+            @if (TempData["SignupError"] != null)
+            {
+                <div class="alert alert-warning py-2 small text-center">
+                    <i class="fas fa-exclamation-triangle me-2"></i> @TempData["SignupError"]
+                </div>
+            }
+
+            <form id="registrationForm" asp-controller="Account" asp-action="SignUp" method="post">
+                <div class="login-input-group">
+                    <span class="login-input-icon"><i class="fas fa-user"></i></span>
+                    <input type="text" class="form-control" name="fullName" placeholder="Full Name" required />
+                </div>
+                <div class="login-input-group">
+                    <span class="login-input-icon"><i class="fas fa-envelope"></i></span>
+                    <input type="email" class="form-control" name="email" placeholder="Institutional Email" required />
+                </div>
+
+                <div class="login-input-group">
+                    <span class="login-input-icon"><i class="fas fa-users-cog"></i></span>
+                    <select name="accountType" class="form-control" style="padding-left: 45px;">
+                        <option value="Student">Student</option>
+                        <option value="Faculty">Faculty</option>
+                    </select>
+                </div>
+
+                <div class="password-row">
+                    <div class="login-input-group">
+                        <span class="login-input-icon"><i class="fas fa-key"></i></span>
+                        <input type="password" id="mainPassword" class="form-control password-field" name="password" placeholder="Password" required />
+                        <span class="login-password-toggle"><i class="fas fa-eye-slash"></i></span>
+                    </div>
+                    <div class="login-input-group">
+                        <span class="login-input-icon"><i class="fas fa-check-circle"></i></span>
+                        <input type="password" id="confirmPassword" class="form-control password-field" name="confirmPassword" placeholder="Confirm" required />
+                        <span class="login-password-toggle"><i class="fas fa-eye-slash"></i></span>
+                    </div>
+                </div>
+                <div id="passwordError" class="invalid-feedback text-center mb-3">Passwords do not match.</div>
+                <button type="submit" class="btn btn-submit">Register</button>
+                <div class="text-center mt-4">
+                    <p class="small text-muted">Already have an account? <a href="javascript:void(0)" onclick="toggleForms()" class="fw-bold text-decoration-none" style="color: #1e3c72;">Sign In</a></p>
                 </div>
             </form>
         </div>
     </div>
-</div>
+</section>
+
+<section id="services-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">University of Cebu Request Portal</h2>
+            <p class="section-subtitle">Dedicated digital infrastructure for UC Students, Staff, and Faculty members.</p>
+        </div>
+        <div class="row g-5">
+            <div class="col-lg-4 col-md-6">
+                <div class="service-card">
+                    <div>
+                        <div class="icon-wrapper"><i class="fas fa-id-card"></i></div>
+                        <span class="target-badge">Students & Faculty</span>
+                        <h4>Gatepass Request</h4>
+                        <p>Submit a Gatepass Request to have your vehicle officially registered and authorized for entry within the school premises.</p>
+                    </div>
+                    <a href="#home-section" class="btn-service">Request Gatepass</a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="service-card">
+                    <div>
+                        <div class="icon-wrapper"><i class="fas fa-calendar-check"></i></div>
+                        <span class="target-badge">Staff & Organizations</span>
+                        <h4>Room Reservation</h4>
+                        <p>Real-time booking for classrooms, AVRs, and laboratories for academic or organizational events.</p>
+                    </div>
+                    <a href="#home-section" class="btn-service">Book a Facility</a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="service-card">
+                    <div>
+                        <div class="icon-wrapper"><i class="fas fa-user-lock"></i></div>
+                        <span class="target-badge">UC Community</span>
+                        <h4>Locker Request</h4>
+                        <p>Apply for semester-long locker rentals within your designated department for secure storage of belongings.</p>
+                    </div>
+                    <a href="#home-section" class="btn-service">Apply for Locker</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="about-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">About Our Team</h2>
+            <p class="section-subtitle">The innovative minds behind the development of the ELDNET UC-Request Portal.</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="about-card">
+                    <img src="@Url.Content("~/images/person1.png")" alt="Developer" class="person-img">
+                    <p class="dev-desc">Led the end-to-end development cycle, focusing on high-fidelity UI/UX design components while architecting the backend logic and SQL database management systems.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="about-card">
+                    <img src="@Url.Content("~/images/person2.png")" alt="Developer" class="person-img">
+                    <p class="dev-desc">Optimized the web application for peak performance and cross-browser compatibility, ensuring a smooth and responsive experience for all portal users.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="about-card">
+                    <img src="@Url.Content("~/images/person3.png")" alt="Developer" class="person-img">
+                    <p class="dev-desc">Responsible for designing, maintaining, and ensuring the integrity of data, efficient data structures and support accurate information management..</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="about-card">
+                    <img src="@Url.Content("~/images/person 4.png")" alt="Developer" class="person-img">
+                    <p class="dev-desc">Maintained strict version control and deployment standards, focusing on automated testing and the continuous integration of new institutional features.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="login-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-12 mb-5 mb-lg-0">
+                <div class="footer-brand-info text-center text-lg-start">
+                    <h2>ELDNET</h2>
+                    <p>The official unified portal for UC-Request Portal. Streamlining academic and administrative processes for the modern campus.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                <h5 class="footer-header">Quick Links</h5>
+                <ul class="footer-links">
+                    <li><a href="#home-section">Home Portal</a></li>
+                    <li><a href="#services-section">Services Overview</a></li>
+                    <li><a href="#about-section">Our Developers</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
+                <h5 class="footer-header">Portal Services</h5>
+                <ul class="footer-links">
+                    <li><a href="#">Gatepass System</a></li>
+                    <li><a href="#">Facility Booking</a></li>
+                    <li><a href="#">Locker Management</a></li>
+                    <li><a href="#">Institutional Support</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3 col-md-4">
+                <h5 class="footer-header">Get In Touch</h5>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> UC Banilad Campus, Cebu City</li>
+                    <li><i class="fas fa-envelope"></i> admin@eldnet.uc.edu</li>
+                    <li><i class="fas fa-phone"></i> +63 (032) 412 8888</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="copyright mb-0">&copy; 2025 ELDNET - UC Services Portal. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="copyright mb-0 small">College of Computer Studies</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 
 @section Scripts {
     <script>
+        function toggleForms() {
+            const loginBox = document.getElementById('login-box');
+            const signupBox = document.getElementById('signup-box');
+            if (loginBox.classList.contains('d-none')) {
+                signupBox.classList.add('d-none');
+                loginBox.classList.remove('d-none');
+            } else {
+                loginBox.classList.add('d-none');
+                signupBox.classList.remove('d-none');
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
-            const passwordField = document.getElementById('Password');
-            const passwordToggle = document.querySelector('.login-password-toggle');
+        const shouldShowSignup = "@TempData["ShowSignup"]".toLowerCase() === "true";
 
-            if (passwordToggle) {
-                passwordToggle.addEventListener('click', function () {
+            if (shouldShowSignup) {
+                toggleForms();
+            }
+            const toggles = document.querySelectorAll('.login-password-toggle');
+            toggles.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const input = this.closest('.login-input-group').querySelector('.password-field');
                     const icon = this.querySelector('i');
-                    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-                    passwordField.setAttribute('type', type);
-
-                    // Toggle between solid eye (open) and solid eye-slash (closed)
-                    if (type === 'text') {
-                        icon.classList.remove('fas', 'fa-eye-slash');
-                        icon.classList.add('far', 'fa-eye');
+                    if(input.type === "password") {
+                        input.type = "text";
+                        icon.classList.replace('fa-eye-slash', 'fa-eye');
                     } else {
-                        icon.classList.remove('far', 'fa-eye');
-                        icon.classList.add('fas', 'fa-eye-slash');
+                        input.type = "password";
+                        icon.classList.replace('fa-eye', 'fa-eye-slash');
+                    }
+                });
+            });
+
+            const regForm = document.getElementById('registrationForm');
+            const pass = document.getElementById('mainPassword');
+            const confirmPass = document.getElementById('confirmPassword');
+            const errorMsg = document.getElementById('passwordError');
+
+            if (regForm) {
+                regForm.addEventListener('submit', function(e) {
+                    if (pass.value !== confirmPass.value) {
+                        e.preventDefault();
+                        errorMsg.style.display = 'block';
+                        confirmPass.classList.add('is-invalid');
+                    } else {
+                        errorMsg.style.display = 'none';
+                        confirmPass.classList.remove('is-invalid');
+                    }
+                });
+            }
+
+            if (confirmPass) {
+                confirmPass.addEventListener('input', function() {
+                    if (pass.value === confirmPass.value) {
+                        confirmPass.classList.remove('is-invalid');
+                        errorMsg.style.display = 'none';
                     }
                 });
             }

@@ -2,6 +2,7 @@
 using ELDNET.Data;
 using ELDNET.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace ELDNET.Controllers
 {
@@ -13,25 +14,19 @@ namespace ELDNET.Controllers
         {
             _db = db;
         }
-
-        // GET: FacultyAccounts
         public IActionResult Index()
         {
-            // Check if user is admin
             var userRole = HttpContext.Session.GetString("UserRole");
             if (userRole != "Admin")
             {
                 return RedirectToAction("Login", "Account");
             }
-
             var facultyAccounts = _db.FacultyAccounts
                 .OrderByDescending(f => f.Id)
                 .ToList();
 
             return View(facultyAccounts);
         }
-
-        // Optional: GET Details
         public IActionResult Details(int id)
         {
             var userRole = HttpContext.Session.GetString("UserRole");
@@ -41,16 +36,22 @@ namespace ELDNET.Controllers
             }
 
             var faculty = _db.FacultyAccounts.Find(id);
+
             if (faculty == null)
             {
                 return NotFound();
             }
 
+            if (string.IsNullOrEmpty(faculty.ProfilePictureUrl))
+            {
+
+            }
+
             return View(faculty);
         }
 
-        // Optional: POST Delete
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
             var userRole = HttpContext.Session.GetString("UserRole");

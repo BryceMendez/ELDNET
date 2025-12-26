@@ -1,0 +1,26 @@
+﻿.custom-card {
+    border-radius: 15px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.text-green-primary {
+    color: #198754;
+}
+
+.border-green-primary-subtle {
+    border-bottom: 2px solid #d1e7dd;
+}
+
+.text-green-secondary {
+    color: #0f5132;
+}
+
+.border-green-secondary-subtle {
+    border-bottom: 2px solid #badbcc;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #03AC13;
+    box-shadow: 0 0 0 0.25rem rgba(3, 172, 19, 0.25);
+}

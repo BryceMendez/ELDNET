@@ -13,11 +13,8 @@ namespace ELDNET.Controllers
         {
             _db = db;
         }
-
-        // GET: StudentAccounts
         public IActionResult Index()
         {
-            // Check if user is admin
             var userRole = HttpContext.Session.GetString("UserRole");
             if (userRole != "Admin")
             {
@@ -30,8 +27,6 @@ namespace ELDNET.Controllers
 
             return View(studentAccounts);
         }
-
-        // Optional: GET Details
         public IActionResult Details(int id)
         {
             var userRole = HttpContext.Session.GetString("UserRole");
@@ -48,8 +43,6 @@ namespace ELDNET.Controllers
 
             return View(student);
         }
-
-        // Optional: POST Delete
         [HttpPost]
         public IActionResult Delete(int id)
         {
@@ -66,7 +59,6 @@ namespace ELDNET.Controllers
                 _db.SaveChanges();
                 TempData["Message"] = "Student account deleted successfully.";
             }
-
             return RedirectToAction("Index");
         }
     }

@@ -4,117 +4,118 @@
     ViewData["Title"] = "Create Gate Pass";
 }
 
+<link rel="stylesheet" href="~/css/GatePass/Create.css" asp-append-version="true" />
+
 <div class="container py-4 animate__animated animate__fadeIn">
     <div class="custom-card shadow-lg border-0">
-        <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #007FFF);">
-            <h2 class="mb-2 fw-bold"><i class="bi bi-shield-lock me-2"></i>Create Gate Pass</h2>
-            <p class="mb-0 text-white-50">Fill out the form to create a new gate pass.</p>
+        <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #0d6efd, #004085);">
+            <h2 class="mb-2 fw-bold"><i class="bi bi-car-front-fill me-2"></i>Vehicle Gate Pass Application</h2>
+            <p class="mb-0 text-white-50">Please provide your vehicle and ownership details below.</p>
         </div>
+
         <div class="card-body p-5">
-            <form asp-action="Create" enctype="multipart/form-data">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
 
                 <h5 class="text-blue-primary mb-4 pb-2 border-bottom border-blue-primary-subtle">
-                    <i class="bi bi-person-circle me-2"></i>General Information
+                    <i class="bi bi-person-badge me-2"></i>Owner Information
                 </h5>
+
                 <div class="row g-4 mb-5">
-                    <div class="col-md-6">
-                        <label asp-for="SchoolYear" class="form-label fw-semibold"></label>
-                        <input asp-for="SchoolYear" class="form-control" placeholder="e.g. 2025-2026" />
-                        <span asp-validation-for="SchoolYear" class="text-danger mt-1 d-block"></span>
+                    <div class="col-md-12 mb-2">
+                        <label class="form-label fw-bold d-block">Registering as:</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" asp-for="Role" value="Student" id="roleStudent" required>
+                            <label class="form-check-label" for="roleStudent">Student</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" asp-for="Role" value="Faculty" id="roleFaculty">
+                            <label class="form-check-label" for="roleFaculty">Faculty / Staff</label>
+                        </div>
+                        <span asp-validation-for="Role" class="text-danger d-block"></span>
                     </div>
+
                     <div class="col-md-6">
                         <label asp-for="Name" class="form-label fw-semibold"></label>
-                        <input asp-for="Name" class="form-control" placeholder="Full Name" />
-                        <span asp-validation-for="Name" class="text-danger mt-1 d-block"></span>
+                        <input asp-for="Name" class="form-control bg-light" readonly />
                     </div>
                     <div class="col-md-6">
+                        <label asp-for="SchoolYear" class="form-label fw-semibold"></label>
+                        <input asp-for="SchoolYear" class="form-control" placeholder="e.g. 2024-2025" />
+                        <span asp-validation-for="SchoolYear" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-12">
                         <label asp-for="Address" class="form-label fw-semibold"></label>
-                        <input asp-for="Address" class="form-control" placeholder="Complete Address" />
-                        <span asp-validation-for="Address" class="text-danger mt-1 d-block"></span>
-                    </div>
-                    <div class="col-md-6">
-                        <label asp-for="Date" class="form-label fw-semibold"></label>
-                        <input asp-for="Date" type="date" class="form-control" />
-                        <span asp-validation-for="Date" class="text-danger mt-1 d-block"></span>
-                    </div>
-                    <div class="col-12">
-                        <label asp-for="Role" class="form-label fw-semibold">Role</label>
-                        <div class="d-flex gap-4">
-                            <div class="form-check form-check-inline">
-                                <input type="radio" asp-for="Role" value="Faculty" class="form-check-input" />
-                                <label class="form-check-label">Faculty</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input type="radio" asp-for="Role" value="Non-Teaching Staff" class="form-check-input" />
-                                <label class="form-check-label">Non-Teaching Staff</label>
-                            </div>
-                        </div>
-                        <span asp-validation-for="Role" class="text-danger mt-1 d-block"></span>
+                        <input asp-for="Address" class="form-control" placeholder="Full Home Address" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
                         <label asp-for="Department" class="form-label fw-semibold"></label>
-                        <input asp-for="Department" class="form-control" placeholder="Department" />
-                        <span asp-validation-for="Department" class="text-danger mt-1 d-block"></span>
+                        <input asp-for="Department" class="form-control" placeholder="e.g. College of Engineering" />
+                        <span asp-validation-for="Department" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
                         <label asp-for="CourseYear" class="form-label fw-semibold"></label>
-                        <input asp-for="CourseYear" class="form-control" placeholder="Course & Year" />
-                        <span asp-validation-for="CourseYear" class="text-danger mt-1 d-block"></span>
+                        <input asp-for="CourseYear" class="form-control" placeholder="e.g. BSCS - 3" />
+                        <span asp-validation-for="CourseYear" class="text-danger"></span>
                     </div>
                 </div>
 
                 <h5 class="text-blue-secondary mb-4 pb-2 border-bottom border-blue-secondary-subtle">
-                    <i class="bi bi-car me-2"></i>Vehicle Information
+                    <i class="bi bi-info-square me-2"></i>Vehicle Details
                 </h5>
                 <div class="row g-4 mb-5">
                     <div class="col-md-4">
+                        <label asp-for="VehicleType" class="form-label fw-semibold"></label>
+                        <select asp-for="VehicleType" class="form-select border-primary-subtle shadow-sm">
+                            <option value="Car">Car</option>
+                            <option value="Motorcycle">Motorcycle</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
                         <label asp-for="PlateNumber" class="form-label fw-semibold"></label>
-                        <input asp-for="PlateNumber" class="form-control" placeholder="Plate Number" />
-                        <span asp-validation-for="PlateNumber" class="text-danger mt-1 d-block"></span>
+                        <input asp-for="PlateNumber" class="form-control" placeholder="ABC 1234" />
+                        <span asp-validation-for="PlateNumber" class="text-danger"></span>
                     </div>
                     <div class="col-md-4">
-                        <label asp-for="Maker" class="form-label fw-semibold"></label>
-                        <input asp-for="Maker" class="form-control" placeholder="Toyota, Honda, etc." />
-                        <span asp-validation-for="Maker" class="text-danger mt-1 d-block"></span>
+                        <label asp-for="RegistrationExpiryDate" class="form-label fw-semibold"></label>
+                        <input asp-for="RegistrationExpiryDate" type="date" class="form-control" />
+                        <span asp-validation-for="RegistrationExpiryDate" class="text-danger"></span>
                     </div>
-                    <div class="col-md-4">
-                        <label asp-for="Color" class="form-label fw-semibold"></label>
-                        <input asp-for="Color" class="form-control" placeholder="Color" />
-                        <span asp-validation-for="Color" class="text-danger mt-1 d-block"></span>
+                    <div class="col-md-6">
+                        <label asp-for="Maker" class="form-label fw-semibold">Vehicle Brand / Maker</label>
+                        <input asp-for="Maker" class="form-control" placeholder="Toyota, Honda, Mitsubishi, etc." />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Color" class="form-label fw-semibold">Vehicle Color</label>
+                        <input asp-for="Color" class="form-control" placeholder="White, Pearl Black, etc." />
                     </div>
                 </div>
 
-                <h5 class="text-blue-tertiary mb-4 pb-2 border-bottom border-blue-tertiary-subtle">
-                    <i class="bi bi-file-earmark-text me-2"></i>Required Documents
+                <h5 class="text-dark mb-4 pb-2 border-bottom fw-bold">
+                    <i class="bi bi-file-earmark-arrow-up me-2 text-primary"></i>Required Documents
                 </h5>
                 <div class="row g-4 mb-5">
                     <div class="col-md-6">
-                        <label asp-for="StudyLoadFile" class="form-label fw-semibold">Upload Study Load</label>
-                        <input asp-for="StudyLoadFile" type="file" class="form-control" />
-                        <span asp-validation-for="StudyLoadFile" class="text-danger mt-1 d-block"></span>
+                        <label asp-for="StudyLoadFile" class="form-label fw-semibold">Study Load / ID Copy</label>
+                        <input asp-for="StudyLoadFile" type="file" class="form-control" accept=".pdf,.jpg,.png" required />
+                        <span asp-validation-for="StudyLoadFile" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
-                        <label asp-for="RegistrationFile" class="form-label fw-semibold">Upload Registration Form</label>
-                        <input asp-for="RegistrationFile" type="file" class="form-control" />
-                        <span asp-validation-for="RegistrationFile" class="text-danger mt-1 d-block"></span>
+                        <label asp-for="RegistrationFile" class="form-label fw-semibold">Vehicle Registration (OR/CR)</label>
+                        <input asp-for="RegistrationFile" type="file" class="form-control" accept=".pdf,.jpg,.png" required />
+                        <span asp-validation-for="RegistrationFile" class="text-danger"></span>
                     </div>
                 </div>
 
                 <div class="col-12 text-center pt-4 border-top">
-                    <div class="d-inline-flex align-items-center justify-content-center gap-3 mt-3">
-                        <!-- Submit Button -->
-                        <button type="submit"
-                                class="btn d-flex align-items-center justify-content-center fw-semibold shadow-sm"
-                                style="background: linear-gradient(45deg, #007FFF); color: white; border: none; border-radius: 50px; padding: 8px 18px; font-size: 15px;">
-                            <i class="bi bi-check-circle me-2 fs-5"></i>Submit
+                    <div class="d-inline-flex gap-3">
+                        <button type="submit" class="btn btn-primary px-5 py-2 rounded-pill shadow fw-bold"
+                                style="background: linear-gradient(45deg, #0d6efd, #0056b3); border: none;">
+                            Submit Application
                         </button>
-
-                        <!-- Back to List Button -->
-                        <a asp-action="Index"
-                           class="btn d-flex align-items-center justify-content-center fw-semibold shadow-sm"
-                           style="background-color: gray; color: white; border: none; border-radius: 50px; padding: 8px 18px; font-size: 15px;">
-                            <i class="bi bi-arrow-left me-2 fs-5"></i>View List
+                        <a asp-action="Index" class="btn btn-secondary px-5 py-2 rounded-pill shadow">
+                            <i class="bi bi-arrow-left me-2"></i>Back to List
                         </a>
                     </div>
                 </div>
@@ -122,3 +123,29 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $(document).ready(function () {
+            @if (TempData["errorMessage"] != null)
+            {
+                        <text>
+                        Swal.fire({
+                            title: '@TempData["errorTitle"]',
+                            html: `@Html.Raw(TempData["errorMessage"])`,
+                            icon: 'error',
+                            confirmButtonText: 'UNDERSTOOD',
+                            confirmButtonColor: '#d33',
+                            allowOutsideClick: false,
+                            showClass: { popup: 'animate__animated animate__shakeX' }
+                        });
+                        </text>
+            }
+        });
+    </script>
+}

@@ -1,79 +1,164 @@
 ﻿@model IEnumerable<ELDNET.Models.GatePass>
 
 @{
-    ViewData["Title"] = "Gate Pass List";
+    ViewData["Title"] = "Gate Pass Management";
     var userRole = Context.Session.GetString("UserRole");
+
+    int carLeft = ViewBag.CarLeft ?? 0;
+    int motorLeft = ViewBag.MotorLeft ?? 0;
+
+    bool isCarFull = (carLeft <= 0);
+    bool isMotorFull = (motorLeft <= 0);
+    bool disableCreate = (isCarFull && isMotorFull);
 }
 
-<div class="gatepass-list-page mt-4">
+@section Styles {
+    <link rel="stylesheet" href="~/css/GatePass/Index.css" asp-append-version="true" />
+}
+
+<div class="container-fluid p-4 mt-2">
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100" style="border-left: 5px solid #add8e6 !important; border-radius: 12px;">
+                <div class="card-body d-flex align-items-center justify-content-between py-2 px-4">
+                    <div class="d-flex align-items-center">
+                        <div class="rounded-circle bg-info bg-opacity-10 p-2 me-3">
+                            <i class="bi bi-car-front-fill fs-5 text-info"></i>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <h6 class="text-muted fw-bold mb-0 text-uppercase small me-3">Available Car Slots:</h6>
+                            @if (isCarFull)
+                            {
+                                <h4 class="text-danger fw-bold mb-0">FULL</h4>
+                            }
+                            else
+                            {
+                                <h4 class="fw-bold mb-0 text-dark">@carLeft</h4>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100" style="border-left: 5px solid #add8e6 !important; border-radius: 12px;">
+                <div class="card-body d-flex align-items-center justify-content-between py-2 px-4">
+                    <div class="d-flex align-items-center">
+                        <div class="rounded-circle bg-info bg-opacity-10 p-2 me-3">
+                            <i class="bi bi-bicycle fs-5 text-info"></i>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <h6 class="text-muted fw-bold mb-0 text-uppercase small me-3">Available Motorcycle Slots:</h6>
+                            @if (isMotorFull)
+                            {
+                                <h4 class="text-danger fw-bold mb-0">FULL</h4>
+                            }
+                            else
+                            {
+                                <h4 class="fw-bold mb-0 text-dark">@motorLeft</h4>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row align-items-center mb-4">
         <div class="col-md-6">
-            <h2 class="fw-bold text-primary">
-                <i class="bi bi-card-checklist me-2"></i>Gate Pass List
+            <h2 class="fw-bold text-info">
+                <i class="bi bi-card-checklist me-2"></i>Gate Pass Records
             </h2>
         </div>
         <div class="col-md-6 text-end">
-            @if (userRole == "Student" || userRole == "Faculty")
+            @if (userRole != "Admin")
             {
-                <a asp-controller="GatePass" asp-action="Create" class="btn btn-primary rounded-pill px-4 py-2 shadow-sm">
-                    <i class="bi bi-plus-circle me-2"></i> Create New Gate Pass
+                <a asp-action="Create" class="btn btn-info text-white rounded-pill px-4 py-2 shadow-sm @(disableCreate ? "disabled" : "")">
+                    <i class="bi bi-plus-circle me-2"></i> New Gate Pass Request
                 </a>
             }
         </div>
     </div>
 
+    @if (TempData["success"] != null)
+    {
+        <div class="alert alert-info alert-dismissible fade show shadow-sm border-0 border-start border-4 border-info bg-white" role="alert">
+            <i class="bi bi-check-circle-fill me-2 text-info"></i>
+            <span class="text-dark">@TempData["success"]</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
     @if (Model != null && Model.Any())
     {
-        <div class="table-responsive">
-            <table class="table table-hover align-middle">
-                <thead class="table-primary text-dark">
+        <div class="table-responsive shadow-sm rounded-3">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-header-custom">
                     <tr>
-                        <th>Status</th>
-                        <th>School Year</th>
-                        <th>Date</th>
-                        <th>Name</th>
-                        <th>Department</th>
-                        <th>Staff Type</th>
-                        <th>Plate No.</th>
+                        <th class="ps-4">Status</th>
+                        <th>Owner Name</th>
+                        <th>Vehicle Type</th>
+                        <th>Plate Number</th>
+                        <th>Registration Expiry</th>
                         <th class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var obj in Model)
                     {
-                        string statusColor = obj.Status switch
+                        string statusBadgeClass = obj.Status switch
                         {
-                            "Approved" => "bg-success",
-                            "Denied" => "bg-danger",
-                            "Pending" => "bg-warning text-dark",
-                            _ => "bg-secondary"
+                            "Approved" => "badge-modern badge-approved",
+                            "Denied" => "badge-modern badge-denied",
+                            "Pending" => "badge-modern badge-pending",
+                            _ => "badge bg-secondary text-white"
                         };
 
                         <tr>
-                            <td><span class="badge @statusColor px-3 py-2">@obj.Status</span></td>
-                            <td>@obj.SchoolYear</td>
-                            <td>@obj.Date.ToString("yyyy-MM-dd")</td>
-                            <td>@obj.Name</td>
-                            <td>@obj.Department</td>
-                            <td>@obj.Role</td>
-                            <td>@obj.PlateNumber</td>
+                            <td class="ps-4">
+                                <span class="@statusBadgeClass px-3 py-2">@obj.Status</span>
+                            </td>
+                            <td class="fw-bold">@obj.Name</td>
+                            <td>
+                                <i class="bi @(obj.VehicleType == "Car" ? "bi-car-front" : "bi-bicycle") me-2 text-muted"></i>
+                                @obj.VehicleType
+                            </td>
+                            <td><code class="text-info fw-bold">@obj.PlateNumber</code></td>
+                            <td class="text-muted small">@obj.Date.ToString("yyyy-MM-dd")</td>
                             <td class="text-center">
-                                <div class="btn-group" role="group" aria-label="Action Buttons">
+                                <div class="btn-group" role="group">
 
-                                    <!-- Edit button -->
-                                    <a href="@((obj.Status == "Approved") ? "javascript:void(0)" : Url.Action("Edit", new { id = obj.Id }))"
-                                       class="btn btn-sm btn-warning text-white mx-1 shadow-sm edit-btn"
-                                       data-status="@obj.Status">
-                                        <i class="bi bi-pencil-square"></i> Edit
-                                    </a>
+                                    @if (obj.Status == "Pending" || obj.Status == "Denied")
+                                    {
+                                        <a asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-sm btn-primary text-white mx-1 shadow-sm">
+                                            <i class="bi bi-pencil-square"></i> Edit
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-sm btn-primary text-white mx-1 shadow-sm edit-restricted">
+                                            <i class="bi bi-pencil-square"></i> Edit
+                                        </button>
+                                    }
 
                                     <a asp-action="Details" asp-route-id="@obj.Id" class="btn btn-sm btn-info text-white mx-1 shadow-sm">
                                         <i class="bi bi-eye-fill"></i> Details
                                     </a>
 
-                                    <a asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-sm btn-danger mx-1 shadow-sm">
-                                        <i class="bi bi-trash3-fill"></i> Delete
-                                    </a>
+                                    @if (obj.Status == "Pending" || obj.Status == "Denied")
+                                    {
+                                        <a asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-sm btn-danger mx-1 shadow-sm">
+                                            <i class="bi bi-trash3-fill"></i> Delete
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-sm btn-danger mx-1 shadow-sm delete-restricted">
+                                            <i class="bi bi-trash3-fill"></i> Delete
+                                        </button>
+                                    }
                                 </div>
                             </td>
                         </tr>
@@ -84,66 +169,45 @@
     }
     else
     {
-        <div class="alert alert-primary text-center shadow-sm">
-            <i class="bi bi-info-circle"></i> No Gate Pass Records Found.
+        <div class="alert alert-info text-center shadow-sm py-4 bg-white border-0">
+            <i class="bi bi-info-circle fs-2 d-block mb-2 text-info"></i>
+            <h5>No Gate Pass Records Found.</h5>
         </div>
     }
 </div>
 
-<!-- Centered Notification -->
-<div id="centerNotification" class="center-notification shadow-lg animate__animated animate__fadeIn" style="display:none;">
-    <div class="notification-content text-center p-4 rounded">
-        <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 2rem;"></i>
-        <h5 class="mt-2 fw-bold">Cannot Edit Gate Pass</h5>
-        <p class="mb-0">This gate pass is already <span class="fw-semibold">Approved</span> and cannot be edited.</p>
-        <button id="closeNotification" class="btn btn-outline-secondary mt-3 px-4">OK</button>
+<div id="centerNotification" class="center-notification shadow-lg" style="display:none;">
+    <div class="notification-content text-center p-4 rounded bg-white">
+        <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 2.5rem;"></i>
+        <h5 id="notifTitle" class="mt-2 fw-bold">Notification</h5>
+        <p id="notifMessage" class="mb-0 text-muted small"></p>
+        <button id="closeNotification" class="btn btn-outline-info mt-3 px-4 rounded-pill">OK</button>
     </div>
 </div>
-
-@section Styles {
-    <link rel="stylesheet" href="~/css/gatepass.css" />
-    <style>
-        /* Centered notification style */
-        .center-notification {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1050;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 1rem;
-            padding: 1rem 2rem;
-            min-width: 320px;
-            max-width: 500px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-        }
-
-            .center-notification .notification-content {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-
-        .edit-btn {
-            cursor: pointer;
-        }
-    </style>
-}
 
 @section Scripts {
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const editButtons = document.querySelectorAll(".edit-btn");
+            const editButtons = document.querySelectorAll(".edit-restricted");
+            const deleteButtons = document.querySelectorAll(".delete-restricted");
             const notification = document.getElementById("centerNotification");
             const closeBtn = document.getElementById("closeNotification");
+            const notifTitle = document.getElementById("notifTitle");
+            const notifMessage = document.getElementById("notifMessage");
 
             editButtons.forEach(btn => {
-                btn.addEventListener("click", function (e) {
-                    const status = btn.getAttribute("data-status");
-                    if (status === "Approved") {
-                        e.preventDefault(); // Prevent navigation
-                        notification.style.display = "block";
-                    }
+                btn.addEventListener("click", function () {
+                    notifTitle.innerText = "Cannot Edit Request";
+                    notifMessage.innerHTML = 'Only <span class="fw-bold text-warning">Pending</span> or <span class="fw-bold text-danger">Denied</span> requests can be modified.';
+                    notification.style.display = "block";
+                });
+            });
+
+            deleteButtons.forEach(btn => {
+                btn.addEventListener("click", function () {
+                    notifTitle.innerText = "Cannot Delete Request";
+                    notifMessage.innerHTML = 'You cannot delete an <span class="fw-bold text-success">Approved</span> request. Only the <span class="fw-bold text-info">Admin</span> can perform this action.';
+                    notification.style.display = "block";
                 });
             });
 

@@ -1,0 +1,234 @@
+﻿:root {
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --bg-body: #f8fafc;
+    --card-white: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --radius: 24px;
+    --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+}
+
+.profile-breakout-wrapper {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    padding: 40px 0;
+    min-height: 100vh;
+}
+
+.profile-inner-container {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(7, 110px);
+    gap: 25px;
+    width: 100%;
+}
+
+.p-card {
+    background: var(--card-white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    border: none;
+}
+
+.p-div1 {
+    grid-area: 1 / 1 / 4 / 4;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--primary) 0%, #1e3a8a 100%);
+    color: white;
+    padding: 20px;
+}
+
+.p-div2 {
+    grid-area: 4 / 1 / 8 / 4;
+    overflow-y: auto;
+}
+
+.p-div3 {
+    grid-area: 1 / 4 / 8 / 13;
+    padding: 0;
+    overflow: hidden;
+}
+
+.p-div3-header {
+    background: var(--primary);
+    color: white;
+    padding: 25px 30px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.p-div3-content {
+    padding: 30px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.section-highlight {
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    margin-top: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.highlight-blue {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border-left: 5px solid #2563eb;
+}
+
+.highlight-green {
+    background: #f0fdf4;
+    color: #15803d;
+    border-left: 5px solid #16a34a;
+}
+
+.highlight-yellow {
+    background: #fffbeb;
+    color: #b45309;
+    border-left: 5px solid #f59e0b;
+}
+
+.transaction-table {
+    width: 100%;
+    font-size: 0.85rem;
+    margin-bottom: 30px;
+    border-collapse: collapse;
+}
+
+    .transaction-table th {
+        color: var(--text-muted);
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        padding: 10px;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .transaction-table td {
+        padding: 15px 10px;
+        border-bottom: 1px solid #f8fafc;
+    }
+
+.badge-status {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.7rem;
+}
+
+.bg-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.bg-approved {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.bg-denied {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.pfp-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid rgba(255,255,255,0.2);
+}
+
+.modern-input {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1.5px solid #e2e8f0;
+    font-size: 0.9rem;
+    transition: 0.2s;
+}
+
+    .modern-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+    }
+
+.input-group {
+    margin-bottom: 12px;
+}
+
+.input-label {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.submit-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+    .submit-btn:hover {
+        background: var(--primary-hover);
+        transform: translateY(-2px);
+    }
+
+.camera-label {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: white;
+    color: var(--primary);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    font-size: 0.8rem;
+}

@@ -1,157 +1,183 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard Overview";
+
+    int carLeft = ViewBag.CarLeft ?? 0;
+    int motorLeft = ViewBag.MotorLeft ?? 0;
+
+    int totalLockers = 100;
+    int availableLockers = ViewBag.AvailableCount ?? 0;
+    var occupiedLockers = (List<string>)ViewBag.OccupiedLockers ?? new List<string>();
+
+    double lockerUsagePercent = ((double)(totalLockers - availableLockers) / totalLockers) * 100;
 }
 
-<style>
-    /* General button styling */
-    .btn-gradient {
-        color: white; /* All button text is white */
-        border: none;
-        padding: 10px 20px;
-        border-radius: 50px;
-        font-weight: bold;
-        transition: all 0.3s ease; /* Keep transition for smoother initial render, even without hover effect */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
+@section Styles {
+    <link rel="stylesheet" href="~/css/Home/Index.css" asp-append-version="true" />
+}
 
-        /* Remove hover effects for buttons */
-        .btn-gradient:hover {
-            transform: none; /* Remove translateY */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Keep original shadow */
-            color: white; /* Ensure text remains white */
-        }
-
-    /* Gate Pass Button - Blue */
-    .col-md-4:nth-child(1) .btn-gradient {
-        background: linear-gradient(45deg, #007bff, #0056b3); /* Blue gradient */
-    }
-
-        /* Keep original background on hover for blue button */
-        .col-md-4:nth-child(1) .btn-gradient:hover {
-            background: linear-gradient(45deg, #007bff, #0056b3);
-        }
-
-    /* Reservation Room Button - Green */
-    .col-md-4:nth-child(2) .btn-gradient {
-        background: linear-gradient(45deg, #28a745, #1e7e34); /* Green gradient */
-    }
-
-        /* Keep original background on hover for green button */
-        .col-md-4:nth-child(2) .btn-gradient:hover {
-            background: linear-gradient(45deg, #28a745, #1e7e34);
-        }
-
-    /* Locker Request Button - Yellow */
-    .col-md-4:nth-child(3) .btn-gradient {
-        background: linear-gradient(45deg, #ffc107, #d39e00); /* Yellow/Orange gradient */
-    }
-
-        /* Keep original background on hover for yellow button */
-        .col-md-4:nth-child(3) .btn-gradient:hover {
-            background: linear-gradient(45deg, #ffc107, #d39e00);
-        }
-
-    /* Overlay styles */
-    .overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 123, 255, 0.6); /* Default blue for Gate Pass overlay */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .overlay-green {
-        background: rgba(40, 167, 69, 0.6); /* Green for Reservation overlay */
-    }
-
-    .overlay-yellow {
-        background: rgba(255, 193, 7, 0.6); /* Yellow for Locker overlay */
-    }
-
-    .overlay-text {
-        color: white;
-        z-index: 1;
-        font-size: 1.8rem;
-        font-weight: bold;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    }
-
-    /* Other existing styles for the cards and layout */
-    .container {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-    }
-
-    /* Card hover effect: Scale up slightly and change shadow */
-    .card {
-        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Add transition for smooth effect */
-    }
-
-        .card:hover {
-            transform: scale(1.1); /* Make the card slightly larger */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2) !important; /* Enhance shadow on hover */
-        }
-
-    .card-img-top {
-        filter: brightness(0.7); /* Slightly dim the images for better text contrast */
-    }
-
-</style>
-
-<div class="container py-2">
-    <div class="text-center mb-5">
-        <h1 class="display-5 fw-bold text-primary">Welcome to ELDNET</h1>
-        <p class="text-muted">Quick access to Gate Pass, Reservation Room, and Locker Request services.</p>
+<div class="container-fluid px-4 py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold text-dark mb-0">University of Cebu Request Portal</h1>
+            <p class="text-muted">Real-time campus facility status and quick access.</p>
+        </div>
+        <div class="badge bg-white text-dark border shadow-sm p-3 rounded-pill">
+            <i class="bi bi-person-badge text-primary me-2"></i> Account Type: @(User.IsInRole("Faculty") ? "Faculty" : "Student")
+        </div>
     </div>
 
-    <!-- Removed the outer card box -->
-    <div class="row g-5">
-
+    <div class="row g-3 mb-5">
         <div class="col-md-4">
-            <div class="card shadow-lg border-0 h-100" style="border-radius: 20px; overflow: hidden;">
-                <div class="position-relative">
-                    <img src="~/images/reservation.png" class="card-img-top" alt="Gate Pass"
-                         style="height: 250px; object-fit: cover;">
-                    <div class="overlay"></div>
-                    <h4 class="overlay-text text-center">Gate Pass</h4>
-                </div>
-                <div class="card-body text-center p-4">
-                    <p class="text-muted">Request gate passes and view request status.</p>
-                    <a asp-controller="GatePass" asp-action="Index" class="btn btn-gradient mt-2">Go to Gate Pass</a>
+            <div class="card stat-card shadow-sm h-100 border-start border-info border-5">
+                <div class="card-body">
+                    <h6 class="text-muted small fw-bold text-uppercase">Parking Availability</h6>
+                    <div class="d-flex justify-content-around mt-3">
+                        <div class="text-center">
+                            <h4 class="mb-0 fw-bold @(carLeft == 0 ? "text-danger" : "")">@(carLeft == 0 ? "FULL" : carLeft.ToString())</h4>
+                            <small class="text-muted small"><i class="bi bi-car-front"></i> Cars</small>
+                        </div>
+                        <div class="vr"></div>
+                        <div class="text-center">
+                            <h4 class="mb-0 fw-bold @(motorLeft == 0 ? "text-danger" : "")">@(motorLeft == 0 ? "FULL" : motorLeft.ToString())</h4>
+                            <small class="text-muted small"><i class="bi bi-bicycle"></i> Motors</small>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="card shadow-lg border-0 h-100" style="border-radius: 20px; overflow: hidden;">
-                <div class="position-relative">
-                    <img src="~/images/roomadmin.png" class="card-img-top" alt="Reservation Room"
-                         style="height: 250px; object-fit: cover;">
-                    <div class="overlay overlay-green"></div>
-                    <h4 class="overlay-text text-center">Reservation Room</h4>
-                </div>
-                <div class="card-body text-center p-4">
-                    <p class="text-muted">Reserve rooms and check reservation status.</p>
-                    <a asp-controller="ReservationRoom" asp-action="Index" class="btn btn-gradient mt-2">Go to Reservation</a>
+            <div class="card stat-card shadow-sm h-100 border-start border-success border-5">
+                <div class="card-body">
+                    <h6 class="text-muted small fw-bold text-uppercase">Room View List</h6>
+                    <div class="d-flex align-items-center mt-2">
+                        <h5 class="mb-0 fw-bold">2nd - 8th Floor (UCB College Building)</h5>
+                        <button class="ms-auto btn btn-sm btn-link text-success p-0 fw-bold text-decoration-none" data-bs-toggle="modal" data-bs-target="#roomAvailabilityModal">View Lists</button>
+                    </div>
+                    <small class="text-muted small">University of Cebu - Banilad Rooms</small>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4">
-            <div class="card shadow-lg border-0 h-100" style="border-radius: 20px; overflow: hidden;">
-                <div class="position-relative">
-                    <img src="~/images/lockeradmin.png" class="card-img-top" alt="Locker Request"
-                         style="height: 250px; object-fit: cover;">
-                    <div class="overlay overlay-yellow"></div>
-                    <h4 class="overlay-text text-center">Locker Request</h4>
+            <div class="card stat-card shadow-sm h-100 border-start border-warning border-5">
+                <div class="card-body">
+                    <h6 class="text-muted small fw-bold text-uppercase">Locker Availability</h6>
+                    <div class="d-flex align-items-center mt-2">
+                        <h3 class="mb-0 fw-bold @(availableLockers == 0 ? "text-danger" : "")">@availableLockers</h3>
+                        <span class="ms-2 text-muted small">Slots Free</span>
+                        <button class="ms-auto btn btn-sm btn-link text-warning p-0 fw-bold text-decoration-none" data-bs-toggle="modal" data-bs-target="#lockerAvailabilityModal">Status Grid</button>
+                    </div>
+                    <div class="progress mt-2" style="height: 6px;">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: @lockerUsagePercent%;"></div>
+                    </div>
+                    <div class="d-flex justify-content-between mt-1">
+                        <small class="text-muted" style="font-size: 10px;">@Math.Round(lockerUsagePercent)% Occupied</small>
+                        <small class="text-muted" style="font-size: 10px;">Total: @totalLockers</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card service-card shadow-lg">
+                <div class="card-img-container">
+                    <img src="~/images/reservation.png" class="card-img-top" alt="Gate Pass">
+                    <div class="overlay overlay-blue">
+                        <h4 class="overlay-text text-center">Gate Pass</h4>
+                    </div>
                 </div>
                 <div class="card-body text-center p-4">
-                    <p class="text-muted">Apply for locker slot and view locker request status.</p>
-                    <a asp-controller="LockerRequest" asp-action="Index" class="btn btn-gradient mt-2">Go to Locker</a>
+                    <p class="text-muted small">Request vehicle gate passes and manage entry permits for campus parking.</p>
+                    <a asp-controller="GatePass" asp-action="Index" class="btn-gradient btn-blue mt-2">Go to Gate Pass</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card service-card shadow-lg">
+                <div class="card-img-container">
+                    <img src="~/images/roomadmin.png" class="card-img-top" alt="Room Reservation">
+                    <div class="overlay overlay-green">
+                        <h4 class="overlay-text text-center">Room Reservation</h4>
+                    </div>
+                </div>
+                <div class="card-body text-center p-4">
+                    <p class="text-muted small">Secure campus spaces for meetings, events, or academic activities.</p>
+                    <a asp-controller="ReservationRoom" asp-action="Index" class="btn-gradient btn-green mt-2">Go to Reservation</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card service-card shadow-lg">
+                <div class="card-img-container">
+                    <img src="~/images/lockeradmin.png" class="card-img-top" alt="Locker Request">
+                    <div class="overlay overlay-yellow">
+                        <h4 class="overlay-text text-center">Locker Request</h4>
+                    </div>
+                </div>
+                <div class="card-body text-center p-4">
+                    <p class="text-muted small">Apply for personal storage slots and track your request status.</p>
+                    <a asp-controller="LockerRequest" asp-action="Index" class="btn-gradient btn-yellow mt-2">Go to Locker</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="roomAvailabilityModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header text-white" style="background-color: #198754;">
+                <h5 class="modal-title fw-bold"><i class="bi bi-building me-2"></i>Campus Room Map</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body bg-light p-4">
+                @for (int floor = 2; floor <= 8; floor++)
+                {
+                    <h6 class="fw-bold text-success text-uppercase border-bottom pb-1 mt-3">Floor @floor</h6>
+                    <div class="room-grid mb-3">
+                        @for (int roomNum = 1; roomNum <= 10; roomNum++)
+                        {
+                            <div class="room-item shadow-sm">Room @floor@roomNum.ToString("D2")</div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="lockerAvailabilityModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header text-dark" style="background-color: #FFF59D;">
+                <h5 class="modal-title fw-bold"><i class="bi bi-grid-3x3-gap-fill me-2"></i>Locker Availability Map</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body bg-light p-4">
+                <div class="d-flex justify-content-center mb-3">
+                    <span class="badge bg-success me-2 px-3">Available</span>
+                    <span class="badge bg-danger px-3">Occupied</span>
+                </div>
+                <div class="locker-grid-dash">
+                    @for (int i = 0; i < 100; i++)
+                    {
+                        char rowLetter = (char)('A' + (i / 10));
+                        int num = (i % 10) + 1;
+                        string lockerName = $"{rowLetter}{num:D2}";
+                        bool isOccupied = occupiedLockers.Contains(lockerName);
+
+                        <div class="locker-item-dash @(isOccupied ? "occupied" : "available") shadow-sm">
+                            @lockerName
+                        </div>
+                    }
+                </div>
+                <div class="text-center mt-3">
+                    <small class="text-muted">Displaying Lockers A01 through J10</small>
                 </div>
             </div>
         </div>

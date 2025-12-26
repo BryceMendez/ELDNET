@@ -1,0 +1,121 @@
+﻿body {
+    background-color: #f8f9fa;
+}
+
+.dashboard-card {
+    border-left: 5px solid #FFF59D !important;
+    border-radius: 12px;
+}
+
+.icon-container-light {
+    background-color: rgba(253, 253, 150, 0.3);
+}
+
+.icon-gold {
+    color: #d4ac0d;
+}
+
+.btn-custom-yellow {
+    background-color: #EDC001;
+}
+
+.text-custom-yellow {
+    color: #EDC001;
+}
+
+.success-alert-border {
+    border-color: #FFF59D !important;
+}
+
+.table-header-custom {
+    background-color: #FFF59D !important;
+    color: #000 !important;
+}
+
+    .table-header-custom th {
+        padding: 12px 15px;
+        font-weight: 600;
+        border: none;
+    }
+
+.badge-modern {
+    display: inline-block;
+    min-width: 90px;
+    text-align: center;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+    .badge-modern.badge-pending {
+        background-color: #EDC001 !important;
+        color: #212529 !important;
+        border: 1px solid #EDC001;
+    }
+
+    .badge-modern.badge-approved {
+        background-color: #198754 !important;
+        color: #fff !important;
+    }
+
+    .badge-modern.badge-denied {
+        background-color: #dc3545 !important;
+        color: #fff !important;
+    }
+
+.locker-code {
+    color: #8a8a00;
+}
+
+.modal-header-custom {
+    background-color: #FFF59D;
+}
+
+.locker-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+    gap: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.locker-item {
+    padding: 10px 5px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 700;
+    border: 2px solid transparent;
+}
+
+    .locker-item.occupied {
+        background-color: #f8d7da;
+        color: #842029;
+        border-color: #f5c2c7;
+    }
+
+    .locker-item.available {
+        background-color: #d1e7dd;
+        color: #0f5132;
+        border-color: #badbcc;
+    }
+
+.center-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2000;
+    min-width: 320px;
+    background: white;
+    border-radius: 1.2rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.notification-icon {
+    font-size: 2.5rem;
+    color: #EDC001;
+}
+
+.action-btn {
+    cursor: pointer;
+}

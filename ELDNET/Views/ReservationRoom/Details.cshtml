@@ -5,116 +5,221 @@
 }
 
 <div class="container py-4 animate__animated animate__fadeIn">
-    <div class="custom-card shadow-lg border-0">
-        <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #03AC13);">
-            <h2 class="mb-2 fw-bold"><i class="bi bi-calendar-check me-2"></i>Reservation Details</h2>
-            <p class="mb-0 text-white-50">Comprehensive information for this room reservation.</p>
+    <div class="custom-card shadow-lg border-0 bg-white rounded-4 overflow-hidden">
+
+        <div class="card-header text-white text-center py-4" style="background: linear-gradient(45deg, #03AC13, #028a0f);">
+            <div class="d-flex justify-content-between align-items-center px-lg-4 px-2">
+                <div class="text-start">
+                    <h2 class="mb-0 fw-bold"><i class="bi bi-calendar-check-fill me-2"></i>Reservation Details</h2>
+                    <p class="mb-0 text-white-50 small">Room Reservation #@Model.Id | Applied: @Model.Date.ToString("MMM dd, yyyy")</p>
+                </div>
+                <div class="status-badge-container">
+                    <span class="badge rounded-pill px-4 py-2 bg-white text-dark shadow-sm">
+                        Overall Status: <strong class="@GetStatusColorClass(Model.Status)">@Model.Status.ToUpper()</strong>
+                    </span>
+                </div>
+            </div>
         </div>
-        <div class="card-body p-5">
-            <div class="row g-5">
-                <!-- General Information Section -->
-                <div class="col-lg-6 border-end-lg pe-lg-5">
-                    <h5 class="text-indigo mb-4 pb-2 border-bottom border-indigo-subtle">
-                        <i class="bi bi-info-circle me-2"></i>General Information
-                    </h5>
-                    <dl class="row detail-list-modern">
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.OrganizationName)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.OrganizationName)</dd>
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ActivityTitle)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.ActivityTitle)</dd>
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ActivityDate)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.ActivityDate)</dd>
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Speaker)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Speaker)</dd>
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Venue)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Venue)</dd>
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PurposeObjective)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.PurposeObjective)</dd>
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.NatureOfActivity)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.NatureOfActivity)</dd>
-                    </dl>
+
+        <div class="card-body p-lg-5 p-4">
+            <div class="row g-4">
+
+                <div class="col-lg-6">
+                    <h5 class="section-title text-success"><i class="bi bi-people-fill me-2"></i>Activity Information</h5>
+                    <div class="info-grid p-3 rounded-3 bg-light border">
+                        <dl class="row mb-0">
+                            <dt class="col-sm-5 text-muted">Organization</dt>
+                            <dd class="col-sm-7 fw-bold">@Model.OrganizationName</dd>
+
+                            <dt class="col-sm-5 text-muted">Activity Title</dt>
+                            <dd class="col-sm-7 fw-bold text-primary">@Model.ActivityTitle</dd>
+
+                            <dt class="col-sm-5 text-muted">Activity Date</dt>
+                            <dd class="col-sm-7">@Model.ActivityDate.ToString("MMMM dd, yyyy")</dd>
+
+                            <dt class="col-sm-5 text-muted">Speaker</dt>
+                            <dd class="col-sm-7">@(string.IsNullOrEmpty(Model.Speaker) ? "N/A" : Model.Speaker)</dd>
+
+                            <dt class="col-sm-5 text-muted">Nature</dt>
+                            <dd class="col-sm-7">@Model.NatureOfActivity</dd>
+
+                            <dt class="col-sm-5 text-muted">Purpose</dt>
+                            <dd class="col-sm-7 small">@Model.PurposeObjective</dd>
+                        </dl>
+                    </div>
                 </div>
 
-                <!-- Reservation Specifics Section -->
-                <div class="col-lg-6 ps-lg-5">
-                    <h5 class="text-secondary-emphasis mb-4 pb-2 border-bottom border-secondary-subtle">
-                        <i class="bi bi-clock-history me-2"></i>Reservation Specifics
-                    </h5>
-                    <dl class="row detail-list-modern">
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DateNeeded)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.DateNeeded)</dd>
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.TimeFrom)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.TimeFrom)</dd>
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.TimeTo)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.TimeTo)</dd>
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Participants)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Participants)</dd>
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.EquipmentFacilities)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.EquipmentFacilities)</dd>
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.SourceOfFunds)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.SourceOfFunds)</dd>
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.RoomNumber)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.RoomNumber)</dd>
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ReservedBy)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.ReservedBy)</dd>
-                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Date)</dt>
-                        <dd class="col-sm-8 text-dark fw-semibold">@Html.DisplayFor(model => model.Date)</dd>
-                    </dl>
+                <div class="col-lg-6">
+                    <h5 class="section-title text-primary"><i class="bi bi-clock-fill me-2"></i>Reservation Specifics</h5>
+                    <div class="info-grid p-3 rounded-3 bg-light border">
+                        <dl class="row mb-0">
+                            <dt class="col-sm-5 text-muted">Room Number</dt>
+                            <dd class="col-sm-7 fw-bold text-danger">@Model.RoomNumber</dd>
+
+                            <dt class="col-sm-5 text-muted">Venue</dt>
+                            <dd class="col-sm-7">@Model.Venue</dd>
+
+                            <dt class="col-sm-5 text-muted">Date Needed</dt>
+                            <dd class="col-sm-7 fw-bold">@Model.DateNeeded.ToString("MMMM dd, yyyy")</dd>
+
+                            <dt class="col-sm-5 text-muted">Time Schedule</dt>
+                            <dd class="col-sm-7">@Model.TimeFrom to @Model.TimeTo</dd>
+
+                            <dt class="col-sm-5 text-muted">Participants</dt>
+                            <dd class="col-sm-7">@Model.Participants Expected</dd>
+
+                            <dt class="col-sm-5 text-muted">Reserved By</dt>
+                            <dd class="col-sm-7 text-primary">@Model.ReservedBy</dd>
+                        </dl>
+                    </div>
                 </div>
 
-                <!-- Action Buttons -->
-                <div class="col-12 text-center pt-5 border-top">
-                    <a href="@(Model.Status == "Approved" ? "javascript:void(0)" : Url.Action("Edit", new { id = Model.Id }))"
-                       class="btn-gradient btn-lg me-3 animate__animated animate__pulse animate__infinite edit-btn"
-                       data-status="@Model.Status"
-                       style="min-width: 150px; background: linear-gradient(45deg, #03AC13);">
-                        <i class="bi bi-pencil-square me-2"></i>Edit
-                    </a>
-                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="min-width: 150px;">
-                        <i class="bi bi-arrow-left me-2"></i>Back to List
-                    </a>
+                <div class="col-12 mt-4">
+                    <h5 class="section-title text-secondary"><i class="bi bi-tools me-2"></i>Logistics & Support</h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded-3 h-100 bg-white">
+                                <p class="mb-1 fw-bold text-muted small uppercase">Equipment & Facilities Needed</p>
+                                <p class="mb-0">@Model.EquipmentFacilities</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded-3 h-100 bg-white">
+                                <p class="mb-1 fw-bold text-muted small uppercase">Source of Funds</p>
+                                <p class="mb-0">@Model.SourceOfFunds</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="col-12 mt-5">
+                    <h4 class="text-center mb-4 fw-bold"><i class="bi bi-shield-lock-fill me-2"></i>Reservation Approval Tracking</h4>
+                    <div class="row g-3 justify-content-center">
+                        <div class="col-md-4">
+                            <div class="card h-100 border shadow-sm text-center p-3">
+                                <div class="mb-2">@Html.Raw(GetStatusIcon(Model.Approver1Status))</div>
+                                <h6 class="fw-bold mb-1">@(string.IsNullOrEmpty(Model.Approver1Name) ? "SAO Director" : Model.Approver1Name)</h6>
+                                <p class="text-muted small mb-2">Step 1: SAO Director</p>
+                                @Html.Raw(GetStatusBadge(Model.Approver1Status))
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card h-100 border shadow-sm text-center p-3">
+                                <div class="mb-2">@Html.Raw(GetStatusIcon(Model.Approver2Status))</div>
+                                <h6 class="fw-bold mb-1">@(string.IsNullOrEmpty(Model.Approver2Name) ? "Department Head" : Model.Approver2Name)</h6>
+                                <p class="text-muted small mb-2">Step 2: Department Head</p>
+                                @Html.Raw(GetStatusBadge(Model.Approver2Status))
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card h-100 border shadow-sm text-center p-3">
+                                <div class="mb-2">@Html.Raw(GetStatusIcon(Model.Approver3Status))</div>
+                                <h6 class="fw-bold mb-1">@(string.IsNullOrEmpty(Model.Approver3Name) ? "Campus Director" : Model.Approver3Name)</h6>
+                                <p class="text-muted small mb-2">Step 3: Campus Director</p>
+                                @Html.Raw(GetStatusBadge(Model.Approver3Status))
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card h-100 border shadow-sm text-center p-3">
+                                <div class="mb-2">@Html.Raw(GetStatusIcon(Model.Approver4Status))</div>
+                                <h6 class="fw-bold mb-1">@(string.IsNullOrEmpty(Model.Approver4Name) ? "Building Officer" : Model.Approver4Name)</h6>
+                                <p class="text-muted small mb-2">Step 4: Building Officer</p>
+                                @Html.Raw(GetStatusBadge(Model.Approver4Status))
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card h-100 border shadow-sm text-center p-3">
+                                <div class="mb-2">@Html.Raw(GetStatusIcon(Model.Approver5Status))</div>
+                                <h6 class="fw-bold mb-1">@(string.IsNullOrEmpty(Model.Approver5Name) ? "Head Guard" : Model.Approver5Name)</h6>
+                                <p class="text-muted small mb-2">Step 5: Head Guard</p>
+                                @Html.Raw(GetStatusBadge(Model.Approver5Status))
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 mt-5 text-center">
+                    <div class="p-4 rounded-4 @(Model.FinalStatus == "Approved" ? "bg-success-subtle border-success" : (Model.FinalStatus == "Denied" ? "bg-danger-subtle border-danger" : "bg-light border")) border">
+                        <span class="text-muted text-uppercase fw-bold small d-block mb-1">Final Reservation Result</span>
+
+                        <h2 class="fw-bold @(Model.FinalStatus == "Approved" ? "text-success" : (Model.FinalStatus == "Denied" ? "text-danger" : "text-dark"))">
+                            @Model.FinalStatus
+                        </h2>
+
+                        @if (Model.FinalStatus == "Denied" && !string.IsNullOrEmpty(Model.DenialReasonReservation))
+                        {
+                            <div class="mt-3 pt-3 border-top border-danger-subtle">
+                                <h6 class="text-danger fw-bold text-center"><i class="bi bi-exclamation-octagon-fill me-2"></i>Reason for Denial:</h6>
+                                <p class="mb-0 text-dark">@Model.DenialReasonReservation</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-12 text-center pt-5 mt-4 border-top">
+                <a href="@(Model.Status == "Approved" ? "javascript:void(0)" : Url.Action("Edit", new { id = Model.Id }))"
+                   class="btn btn-success btn-lg px-5 me-2 shadow edit-btn"
+                   data-status="@Model.Status">
+                    <i class="bi bi-pencil-square me-2"></i>Edit Reservation
+                </a>
+                <a asp-action="Index" class="btn btn-outline-secondary btn-lg px-5 shadow-sm">
+                    <i class="bi bi-arrow-left me-2"></i>Back to List
+                </a>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Centered Notification -->
-<div id="centerNotification" class="center-notification shadow-lg animate__animated animate__fadeIn" style="display:none;">
-    <div class="notification-content text-center p-4 rounded">
-        <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 2rem;"></i>
-        <h5 class="mt-2 fw-bold">Cannot Edit Reservation</h5>
-        <p class="mb-0">This reservation is already <span class="fw-semibold">Approved</span> and cannot be edited.</p>
-        <button id="closeNotification" class="btn btn-outline-secondary mt-3 px-4">OK</button>
+<div id="centerNotification" class="center-notification shadow-lg animate__animated animate__zoomIn" style="display:none;">
+    <div class="notification-content text-center p-4 rounded bg-white border">
+        <i class="bi bi-lock-fill text-danger" style="font-size: 3rem;"></i>
+        <h4 class="mt-2 fw-bold">Reservation Locked</h4>
+        <p class="mb-0">This reservation is already <span class="badge bg-success">Approved</span>.</p>
+        <p class="text-muted small">You can no longer edit this record as it is already finalized.</p>
+        <button id="closeNotification" class="btn btn-dark mt-3 px-5">Close</button>
     </div>
 </div>
 
+@functions {
+    public string GetStatusColorClass(string status)
+    {
+        return status switch
+        {
+            "Approved" => "text-success",
+            "Denied" => "text-danger",
+            _ => "text-warning"
+        };
+    }
+
+    public string GetStatusIcon(string status)
+    {
+        return status switch
+        {
+            "Approved" => "<i class='bi bi-check-circle-fill text-success fs-2'></i>",
+            "Denied" => "<i class='bi bi-x-circle-fill text-danger fs-2'></i>",
+            _ => "<i class='bi bi-hourglass-split text-warning fs-2'></i>"
+        };
+    }
+
+    public string GetStatusBadge(string status)
+    {
+        return status switch
+        {
+            "Approved" => "<span class='badge bg-success w-100 py-2 shadow-sm'>Approved</span>",
+            "Denied" => "<span class='badge bg-danger w-100 py-2 shadow-sm'>Denied</span>",
+            _ => "<span class='badge bg-warning text-dark w-100 py-2 shadow-sm'>Pending Review</span>"
+        };
+    }
+}
+
 @section Styles {
-    <style>
-        .center-notification {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1050;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 1rem;
-            padding: 1rem 2rem;
-            min-width: 320px;
-            max-width: 500px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-        }
-
-            .center-notification .notification-content {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-
-        .edit-btn {
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="~/css/ReservationRoom/Details.css" />
 }
 
 @section Scripts {
@@ -124,17 +229,21 @@
             const notification = document.getElementById("centerNotification");
             const closeBtn = document.getElementById("closeNotification");
 
-            editBtn.addEventListener("click", function (e) {
-                const status = editBtn.getAttribute("data-status");
-                if (status === "Approved") {
-                    e.preventDefault();
-                    notification.style.display = "block";
-                }
-            });
+            if (editBtn) {
+                editBtn.addEventListener("click", function (e) {
+                    const status = editBtn.getAttribute("data-status");
+                    if (status === "Approved") {
+                        e.preventDefault();
+                        notification.style.display = "block";
+                    }
+                });
+            }
 
-            closeBtn.addEventListener("click", function () {
-                notification.style.display = "none";
-            });
+            if (closeBtn) {
+                closeBtn.addEventListener("click", function () {
+                    notification.style.display = "none";
+                });
+            }
         });
     </script>
 }

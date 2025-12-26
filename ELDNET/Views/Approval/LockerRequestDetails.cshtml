@@ -6,222 +6,210 @@
 
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="~/css/site.css" rel="stylesheet" />
-    <link href="~/css/lockerdetails.css" rel="stylesheet" /> @* New CSS file for specific overrides *@
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+    <link href="~/css/Approval/Locker.css" rel="stylesheet" />
 </head>
 
-<div class="container py-3 animate__animated animate__fadeIn">
-    @* Changed to py-3 for compact padding *@
-    <div class="modern-card">
-        @* Using modern-card class for consistency *@
-        <div class="card-header-modern-compact">
-            @* Using the compact header class *@
-            <h2 class="mb-1"><i class="bi bi-box-seam me-3"></i>Locker Request Details</h2> @* Adjusted header size via CSS *@
-            <p class="text-white-75 mb-0">Comprehensive information for this locker request.</p>
+<div class="container py-5">
+    <div class="modern-card animate__animated animate__fadeIn">
+        <div class="glass-header d-flex justify-content-between align-items-center">
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-2">
+                        <li class="breadcrumb-item"><a href="#" class="text-white opacity-75 text-decoration-none">Locker Request</a></li>
+                        <li class="breadcrumb-item active text-white" aria-current="page">Details</li>
+                    </ol>
+                </nav>
+                <h2 class="fw-bold mb-0">LR-@Model.Id.ToString("D5")</h2>
+                <span class="opacity-75"><i class="bi bi-calendar3 me-2"></i>Requested on @Model.Date.ToString("MMMM dd, yyyy")</span>
+            </div>
+            <div class="text-end">
+                <div class="mb-2 opacity-75 small fw-bold">OVERALL STATUS</div>
+                <span class="status-pill @(Model.Status == "Approved" ? "bg-success" : Model.Status == "Denied" ? "bg-danger" : "bg-warning text-dark")">
+                    @Model.Status
+                </span>
+            </div>
         </div>
 
-        <div class="card-body p-lg-5 p-4">
-            <div class="row g-5">
+        <div class="card-body p-4 p-lg-5">
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <div class="data-section">
+                                <div class="section-label"><i class="bi bi-person-badge text-primary"></i> Requestor Information</div>
+                                <div class="row">
+                                    <div class="col-md-6 info-group">
+                                        <div class="info-label">Full Name</div>
+                                        <div class="info-value">@Model.Name</div>
+                                    </div>
+                                    <div class="col-md-6 info-group">
+                                        <div class="info-label">ID Number</div>
+                                        <div class="info-value">@Model.IdNumber</div>
+                                    </div>
+                                    <div class="col-md-6 info-group">
+                                        <div class="info-label">Contact Number</div>
+                                        <div class="info-value">@Model.ContactNumber</div>
+                                    </div>
+                                    <div class="col-md-6 info-group">
+                                        <div class="info-label">Semester / Term</div>
+                                        <div class="info-value">@Model.Semester</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                <!-- Requestor Information Section -->
-                <div class="col-lg-6">
-                    <h5 class="detail-section-title">
-                        @* Using the consistent detail section title class *@
-                        <i class="bi bi-person-circle"></i>Requestor Information
-                    </h5>
-                    <dl class="row detail-list-modern-improved">
-                        @* Using the consistent definition list class *@
-                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Name)</dt>
-                        <dd class="col-sm-7">@Html.DisplayFor(model => model.Name)</dd>
-
-                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.IdNumber)</dt>
-                        <dd class="col-sm-7">@Html.DisplayFor(model => model.IdNumber)</dd>
-
-                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.ContactNumber)</dt>
-                        <dd class="col-sm-7">@Html.DisplayFor(model => model.ContactNumber)</dd>
-
-                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.Semester)</dt>
-                        <dd class="col-sm-7">@Html.DisplayFor(model => model.Semester)</dd>
-                    </dl>
+                        <div class="col-12">
+                            <div class="data-section">
+                                <div class="section-label"><i class="bi bi-key-fill text-primary"></i> Locker Details</div>
+                                <div class="row">
+                                    <div class="col-md-6 info-group">
+                                        <div class="info-label">Locker Number</div>
+                                        <div class="info-value fw-bold text-primary">@Model.LockerNumber</div>
+                                    </div>
+                                    <div class="col-md-6 info-group">
+                                        <div class="info-label">Terms Acceptance</div>
+                                        <div class="info-value">@(Model.AcceptTerms ? "Accepted" : "Pending")</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Locker & Document Information Section -->
-                <div class="col-lg-6 divider-line">
-                    @* Retaining divider-line class *@
-                    <h5 class="detail-section-title">
-                        @* Using the consistent detail section title class *@
-                        <i class="bi bi-key"></i>Locker Information
-                    </h5>
-                    <dl class="row detail-list-modern-improved">
-                        @* Using the consistent definition list class *@
-                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.LockerNumber)</dt>
-                        <dd class="col-sm-7">@Html.DisplayFor(model => model.LockerNumber)</dd>
-
-                        <dt class="col-sm-5">@Html.DisplayNameFor(model => model.AcceptTerms)</dt>
-                        <dd class="col-sm-7">@(Model.AcceptTerms ? "Yes" : "No")</dd>
-                    </dl>
-
-                    <h5 class="detail-section-title mt-5">
-                        @* Using the consistent detail section title class *@
-                        <i class="bi bi-file-earmark-text"></i>Uploaded Files
-                    </h5>
-                    <dl class="row detail-list-modern-improved">
-                        @* Using the consistent definition list class *@
-                        <dt class="col-sm-5">Study Load File:</dt>
-                        <dd class="col-sm-7">
+                <div class="col-lg-4">
+                    <div class="data-section">
+                        <div class="section-label"><i class="bi bi-paperclip text-primary"></i> Supporting Documents</div>
+                        <div class="d-grid gap-2">
                             @if (!string.IsNullOrEmpty(Model.StudyLoadPath))
                             {
-                                <a href="@Url.Content(Model.StudyLoadPath)" target="_blank" class="file-link">
-                                    @* Using the file-link class *@
-                                    <i class="bi bi-box-arrow-down-right"></i> View Study Load
+                                <a href="@Url.Content(Model.StudyLoadPath)" target="_blank" class="file-card">
+                                    <i class="bi bi-file-earmark-text fs-4 me-3 text-primary"></i>
+                                    <div>
+                                        <div class="fw-bold small">Study Load</div>
+                                        <div class="text-muted" style="font-size: 0.7rem;">View Attachment</div>
+                                    </div>
                                 </a>
                             }
-                            else
-                            {
-                                <span class="text-muted fst-italic">No file uploaded</span>
-                            }
-                        </dd>
-
-                        <dt class="col-sm-5">Registration Form:</dt>
-                        <dd class="col-sm-7">
                             @if (!string.IsNullOrEmpty(Model.RegistrationPath))
                             {
-                                <a href="@Url.Content(Model.RegistrationPath)" target="_blank" class="file-link">
-                                    @* Using the file-link class *@
-                                    <i class="bi bi-box-arrow-down-right"></i> View Registration Form
+                                <a href="@Url.Content(Model.RegistrationPath)" target="_blank" class="file-card">
+                                    <i class="bi bi-card-checklist fs-4 me-3 text-primary"></i>
+                                    <div>
+                                        <div class="fw-bold small">Registration Form</div>
+                                        <div class="text-muted" style="font-size: 0.7rem;">View Attachment</div>
+                                    </div>
                                 </a>
                             }
-                            else
-                            {
-                                <span class="text-muted fst-italic">No file uploaded</span>
-                            }
-                        </dd>
-                    </dl>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(Model.DenialReasonLocker))
+                        {
+                            <div class="mt-4 p-3 rounded-3 bg-danger-subtle border border-danger-subtle text-danger">
+                                <div class="fw-bold small mb-1"><i class="bi bi-exclamation-octagon-fill"></i> REASON FOR DENIAL</div>
+                                <div class="small">@Model.DenialReasonLocker</div>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
 
-            <!-- Approval Workflow Section -->
-            <div class="mt-5 pt-5 border-top text-center">
-                <h4 class="detail-section-title justify-content-center mb-5">
-                    @* Using the consistent detail section title class *@
-                    <i class="bi bi-diagram-3"></i>Approval Workflow
-                </h4>
+            <div class="mt-5">
+                <div class="section-label mb-4"><i class="bi bi-ui-checks text-primary"></i> Approval Workflow & Actions</div>
+                <div class="row g-4">
+                    @{
+                        var step = new { Name = Model.Approver1Name, Status = Model.Approver1Status, ID = 1 };
+                        var cardClass = step.Status == "Approved" ? "approved" : (step.Status == "Denied" ? "denied" : "pending active-stage");
+                        var statusIcon = step.Status == "Approved" ? "bi-check-circle-fill text-success" : (step.Status == "Denied" ? "bi-x-circle-fill text-danger" : "bi-clock-history text-warning");
+                    }
 
-                <div class="row justify-content-center g-4">
-                    <!-- Single Approver for Locker Request - Refined Card Format -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card gp-approver-card-new h-100 shadow-sm border-0">
-                            @* Re-using the gp-approver-card-new class for consistency in look *@
-                            <div class="card-body d-flex flex-column align-items-center p-4">
-                                <div class="gp-approver-status-icon mb-2">
-                                    @* Icon on top *@
-                                    @if (Model.Approver1Status == "Pending")
-                                    {
-                                        <i class="bi bi-hourglass-split text-warning"></i>
-                                    }
-                                    else if (Model.Approver1Status == "Approved")
-                                    {
-                                        <i class="bi bi-check-circle-fill text-success"></i>
-                                    }
-                                    else
-                                    {
-                                        <i class="bi bi-x-circle-fill text-danger"></i>
-                                    }
-                                </div>
-                                <div class="gp-approver-status-label mb-3">
-                                    @* Label below icon *@
-                                    @if (Model.Approver1Status == "Pending")
-                                    {
-                                        <span class="badge badge-modern badge-pending">Pending</span>
-                                    }
-                                    else if (Model.Approver1Status == "Approved")
-                                    {
-                                        <span class="badge badge-modern badge-approved">Approved</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge badge-modern badge-denied">Denied</span>
-                                    }
-                                </div>
-                                <h5 class="mb-1 gp-approver-name">
-                                    @* Adjusted margin-bottom here *@
-                                    @if (!string.IsNullOrEmpty(Model.Approver1Name))
-                                    {
-                                        @Model.Approver1Name
-                                    }
-                                    else
-                                    {
-                                        <span>Locker Approver</span>
-                                    }
-                                </h5>
-                                <hr class="gp-approver-divider" /> @* Visible Separator Line *@
-                                <form id="approverForm_1" asp-controller="Approval" asp-action="SetApproval" method="post" class="mt-2 gp-approver-buttons-form">
-                                    @* Adjusted margin-top here *@
+                    <div class="col-md-4">
+                        <div class="approver-card @cardClass shadow-sm">
+                            <div class="stage-badge">STAGE @step.ID</div>
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="bi @statusIcon fs-4 me-2"></i>
+                                <div class="fw-bold text-dark">@step.Name</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <span class="small text-muted d-block">Current Status:</span>
+                                <span class="badge @(step.Status == "Approved" ? "bg-success-subtle text-success" : step.Status == "Denied" ? "bg-danger-subtle text-danger" : "bg-warning-subtle text-warning")">
+                                    @(step.Status ?? "Pending Action")
+                                </span>
+                            </div>
+
+                            <div class="pt-3 border-top mt-auto">
+                                <form id="approverForm_@step.ID" asp-controller="Approval" asp-action="SetApproval" method="post">
                                     <input type="hidden" name="id" value="@Model.Id" />
                                     <input type="hidden" name="type" value="Locker" />
-                                    <input type="hidden" name="approver" value="1" />
-
-                                    <div class="d-flex justify-content-center w-100">
-                                        @* Added this div for inline buttons *@
-                                        <button type="button" onclick="event.preventDefault(); submitApproverForm(1, 'Approved');" class="btn btn-success me-2 gp-approver-btn">Approve</button>
-                                        <button type="button" onclick="event.preventDefault(); submitApproverForm(1, 'Denied');" class="btn btn-danger gp-approver-btn">Deny</button>
+                                    <input type="hidden" name="approver" value="@step.ID" />
+                                    <div class="row g-2">
+                                        <div class="col-6">
+                                            <button type="button" onclick="submitApproverForm(@step.ID, 'Approved')" class="btn btn-approve w-100 btn-sm fw-bold py-2">APPROVE</button>
+                                        </div>
+                                        <div class="col-6">
+                                            <button type="button" onclick="submitApproverForm(@step.ID, 'Denied')" class="btn btn-deny w-100 btn-sm fw-bold py-2">DENY</button>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Final Confirmation Section - Redesigned -->
-                <div class="mt-5 pt-4 border-top text-center">
-                    <p class="final-status-text mb-4">Final Status: <strong class="final-status-@(Model.FinalStatus?.ToLower())">@Model.FinalStatus</strong></p> @* Final Status on top *@
-                    <div class="d-flex justify-content-center gap-3">
-                        @* Buttons side-by-side with gap *@
-                        <form asp-controller="Approval" asp-action="ConfirmApproval" method="post" class="m-0">
-                            @* Remove form margin *@
-                            <input type="hidden" name="id" value="@Model.Id" />
-                            <input type="hidden" name="type" value="Locker" />
-                            <button type="submit" class="btn btn-primary btn-lg btn-final-action">
-                                @* Added btn-final-action class *@
-                                <i class="bi bi-check2-circle me-2"></i>Confirm Final Decision
-                            </button>
-                        </form>
-                        <a asp-action="Index" class="btn btn-secondary btn-lg btn-gray-modern btn-final-action">
-                            @* Added btn-final-action class *@
-                            <i class="bi bi-arrow-left me-2"></i>Back to List
-                        </a>
-                    </div>
-                </div>
+            <div class="mt-5 p-5 final-decision-box text-center">
+                <h5 class="fw-bold mb-3">Administrative Confirmation</h5>
+                <form asp-controller="Approval" asp-action="ConfirmApproval" method="post" class="mx-auto" style="max-width: 500px;">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <input type="hidden" name="type" value="Locker" />
+
+                    @if (Model.FinalStatus == "Denied")
+                    {
+                        <div class="mb-4 text-start">
+                            <label class="form-label fw-bold text-danger small">REASON FOR DENIAL (REQUIRED)</label>
+                            <textarea name="denialReason" class="form-control border-danger-subtle shadow-sm" rows="3" required placeholder="Explain why this locker request was denied...">@Model.DenialReasonLocker</textarea>
+                        </div>
+                    }
+
+                    <button type="submit" class="btn btn-primary btn-lg px-5 rounded-pill shadow fw-bold">
+                        Confirm @Model.FinalStatus.ToUpper() Final Decision
+                    </button>
+                </form>
+            </div>
+
+            <div class="text-center mt-5">
+                <a asp-action="Index" class="btn btn-link text-muted text-decoration-none small fw-bold">
+                    <i class="bi bi-arrow-left me-2"></i>BACK TO DASHBOARD
+                </a>
             </div>
         </div>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
-    async function submitApproverForm(approverNumber, decision) {
-        const form = document.getElementById(`approverForm_${approverNumber}`);
-        const formData = new FormData(form);
-        formData.append('decision', decision); // Add the decision to form data
+    function saveScroll() { localStorage.setItem('lr_scroll', window.scrollY); }
 
-        try {
-            const response = await fetch(form.action, {
-                method: form.method,
-                body: formData
-            });
+    function submitApproverForm(approverId, decision) {
+        saveScroll();
+        const form = document.getElementById(`approverForm_${approverId}`);
+        const existing = form.querySelector('input[name="decision"]');
+        if(existing) existing.remove();
 
-            if (response.ok) {
-                // If the submission is successful, reload the page to show updated status
-                window.location.reload();
-            } else {
-                console.error('Form submission failed:', response.statusText);
-                alert('An error occurred during approval. Please try again.');
-            }
-        } catch (error) {
-            console.error('Error submitting form:', error);
-            alert('An unexpected error occurred. Please check your network connection and try again.');
-        }
+        let decisionInput = document.createElement("input");
+        decisionInput.type = "hidden";
+        decisionInput.name = "decision";
+        decisionInput.value = decision;
+        form.appendChild(decisionInput);
+        form.submit();
     }
+
+    (function() {
+        const scrollPos = localStorage.getItem('lr_scroll');
+        if (scrollPos) {
+            window.scrollTo({ top: parseInt(scrollPos), behavior: 'instant' });
+            localStorage.removeItem('lr_scroll');
+        }
+    })();
 </script>

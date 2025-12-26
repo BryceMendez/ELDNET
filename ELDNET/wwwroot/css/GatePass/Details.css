@@ -1,0 +1,89 @@
+﻿.bg-danger-subtle {
+    background-color: #f8d7da;
+}
+
+.bg-success-subtle {
+    background-color: #d1e7dd;
+}
+
+.border-danger {
+    border-color: #f5c2c7 !important;
+}
+
+.border-success {
+    border-color: #badbcc !important;
+}
+
+dt {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #6c757d;
+    text-align: left !important;
+}
+
+dd {
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    text-align: left !important;
+}
+
+.attachment-link-card {
+    display: flex;
+    align-items: center;
+    padding: 1.25rem;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    text-decoration: none !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    height: 100%;
+}
+
+    .attachment-link-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        border-color: #03AC13;
+        background-color: #f9fff9;
+    }
+
+    .attachment-link-card.missing {
+        background-color: #fff8f8;
+        border-style: dashed;
+        cursor: default;
+    }
+
+.attachment-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 1.4rem;
+    color: #6c757d;
+    transition: all 0.3s ease;
+}
+
+.attachment-link-card:hover .attachment-icon-wrapper {
+    background: #e8f5e9;
+    color: #03AC13;
+    transform: scale(1.1);
+}
+
+.attachment-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.attachment-label {
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.attachment-action {
+    font-size: 0.8rem;
+    font-weight: 500;
+}

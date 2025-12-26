@@ -1,0 +1,61 @@
+﻿.custom-card {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.confirmation-card {
+    background-color: #ffffff;
+}
+
+.delete-header {
+    background: linear-gradient(135deg, #dc3545 0%, #a71d2a 100%);
+}
+
+.text-danger-dark {
+    color: #842029;
+}
+
+.text-danger-secondary {
+    color: #b02a37;
+}
+
+.text-danger-tertiary {
+    color: #dc3545;
+}
+
+.detail-list-modern dt {
+    color: #6c757d;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+}
+
+.detail-list-modern dd {
+    margin-bottom: 1rem;
+}
+
+.btn-gradient-danger {
+    background: linear-gradient(45deg, #dc3545, #ff4d5a);
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+}
+
+    .btn-gradient-danger:hover {
+        background: linear-gradient(45deg, #bd2130, #dc3545);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+    }
+
+@media (min-width: 992px) {
+    .border-end-lg {
+        border-right: 1px solid #dee2e6 !important;
+    }
+}

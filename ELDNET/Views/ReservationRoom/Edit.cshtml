@@ -4,6 +4,10 @@
     ViewData["Title"] = "Edit Reservation Room";
 }
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/ReservationRoom/Edit.css" />
+}
+
 <div class="container py-4 animate__animated animate__fadeIn">
     <div class="custom-card shadow-lg border-0 edit-card">
         <div class="card-header text-white text-center py-4 edit-header-blue">
@@ -13,10 +17,13 @@
         <div class="card-body p-5">
             <form asp-action="Edit">
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
                 <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="StudentId" />
+                <input type="hidden" asp-for="FacultyId" />
+                <input type="hidden" asp-for="Date" />
 
                 <div class="row g-5">
-                    <!-- General Information Section -->
                     <div class="col-lg-6 border-end-lg pe-lg-5">
                         <h5 class="text-blue-primary mb-4 pb-2 border-bottom border-blue-primary-subtle">
                             <i class="bi bi-info-circle-fill me-2"></i>General Information
@@ -57,15 +64,8 @@
                             <label asp-for="PurposeObjective"></label>
                             <span asp-validation-for="PurposeObjective" class="text-danger"></span>
                         </div>
-
-                        <div class="form-floating mb-3">
-                            <input asp-for="Date" class="form-control" type="date" placeholder="Date" />
-                            <label asp-for="Date"></label>
-                            <span asp-validation-for="Date" class="text-danger"></span>
-                        </div>
                     </div>
 
-                    <!-- Reservation Details Section -->
                     <div class="col-lg-6 ps-lg-5">
                         <h5 class="text-blue-secondary mb-4 pb-2 border-bottom border-blue-secondary-subtle">
                             <i class="bi bi-calendar-check-fill me-2"></i>Reservation Details
@@ -127,7 +127,6 @@
                     </div>
                 </div>
 
-                <!-- Action Buttons -->
                 <div class="col-12 text-center pt-5 border-top mt-5">
                     <button type="submit" class="btn btn-primary btn-lg me-3" style="width: 160px;">
                         <i class="bi bi-cloud-arrow-up-fill me-2"></i>Update
@@ -140,12 +139,3 @@
         </div>
     </div>
 </div>
-
-@section Styles {
-    <style>
-        .btn-lg {
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
-        }
-    </style>
-}

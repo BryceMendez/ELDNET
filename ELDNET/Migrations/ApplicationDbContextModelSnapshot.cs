@@ -51,6 +51,9 @@ namespace ELDNET.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Course")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -63,11 +66,20 @@ namespace ELDNET.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ProfilePictureUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Section")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -122,6 +134,9 @@ namespace ELDNET.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("DenialReason")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Department")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -148,6 +163,9 @@ namespace ELDNET.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("RegistrationExpiryDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("RegistrationPath")
                         .HasColumnType("nvarchar(max)");
 
@@ -167,6 +185,10 @@ namespace ELDNET.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StudyLoadPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VehicleType")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -199,6 +221,9 @@ namespace ELDNET.Migrations
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("DenialReasonLocker")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FacultyId")
                         .HasColumnType("nvarchar(max)");
@@ -301,6 +326,9 @@ namespace ELDNET.Migrations
                     b.Property<DateTime>("DateNeeded")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("DenialReasonReservation")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("EquipmentFacilities")
                         .HasColumnType("nvarchar(max)");
 
@@ -319,8 +347,9 @@ namespace ELDNET.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Participants")
-                        .HasColumnType("int");
+                    b.Property<string>("Participants")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PurposeObjective")
                         .IsRequired()
@@ -371,6 +400,9 @@ namespace ELDNET.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Course")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -379,11 +411,20 @@ namespace ELDNET.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ProfilePictureUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Section")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StudentId")

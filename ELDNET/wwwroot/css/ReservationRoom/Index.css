@@ -1,0 +1,82 @@
+﻿body {
+    background-color: #f8f9fa;
+}
+
+.table-header-custom {
+    background-color: #d1e7dd !important;
+    color: #000 !important;
+}
+
+    .table-header-custom th {
+        padding: 12px 15px;
+        font-weight: 600;
+        border: none;
+    }
+
+.badge-modern {
+    display: inline-block;
+    min-width: 95px;
+    text-align: center;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+    .badge-modern.badge-pending {
+        background-color: #ffc107 !important;
+        color: #212529 !important;
+    }
+
+    .badge-modern.badge-approved {
+        background-color: #198754 !important;
+        color: #fff !important;
+    }
+
+    .badge-modern.badge-denied {
+        background-color: #dc3545 !important;
+        color: #fff !important;
+    }
+
+    .badge-modern.badge-changed {
+        background-color: #6c757d !important;
+        color: #fff !important;
+    }
+
+.room-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 12px;
+    padding: 10px 0;
+}
+
+.room-item {
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 12px 8px;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #198754;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s;
+}
+
+    .room-item:hover {
+        transform: translateY(-3px);
+        background-color: #e9ecef;
+    }
+
+.center-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2000;
+    min-width: 320px;
+    background: white;
+    border-radius: 1.2rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    border: 1px solid #dee2e6;
+}

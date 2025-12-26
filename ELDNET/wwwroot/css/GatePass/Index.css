@@ -1,0 +1,55 @@
+﻿body {
+    background-color: #f8f9fa;
+}
+
+.table-header-custom {
+    background-color: #add8e6 !important;
+    color: #000 !important;
+}
+
+    .table-header-custom th {
+        padding: 12px 15px;
+        font-weight: 600;
+        border: none;
+    }
+
+.badge-modern {
+    display: inline-block;
+    min-width: 90px;
+    text-align: center;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+    .badge-modern.badge-pending {
+        background-color: #ffc107 !important;
+        color: #212529 !important;
+    }
+
+    .badge-modern.badge-approved {
+        background-color: #198754 !important;
+        color: #fff !important;
+    }
+
+    .badge-modern.badge-denied {
+        background-color: #dc3545 !important;
+        color: #fff !important;
+    }
+
+.center-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2000;
+    min-width: 350px;
+    background: white;
+    border-radius: 1.2rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    border: 1px solid #dee2e6;
+}
+
+.table-responsive {
+    background-color: white;
+}

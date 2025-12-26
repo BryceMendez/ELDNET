@@ -1,38 +1,45 @@
+using ELDNET.Data;
 using ELDNET.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
-using Microsoft.AspNetCore.Http; // Required for HttpContext.Session.GetString
-using Microsoft.AspNetCore.Authorization; // Required for [Authorize] attribute
 
 namespace ELDNET.Controllers
 {
-
-    [Authorize(Roles = "Admin,Student,Faculty")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _db;
+        private const int MAX_CAR_SLOTS = 50;
+        private const int MAX_MOTORCYCLE_SLOTS = 100;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db)
         {
             _logger = logger;
+            _db = db;
         }
-
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var userRole = HttpContext.Session.GetString("UserRole");
 
+            if (userRole == null) return RedirectToAction("Login", "Account");
+            if (userRole == "Admin") return RedirectToAction("Index", "Approval");
 
-            if (userRole == null) // This condition will likely not be met due to [Authorize]
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            else if (userRole == "Admin")
-            {
-                // Admins go to their dashboard
-                return RedirectToAction("Index", "Approval"); // Assuming "Approval" is your Admin controller
-            }
+            int approvedCars = await _db.GatePasses.CountAsync(gp => gp.VehicleType == "Car" && gp.Status == "Approved");
+            int approvedMotors = await _db.GatePasses.CountAsync(gp => gp.VehicleType == "Motorcycle" && gp.Status == "Approved");
 
-            return View(); // Student and Faculty accounts will render the Home/Index view
+            ViewBag.CarLeft = Math.Max(0, 50 - approvedCars);
+            ViewBag.MotorLeft = Math.Max(0, 100 - approvedMotors);
+
+            var occupiedLockers = await _db.LockerRequests
+                .Where(r => r.Status == "Approved")
+                .Select(r => r.LockerNumber)
+                .ToListAsync();
+
+            ViewBag.OccupiedLockers = occupiedLockers;
+            ViewBag.AvailableCount = 100 - occupiedLockers.Count;
+
+            return View();
         }
 
         public IActionResult Privacy()

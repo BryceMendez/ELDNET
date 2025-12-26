@@ -1,0 +1,41 @@
+﻿.custom-card {
+    border-radius: 15px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.text-blue-primary {
+    color: #0056b3;
+}
+
+.border-blue-primary-subtle {
+    border-bottom: 2px solid #cfe2ff;
+}
+
+.text-blue-secondary {
+    color: #0d6efd;
+}
+
+.border-blue-secondary-subtle {
+    border-bottom: 2px solid #e7f1ff;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.form-check-input:checked {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.swal2-popup {
+    border: 3px solid #d33 !important;
+    border-radius: 15px !important;
+}
+
+.swal2-title {
+    color: #d33 !important;
+    font-weight: 800 !important;
+}

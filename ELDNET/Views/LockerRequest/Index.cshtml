@@ -1,73 +1,120 @@
 ﻿@model IEnumerable<ELDNET.Models.LockerRequest>
 
 @{
-    ViewData["Title"] = "Locker Request List";
+    ViewData["Title"] = "Locker Management";
+    var userRole = Context.Session.GetString("UserRole");
+
+    var occupiedLockers = (List<string>)ViewBag.OccupiedLockers ?? new List<string>();
+    int availableCount = ViewBag.AvailableCount ?? 0;
+    bool isFull = availableCount <= 0;
 }
 
-<div class="locker-list-page mt-4">
-    <div class="row align-items-center mb-4">
-        <div class="col-md-6">
-            <h2 class="fw-bold text-warning">
-                <i class="bi bi-lock me-2"></i>Locker Request List
-            </h2>
-        </div>
-        <div class="col-md-6 text-end">
-            <a asp-controller="LockerRequest" asp-action="Create" class="btn btn-warning rounded-pill px-4 py-2 shadow-sm">
-                <i class="bi bi-plus-circle me-2"></i> New Locker Request
-            </a>
+@section Styles {
+    <link rel="stylesheet" href="~/css/LockerRequest/Index.css" />
+}
+
+<div class="container-fluid p-4 mt-2">
+
+    <div class="card border-0 shadow-sm mb-4 dashboard-card">
+        <div class="card-body d-flex align-items-center justify-content-between py-2 px-4">
+            <div class="d-flex align-items-center">
+                <div class="rounded-circle p-2 me-3 icon-container-light">
+                    <i class="bi bi-unlock-fill fs-5 icon-gold"></i>
+                </div>
+                <div class="d-flex align-items-center">
+                    <h6 class="text-muted fw-bold mb-0 text-uppercase small me-3">Available Locker Slots:</h6>
+                    @if (isFull)
+                    {
+                        <h4 class="text-danger fw-bold mb-0">FULL</h4>
+                    }
+                    else
+                    {
+                        <h4 class="fw-bold mb-0 text-dark">@availableCount</h4>
+                    }
+                </div>
+            </div>
+
+            <button type="button" class="btn rounded-pill px-4 py-1 shadow-sm fw-bold border-0 text-dark btn-custom-yellow"
+                    data-bs-toggle="modal" data-bs-target="#lockerAvailabilityModal">
+                <i class="bi bi-grid-3x3-gap-fill me-2"></i> View Lockers
+            </button>
         </div>
     </div>
 
+    <div class="row align-items-center mb-4">
+        <div class="col-md-6">
+            <h2 class="fw-bold text-custom-yellow">
+                <i class="bi bi-lock-fill me-2"></i>Locker Request Records
+            </h2>
+        </div>
+        <div class="col-md-6 text-end">
+            @if (userRole != "Admin")
+            {
+                <a asp-action="Create" class="btn text-dark fw-bold rounded-pill px-4 py-2 shadow-sm @(isFull ? "disabled" : "") btn-custom-yellow">
+                    <i class="bi bi-plus-circle me-2"></i> New Locker Request
+                </a>
+            }
+        </div>
+    </div>
+
+    @if (TempData["success"] != null)
+    {
+        <div class="alert alert-dismissible fade show shadow-sm border-0 border-start border-4 bg-white success-alert-border" role="alert">
+            <i class="bi bi-check-circle-fill me-2 text-custom-yellow"></i>
+            <span class="text-dark">@TempData["success"]</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
     @if (Model != null && Model.Any())
     {
-        <div class="table-responsive">
-            <table class="table table-hover align-middle">
-                <thead class="table-warning text-dark">
+        <div class="table-responsive shadow-sm rounded-3">
+            <table class="table table-hover align-middle mb-0 bg-white">
+                <thead class="table-header-custom">
                     <tr>
-                        <th>Status</th>
+                        <th class="ps-4">Status</th>
                         <th>Name</th>
                         <th>ID Number</th>
                         <th>Locker Number</th>
                         <th>Semester</th>
-                        <th>Contact Number</th>
-                        <th>Accepted Terms</th>
                         <th class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        string statusColor = item.Status switch
+                        string statusBadgeClass = item.Status switch
                         {
-                            "Approved" => "bg-success",
-                            "Denied" => "bg-danger",
-                            "Pending" => "bg-warning text-dark",
-                            _ => "bg-secondary"
+                            "Approved" => "badge-modern badge-approved",
+                            "Denied" => "badge-modern badge-denied",
+                            "Pending" => "badge-modern badge-pending",
+                            _ => "badge bg-secondary text-white"
                         };
 
                         <tr>
-                            <td><span class="badge @statusColor px-3 py-2">@item.Status</span></td>
-                            <td>@item.Name</td>
+                            <td class="ps-4">
+                                <span class="@statusBadgeClass px-3 py-2">@item.Status</span>
+                            </td>
+                            <td class="fw-bold">@item.Name</td>
                             <td>@item.IdNumber</td>
-                            <td>@item.LockerNumber</td>
-                            <td>@item.Semester</td>
-                            <td>@item.ContactNumber</td>
-                            <td>@(item.AcceptTerms ? "Yes" : "No")</td>
+                            <td><code class="fw-bold fs-6 locker-code">@item.LockerNumber</code></td>
+                            <td class="text-muted small">@item.Semester</td>
                             <td class="text-center">
-                                <div class="btn-group" role="group" aria-label="Action Buttons">
-
-                                    <!-- Edit button -->
+                                <div class="btn-group" role="group">
                                     <a href="@((item.Status == "Approved") ? "javascript:void(0)" : Url.Action("Edit", new { id = item.Id }))"
-                                       class="btn btn-sm btn-warning text-white mx-1 shadow-sm edit-btn"
+                                       class="btn btn-sm btn-primary text-white mx-1 shadow-sm action-btn edit-btn"
                                        data-status="@item.Status">
                                         <i class="bi bi-pencil-square"></i> Edit
                                     </a>
 
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info text-white mx-1 shadow-sm">
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm mx-1 shadow-sm text-dark fw-bold btn-custom-yellow">
                                         <i class="bi bi-eye-fill"></i> Details
                                     </a>
 
-                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger mx-1 shadow-sm">
+                                    <a href="@((item.Status == "Approved" && userRole != "Admin") ? "javascript:void(0)" : Url.Action("Delete", new { id = item.Id }))"
+                                       class="btn btn-sm btn-danger mx-1 shadow-sm action-btn delete-btn"
+                                       data-status="@item.Status"
+                                       data-role="@userRole">
                                         <i class="bi bi-trash3-fill"></i> Delete
                                     </a>
                                 </div>
@@ -80,63 +127,83 @@
     }
     else
     {
-        <div class="alert alert-warning text-center shadow-sm">
-            <i class="bi bi-info-circle"></i> No Locker Request Records Found.
+        <div class="alert text-center shadow-sm py-4 bg-white border-0">
+            <i class="bi bi-info-circle fs-2 d-block mb-2 text-custom-yellow"></i>
+            <h5>No Locker Request Records Found.</h5>
         </div>
     }
 </div>
 
-<!-- Centered Notification -->
-<div id="centerNotification" class="center-notification shadow-lg animate__animated animate__fadeIn" style="display:none;">
-    <div class="notification-content text-center p-4 rounded">
-        <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 2rem;"></i>
-        <h5 class="mt-2 fw-bold">Cannot Edit Request</h5>
-        <p class="mb-0">This locker request is already <span class="fw-semibold">Approved</span> and cannot be edited.</p>
-        <button id="closeNotification" class="btn btn-outline-secondary mt-3 px-4">OK</button>
+<div class="modal fade" id="lockerAvailabilityModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header text-dark modal-header-custom">
+                <h5 class="modal-title fw-bold">Locker Availability Map</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body bg-light p-4">
+                <div class="d-flex justify-content-center mb-3">
+                    <span class="badge bg-success px-3 py-2 me-2"><i class="bi bi-check-circle me-1"></i> Available</span>
+                    <span class="badge bg-danger px-3 py-2"><i class="bi bi-x-circle me-1"></i> Occupied</span>
+                </div>
+                <div class="locker-grid">
+                    @for (int i = 1; i <= 100; i++)
+                    {
+                        char rowLetter = (char)('A' + (i - 1) / 10);
+                        string lockerName = $"{rowLetter}{i:D2}";
+                        bool isOccupied = occupiedLockers.Contains(lockerName);
+
+                        <div class="locker-item @(isOccupied ? "occupied" : "available") shadow-sm">
+                            <div class="locker-name">@lockerName</div>
+                            <small class="locker-status-text">@(isOccupied ? "FULL" : "FREE")</small>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-@section Styles {
-    <style>
-        /* Centered notification style */
-        .center-notification {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1050;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 1rem;
-            padding: 1rem 2rem;
-            min-width: 320px;
-            max-width: 500px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-        }
-
-            .center-notification .notification-content {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-
-        .edit-btn {
-            cursor: pointer;
-        }
-    </style>
-}
+<div id="centerNotification" class="center-notification shadow-lg" style="display:none;">
+    <div class="notification-content text-center p-4 rounded bg-white">
+        <i class="bi bi-exclamation-triangle-fill notification-icon"></i>
+        <h5 id="notifTitle" class="mt-2 fw-bold">Action Restricted</h5>
+        <p id="notifMsg" class="mb-0 text-muted small"></p>
+        <button id="closeNotification" class="btn mt-3 px-4 rounded-pill fw-bold text-dark btn-custom-yellow">OK</button>
+    </div>
+</div>
 
 @section Scripts {
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const editButtons = document.querySelectorAll(".edit-btn");
+            const deleteButtons = document.querySelectorAll(".delete-btn");
             const notification = document.getElementById("centerNotification");
             const closeBtn = document.getElementById("closeNotification");
+            const notifTitle = document.getElementById("notifTitle");
+            const notifMsg = document.getElementById("notifMsg");
 
             editButtons.forEach(btn => {
                 btn.addEventListener("click", function (e) {
                     const status = btn.getAttribute("data-status");
                     if (status === "Approved") {
-                        e.preventDefault(); // Prevent navigation
+                        e.preventDefault();
+                        notifTitle.innerText = "Cannot Edit Request";
+                        notifMsg.innerHTML = 'This request is already <span class="fw-semibold text-success">Approved</span> and cannot be modified.';
+                        notification.style.display = "block";
+                    }
+                });
+            });
+
+            deleteButtons.forEach(btn => {
+                btn.addEventListener("click", function (e) {
+                    const status = btn.getAttribute("data-status");
+                    const role = btn.getAttribute("data-role");
+
+                    if (status === "Approved" && role !== "Admin") {
+                        e.preventDefault();
+                        notifTitle.innerText = "Cannot Delete Request";
+                        notifMsg.innerHTML = 'This request is <span class="fw-semibold text-success">Approved</span>. To cancel or delete this locker, please contact the OSD Admin.';
                         notification.style.display = "block";
                     }
                 });
@@ -144,6 +211,12 @@
 
             closeBtn.addEventListener("click", function () {
                 notification.style.display = "none";
+            });
+
+            window.addEventListener("click", function (e) {
+                if (e.target === notification) {
+                    notification.style.display = "none";
+                }
             });
         });
     </script>

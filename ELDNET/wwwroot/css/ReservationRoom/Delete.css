@@ -1,0 +1,52 @@
+﻿.custom-card {
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.confirmation-card {
+    background-color: #ffffff;
+}
+
+.delete-header {
+    background: linear-gradient(135deg, #dc3545 0%, #a71d2a 100%);
+}
+
+.text-white-75 {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.text-danger-dark {
+    color: #842029;
+}
+
+.text-danger-secondary {
+    color: #b02a37;
+}
+
+.detail-list-modern dt {
+    font-weight: 600;
+    color: #6c757d;
+}
+
+.btn-gradient-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .btn-gradient-danger:hover {
+        background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+    }
+
+@media (min-width: 992px) {
+    .border-end-lg {
+        border-right: 1px solid #dee2e6 !important;
+    }
+}
